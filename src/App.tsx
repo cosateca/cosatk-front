@@ -1,28 +1,29 @@
-import { useState } from 'react'
-import './App.css'
+import { Button, Container } from '@mui/material'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import DashboardLayout from './components/DashboardLayout/DashboardLayout'
+import Articles from './pages/Dashboard/Articles/Articles'
+import Categories from './pages/Dashboard/Categories/Categories'
+import Loans from './pages/Dashboard/Loans/Loans'
+import Users from './pages/Dashboard/Users/Users'
+import HomePage from './pages/HomePage/HomePage'
+import NotFound from './pages/NotFoundPage/NotFound'
+import './styles/index.css'
 
 function App() {
-	const [count, setCount] = useState(0)
-
 	return (
-		<div className="App">
-			<div>
-				<a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-					<img src="/vite.svg" className="logo" alt="Vite logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
+		<div>
+			<BrowserRouter>
+				<Routes>
+					<Route element={<DashboardLayout />}>
+						<Route path="/" element={<HomePage />} />
+						<Route path="/dashboard/users" element={<Users />} />
+						<Route path="/dashboard/articles" element={<Articles />} />
+						<Route path="/dashboard/loans" element={<Loans />} />
+						<Route path="/dashboard/categories" element={<Categories />} />
+						<Route path="*" element={<NotFound />} />
+					</Route>
+				</Routes>
+			</BrowserRouter>
 		</div>
 	)
 }
