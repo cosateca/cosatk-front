@@ -8,7 +8,7 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import iconLoan from '../../assets/images/icono_prestamos.svg'
 import iconUsers from '../../assets/images/icono_usuarios.svg'
@@ -47,8 +47,8 @@ const Navigation = () => {
 					</Box>
 					<Box
 						display={{ xs: 'flex', sm: 'flex' }}
+						justifyContent={{ xs: 'flex-start' }}
 						height={{ sm: 'calc(100vh - 292px)' }}
-						width={{ sm: '100%' }}
 						maxWidth={{ sm: '360' }}
 						bgcolor={{ sm: '#F9F9F9' }}
 					>
@@ -57,12 +57,14 @@ const Navigation = () => {
 								sx={{
 									display: 'flex',
 									flexDirection: { xs: 'row', sm: 'column' },
+									width: { xs: 'auto', sm: '250px' },
 								}}
 							>
 								<ListItem disablePadding>
-									<ListItemButton>
+									<ListItemButton component={Link} to="/dashboard/loans">
 										<ListItemIcon>
 											<Box
+												display={{ xs: 'flex' }}
 												bgcolor={{ xs: '#67B7E1' }}
 												borderRadius={{ xs: '10px' }}
 												padding={{ xs: '5px' }}
@@ -80,9 +82,10 @@ const Navigation = () => {
 									</ListItemButton>
 								</ListItem>
 								<ListItem disablePadding>
-									<ListItemButton>
+									<ListItemButton component={Link} to="/dashboard/users">
 										<ListItemIcon>
 											<Box
+												display={{ xs: 'flex' }}
 												bgcolor={{ xs: '#67B7E1' }}
 												borderRadius={{ xs: '10px' }}
 												padding={{ xs: '5px' }}
@@ -100,9 +103,10 @@ const Navigation = () => {
 									</ListItemButton>
 								</ListItem>
 								<ListItem disablePadding>
-									<ListItemButton>
+									<ListItemButton component={Link} to="/dashboard/articles">
 										<ListItemIcon>
 											<Box
+												display={{ xs: 'flex' }}
 												bgcolor={{ xs: '#67B7E1' }}
 												borderRadius={{ xs: '10px' }}
 												padding={{ xs: '5px' }}
@@ -120,9 +124,10 @@ const Navigation = () => {
 									</ListItemButton>
 								</ListItem>
 								<ListItem disablePadding>
-									<ListItemButton>
+									<ListItemButton component={Link} to="/dashboard/categories">
 										<ListItemIcon>
 											<Box
+												display={{ xs: 'flex' }}
 												bgcolor={{ xs: '#67B7E1' }}
 												borderRadius={{ xs: '10px' }}
 												padding={{ xs: '5px' }}
@@ -145,9 +150,10 @@ const Navigation = () => {
 										display: { xs: 'flex', sm: 'none' },
 									}}
 								>
-									<ListItemButton>
+									<ListItemButton component={Link} to="/">
 										<ListItemIcon>
 											<Box
+												display={{ xs: 'flex' }}
 												bgcolor={{ xs: '#67B7E1' }}
 												borderRadius={{ xs: '10px' }}
 												padding={{ xs: '5px' }}

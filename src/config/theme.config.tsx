@@ -19,18 +19,20 @@ const theme = createTheme({
 	},
 	typography: {
 		h1: {
-			fontWeight: 600,
-			fontSize: '3.7rem',
+			fontWeight: 400,
+			fontSize: '1.7rem',
+			lineHeight: '5rem',
 		},
 		h2: {
-			fontWeight: 600,
-			fontSize: '3.1rem',
+			fontWeight: 200,
+			fontSize: '1.1rem',
+			lineHeight: '3rem',
 		},
 		h5: {
-			fontWeight: 400,
-			fontSize: '1rem',
+			fontWeight: 200,
+			fontSize: '.8rem',
+			lineHeight: '3rem',
 		},
-		fontFamily: themeVars.FONT_GLOBAL,
 	},
 	components: {
 		MuiButton: {
