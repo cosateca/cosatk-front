@@ -1,7 +1,9 @@
 import { Container, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-type Props = {}
+type Props = {
+  props : Props
+}
 
 const HomePage = (props: Props) => {
 	return (
