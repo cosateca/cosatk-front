@@ -22,7 +22,7 @@ const LoginPage = () => {
                     
                 }}
             >
-                {/* <Typography variant="h1" sx = {{ margin: 5 , fontWeight: 'light'}}> Benvingut </Typography> */}
+                 <Typography variant="h1" sx = {{ margin: 5 , fontWeight: 'light'}}> Benvingut </Typography> 
                 
                 
 
