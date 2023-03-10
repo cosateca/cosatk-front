@@ -22,9 +22,9 @@ const LoginPage = () => {
                     
                 }}
             >
-                <Typography variant="h1"> Benvingut </Typography>
+                {/* <Typography variant="h1" sx = {{ margin: 5 , fontWeight: 'light'}}> Benvingut </Typography> */}
                 
-                <Box component="form" sx={{ mt: 5 }}>
+                
 
 
 
@@ -71,7 +71,7 @@ const LoginPage = () => {
             /> */}
                     <Button
                         type="submit"
-                        fullWidth
+                        
                         variant="contained"
                         sx={{
                             mt: 3,
@@ -79,6 +79,7 @@ const LoginPage = () => {
                             borderRadius: '0px',
                             bgcolor: '',
                             color: 'white',
+                            width: {xs: '100%', sm: '50%'}
                             
                 
 
@@ -102,7 +103,7 @@ const LoginPage = () => {
                     </Grid>
 
                 </Box>
-            </Box>
+           
         </>
     )
 }
