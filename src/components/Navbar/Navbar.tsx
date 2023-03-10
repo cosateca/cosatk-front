@@ -16,7 +16,7 @@ import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
 
-const Navigation = () => {
+export const Navigation = () => {
 	const navigate = useNavigate()
 
 	const handleClick = () => {
