@@ -52,17 +52,12 @@ const LoginPage = () => {
                         InputLabelProps={{
                             style: {
                                 color: '#222222',
-                                borderRadius : '0px'
+                            
                             },
                         }}
                         
 
-                        sx={{
-
-                            borderRadius: '0px',
-
-
-                        }}
+                      
 
                     />
                     {/* <FormControlLabel
