@@ -33,9 +33,13 @@ import {
 	Button,
 	Container,
 	FormControl,
+	FormControlLabel,
+	FormLabel,
 	InputLabel,
 	MenuItem,
 	Modal,
+	Radio,
+	RadioGroup,
 	Select,
 	SelectChangeEvent,
 	TextField,
@@ -197,7 +201,18 @@ const NewUser = (props: Props) => {
 										},
 									}}
 								/>
-								{/* <Select
+								<TextField
+									id="input-nom"
+									label="Localitat"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<Select
 									displayEmpty
 									sx={{ width: { xs: '200px' } }}
 									id="demo-simple-select"
@@ -205,11 +220,12 @@ const NewUser = (props: Props) => {
 									label="Estat"
 									onChange={handleChange}
 								>
-									<MenuItem value="">Prèstec en curs</MenuItem>
-									<MenuItem value={10}>Historial de préstec</MenuItem>
+									<MenuItem value="">Membresia</MenuItem>
+									{/* <MenuItem value={10}>Historial de préstec</MenuItem>
 									<MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem>
-								</Select> */}
+									<MenuItem value={30}>Excedit</MenuItem> */}
+								</Select>
+
 								{/* <Button
 									sx={{
 										marginBottom: '20px',
