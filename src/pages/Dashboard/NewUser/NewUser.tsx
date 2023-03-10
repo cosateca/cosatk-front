@@ -122,7 +122,7 @@ const NewUser = (props: Props) => {
 								/> */}
 								<TextField
 									id="input-nom"
-									label="Cerca per nom"
+									label="Nom *"
 									variant="outlined"
 									sx={{ width: { xs: '200px' } }}
 									InputLabelProps={{
@@ -131,7 +131,18 @@ const NewUser = (props: Props) => {
 										},
 									}}
 								/>
-								<Select
+																<TextField
+									id="input-nom"
+									label="Cognoms *"
+									variant="outlined"
+									sx={{ width: { xs: '200px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								{/* <Select
 									displayEmpty
 									sx={{ width: { xs: '200px' } }}
 									id="demo-simple-select"
@@ -141,10 +152,10 @@ const NewUser = (props: Props) => {
 								>
 									<MenuItem value="">Prèstec en curs</MenuItem>
 									<MenuItem value={10}>Historial de préstec</MenuItem>
-									{/* <MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem> */}
-								</Select>
-								<Button
+									<MenuItem value={20}>Proper data</MenuItem>
+									<MenuItem value={30}>Excedit</MenuItem>
+								</Select> */}
+								{/* <Button
 									sx={{
 										marginBottom: '20px',
 										bgcolor: '#D9D9D9',
@@ -153,9 +164,9 @@ const NewUser = (props: Props) => {
 									variant="contained"
 								>
 									<img src={iconSearch} alt="cerca" />
-								</Button>
+								</Button> */}
 							</FormControl>
-							<Link to="/dashboard/newuser">
+							{/* <Link to="/dashboard/newuser">
 								<Button
 									sx={{
 										marginBottom: '20px',
@@ -167,9 +178,9 @@ const NewUser = (props: Props) => {
 								>
 									<img src={iconNew} alt="nou" />
 								</Button>
-							</Link>
+							</Link> */}
 						</Box>
-						<Box>
+						{/* <Box>
 							<Box
 								sx={{
 									display: 'flex',
@@ -219,8 +230,8 @@ const NewUser = (props: Props) => {
 									</Button>
 								</Box>
 							</Box>
-						</Box>
-						<Modal
+						</Box> */}
+						{/* <Modal
 							open={open}
 							onClose={handleClose}
 							aria-labelledby="modal-modal-title"
@@ -243,7 +254,7 @@ const NewUser = (props: Props) => {
 									OK
 								</Button>
 							</Box>
-						</Modal>
+						</Modal> */}
 					</Container>
 				</section>
 			</Box>
