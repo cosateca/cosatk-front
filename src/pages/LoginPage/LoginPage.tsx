@@ -1,55 +1,61 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom/client";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
+import { Typography } from "@mui/material";
 
 
-const LoginPage =  () =>{
+const LoginPage = () => {
     return (
         <>
             <Box
                 sx={{
-                    marginTop: 8,
+                    margin: '0 auto',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    width: { xs: '80%', sm: '20%' },
+                    marginTop : 8,
+                    
+                    
                 }}
             >
-                <h1> Benvingut </h1>
-                <Box component="form" sx={{ mt: 1 }}>
+                <Typography variant="h1"> Benvingut </Typography>
+                
+                <Box component="form" sx={{ mt: 5 }}>
 
-                    <InputLabel >
-                        Email
-                    </InputLabel>
+
 
                     <TextField
-                        margin="normal"
-                        required
+                        id="Email"                 
+                        label="Email"
+                        variant="outlined"
                         fullWidth
-                        id="email"
-                        name="email"
-
-
+                        InputLabelProps={{
+                            style: {
+                                color: '#222222',
+                            },
+                        }}
                     />
-                    <InputLabel >
-                        Password
-                    </InputLabel>
+
                     <TextField
+                        
                         margin="normal"
                         required
                         fullWidth
                         name="password"
-
-                        type="password"
+                        label="password"
+                        
                         id="password"
+                        InputLabelProps={{
+                            style: {
+                                color: '#222222',
+                                borderRadius : '0px'
+                            },
+                        }}
+                        
 
                         sx={{
 
@@ -71,7 +77,10 @@ const LoginPage =  () =>{
                             mt: 3,
                             mb: 2,
                             borderRadius: '0px',
-                            bgcolor: 'rgba(103, 183, 225, 1)'
+                            bgcolor: '',
+                            color: 'white',
+                            
+                
 
 
                         }}
@@ -79,6 +88,7 @@ const LoginPage =  () =>{
                     >
                         Login
                     </Button>
+                    
 
                     <Grid item xs>
                         <Link href="#" variant="body2">
