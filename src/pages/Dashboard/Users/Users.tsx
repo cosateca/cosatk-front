@@ -155,18 +155,19 @@ const Users = (props: Props) => {
 									<img src={iconSearch} alt="cerca" />
 								</Button>
 							</FormControl>
-							<Button
-								sx={{
-									marginBottom: '20px',
-									paddingLeft: '40px',
-									paddingRight: '40px',
-									height: '55px',
-								}}
-								variant="contained"
-							>
-								<img src={iconNew} alt="nou" />
-								<Link to="/dashboard/loans"></Link>
-							</Button>
+							<Link to="/dashboard/newuser">
+								<Button
+									sx={{
+										marginBottom: '20px',
+										paddingLeft: '40px',
+										paddingRight: '40px',
+										height: '55px',
+									}}
+									variant="contained"
+								>
+									<img src={iconNew} alt="nou" />
+								</Button>
+							</Link>
 						</Box>
 						<Box>
 							<Box

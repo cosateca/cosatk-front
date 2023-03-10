@@ -17,8 +17,8 @@ const NewUser = (props: Props) => {
 							height: '100vh',
 						}}
 					>
-						<Typography variant="h1">USUARIS</Typography>
-						Users, aqui dentro va el contenido a desarrollar por cada developer
+						<Typography variant="h1">NOU USUARI</Typography>
+						User, aqui dentro va el contenido a desarrollar por cada developer
 					</Container>
 				</section>
 			</Box>

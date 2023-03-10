@@ -5,6 +5,7 @@ import Articles from './pages/Dashboard/Articles/Articles'
 import Categories from './pages/Dashboard/Categories/Categories'
 import Loans from './pages/Dashboard/Loans/Loans'
 import Users from './pages/Dashboard/Users/Users'
+import NewUser from './pages/Dashboard/NewUser/NewUser'
 import HomePage from './pages/HomePage/HomePage'
 import NotFound from './pages/NotFoundPage/NotFound'
 import './styles/index.css'
@@ -17,7 +18,7 @@ function App() {
 					<Route element={<DashboardLayout />}>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/dashboard/users" element={<Users />} />
-						<Route path="/dashboard/newuser" element={<Users />} />
+						<Route path="/dashboard/newuser" element={<NewUser />} />
 						<Route path="/dashboard/articles" element={<Articles />} />
 						<Route path="/dashboard/loans" element={<Loans />} />
 						<Route path="/dashboard/categories" element={<Categories />} />
