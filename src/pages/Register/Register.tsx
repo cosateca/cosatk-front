@@ -1,8 +1,17 @@
+import { Container } from '@mui/system'
 import React from 'react'
+import Footer from '../../components/Footer/Footer'
 
 const Register = () => {
   return (
-    <div>Register</div>
+    <>
+    <Container>
+
+
+        <Footer/>
+    </Container>
+    
+    </>
   )
 }
 
