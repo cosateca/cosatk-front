@@ -1,16 +1,14 @@
 import { Container, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import Header from '../../components/Header/Header'
 
 // type Props = {}
 
-const HomePage = () => {
+const HomePage = ( ) => {
 	return (
 		<Container>
-			<div className="App">
-				<Button variant="contained">
-					<Link to="/dashboard/loans">Accedeix</Link>
-				</Button>
-			</div>
+			<Header/>
+			
 		</Container>
 	)
 }
