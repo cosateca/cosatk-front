@@ -12,9 +12,9 @@ const Header = () => {
         justifyContent: 'space-between',
         marginTop:'10px'
     }}>
-        <img src={logo} alt="" />
+        <img src={logo} alt="" /> 
 			<div className="App">
-				<Button variant="contained">
+				<Button variant="contained" color='error' >
 					<Link to="/dashboard/loans">Accedeix</Link>
 				</Button>
 			</div>

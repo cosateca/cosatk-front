@@ -39,7 +39,7 @@ const theme = createTheme({
 			defaultProps: {
 				style: {
 					textTransform: 'none',
-					borderRadius: '0.5em',
+					borderRadius: '0px',
 					marginTop: '20px',
 				},
 			},
