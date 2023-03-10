@@ -186,6 +186,17 @@ const NewUser = (props: Props) => {
 										},
 									}}
 								/>
+								<TextField
+									id="input-nom"
+									label="Adreça"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
 								{/* <Select
 									displayEmpty
 									sx={{ width: { xs: '200px' } }}
