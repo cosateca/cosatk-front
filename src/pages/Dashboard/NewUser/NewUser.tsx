@@ -124,18 +124,62 @@ const NewUser = (props: Props) => {
 									id="input-nom"
 									label="Nom *"
 									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
+									sx={{ width: { xs: '400px' } }}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
 										},
 									}}
 								/>
-																<TextField
+								<TextField
 									id="input-nom"
 									label="Cognoms *"
 									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<TextField
+									id="input-nom"
+									label="Email"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<TextField
+									id="input-nom"
+									label="DNI/NIE/Passaport"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<TextField
+									id="input-nom"
+									label="DNI/NIE/Passaport"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<TextField
+									id="input-nom"
+									label="Telèfon"
+									variant="outlined"
+									sx={{ width: { xs: '400px' } }}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
