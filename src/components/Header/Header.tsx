@@ -6,7 +6,12 @@ import logo from '../../assets/images/logo.png'
 
 const Header = () => {
   return (
-    <Container>
+    <Container sx={{
+        display : 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop:'10px'
+    }}>
         <img src={logo} alt="" />
 			<div className="App">
 				<Button variant="contained">
