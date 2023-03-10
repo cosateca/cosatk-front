@@ -15,7 +15,7 @@ const Footer = () => {
 
     }}>
   <p>Copyright © 2023</p>
-  <p>08773 - St. Joan de Mediona - cosatk@gmail.com </p>
+  <p>08773 - St. Joan De Mediona - cosatk@gmail.com </p>
 
     </Container>
   )
