@@ -47,6 +47,7 @@ import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import { Link } from 'react-router-dom'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -139,9 +140,9 @@ const Users = (props: Props) => {
 									onChange={handleChange}
 								>
 									<MenuItem value="">Prèstec en curs</MenuItem>
-									<MenuItem value={10}>En termini</MenuItem>
-									<MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem>
+									<MenuItem value={10}>Historial de préstec</MenuItem>
+									{/* <MenuItem value={20}>Proper data</MenuItem>
+									<MenuItem value={30}>Excedit</MenuItem> */}
 								</Select>
 								<Button
 									sx={{
@@ -164,6 +165,7 @@ const Users = (props: Props) => {
 								variant="contained"
 							>
 								<img src={iconNew} alt="nou" />
+								<Link to="/dashboard/loans"></Link>
 							</Button>
 						</Box>
 						<Box>

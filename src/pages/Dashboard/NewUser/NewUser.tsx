@@ -4,7 +4,7 @@ import Navbar from '../../../components/Navbar/Navbar'
 
 type Props = {}
 
-const NouUser = (props: Props) => {
+const NewUser = (props: Props) => {
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -26,4 +26,4 @@ const NouUser = (props: Props) => {
 	)
 }
 
-export default NouUser
+export default NewUser

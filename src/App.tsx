@@ -17,6 +17,7 @@ function App() {
 					<Route element={<DashboardLayout />}>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/dashboard/users" element={<Users />} />
+						<Route path="/dashboard/newuser" element={<Users />} />
 						<Route path="/dashboard/articles" element={<Articles />} />
 						<Route path="/dashboard/loans" element={<Loans />} />
 						<Route path="/dashboard/categories" element={<Categories />} />
