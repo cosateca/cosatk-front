@@ -9,7 +9,7 @@ const Register = () => {
   return (
     <>
     
-    <Box
+    <Box  
                 sx={{
                     margin: '0 auto',
                     display: 'flex',
@@ -17,7 +17,10 @@ const Register = () => {
                     alignItems: 'center',
                     width: { xs: '80%', sm: '20%' },
                     marginTop : 8,
-                    height: '800px'
+                    height: '800px',
+                    overflow:'scroll',
+                    
+                    
                     
                 }}
             >
@@ -167,7 +170,7 @@ const Register = () => {
                         }}
 
                     >
-                        Login
+                        Register
                     </Button>
                     
 
