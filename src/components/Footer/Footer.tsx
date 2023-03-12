@@ -9,10 +9,9 @@ const Footer = () => {
    flexDirection: 'column',
    alignItems: 'center',
    lineHeight:'1em',
-   position: 'absolute',
-   bottom: '0px'
-
-
+   textAlign:'center',
+   paddingBottom: '1em'
+   
     }}>
   <p>Copyright © 2023</p>
   <p>08773 - St. Joan De Mediona - cosatk@gmail.com </p>
