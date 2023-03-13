@@ -46,9 +46,7 @@ const theme = createTheme({
 		},
 		MuiInput: {
 			defaultProps: {
-				style: {
-					marginTop: '20px',
-				},
+				style: {},
 			},
 		},
 		MuiInputLabel: {
