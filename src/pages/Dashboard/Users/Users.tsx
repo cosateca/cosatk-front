@@ -24,7 +24,7 @@ import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 
 const style = {
-	position: 'absolute' as const,
+	position: 'absolute' as 'absolute',
 	display: 'flex',
 	flexDirection: 'column',
 	top: '50%',
@@ -84,7 +84,12 @@ const Users = (props: Props) => {
 
 	return (
 		<>
-			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
+			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}
+			sx={{
+				overflow: { xs: 'scroll', sm: 'scroll' },
+										
+				}}
+			>
 				<Navbar />
 				<section>
 					<Container
