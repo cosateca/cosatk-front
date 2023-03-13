@@ -91,7 +91,6 @@ const Articles = (props: Props) => {
 						}}
 					>
 						<Typography variant="h1">ARTICLES</Typography>
-
 						<Box>
 							{' '}
 							{isOpenForm ? (
@@ -136,7 +135,7 @@ const Articles = (props: Props) => {
 											<Select
 												displayEmpty
 												sx={{ width: { xs: '92%', sm: '40%' } }}
-												id="select-categoria"
+												id="selectcategoria"
 												value={category}
 												label="Categoria"
 												onChange={handleChangeCategory}
@@ -151,14 +150,14 @@ const Articles = (props: Props) => {
 												placeholder="Descripció curta"
 												minRows={2}
 												maxLength={300}
-												style={{ width: '92%' }}
+												style={{ width: '91%' }}
 											/>
 											<TextareaAutosize
 												aria-label="empty textarea"
 												placeholder="Descripció larga"
 												minRows={6}
 												maxLength={2000}
-												style={{ width: '92%' }}
+												style={{ width: '91%' }}
 											/>
 											<TextField
 												id="input-serial"
@@ -267,20 +266,17 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
-											<Select
-												displayEmpty
-												sx={{ width: { xs: '92%', sm: '50%' } }}
-												id="select-condicio"
-												value={condition}
+											<TextField
+												id="input-condition"
 												label="Condició"
-												onChange={handleChangeCondition}
-											>
-												<MenuItem value="">Selecciona condició</MenuItem>
-												<MenuItem value={10}>Nou</MenuItem>
-												<MenuItem value={20}>Seminou</MenuItem>
-												<MenuItem value={30}>Usat</MenuItem>
-												<MenuItem value={40}>Desgastat</MenuItem>
-											</Select>
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
 										</FormControl>
 									</Box>
 									<Box
