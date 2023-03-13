@@ -5,11 +5,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { Typography } from "@mui/material";
+import Header from "../../components/Header/Header";
 
 
 const LoginPage = () => {
     return (
         <>
+        <Header/>
             <Box
                 sx={{
                     margin: '0 auto',
