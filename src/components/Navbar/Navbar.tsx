@@ -61,7 +61,7 @@ const Navigation = () => {
 								}}
 							>
 								<ListItem disablePadding>
-									<ListItemButton component={Link} to="/dashboard/loans">
+									<ListItemButton component={Link} to="/dashboard/loans" >
 										<ListItemIcon>
 											<Box
 												display={{ xs: 'flex' }}

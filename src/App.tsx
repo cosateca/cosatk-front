@@ -13,7 +13,7 @@ import './styles/index.css'
 function App() {
 	return (
 		<div>
-			<BrowserRouter>
+		
 				<Routes>
 					<Route element={<DashboardLayout />}>
 						<Route path="/" element={<HomePage />} />
@@ -25,7 +25,7 @@ function App() {
 						<Route path="*" element={<NotFound />} />
 					</Route>
 				</Routes>
-			</BrowserRouter>
+			
 		</div>
 	)
 }
