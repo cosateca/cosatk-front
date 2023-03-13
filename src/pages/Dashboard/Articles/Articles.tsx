@@ -67,7 +67,7 @@ const Articles = (props: Props) => {
 	const [loanFee, setLoanFee] = React.useState('')
 	const [loanPeriod, setLoanPeriod] = React.useState('')
 
-	const handleClick = (e) => {
+	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
 	}
