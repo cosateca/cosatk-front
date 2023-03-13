@@ -182,6 +182,11 @@ const Articles = (props: Props) => {
 	}
 	const handleSubmit = (e: any) => {
 		e.preventDefault()
+
+		if (name === '') {
+			return
+		}
+
 		const newObject: IArticle = {
 			id: nanoid(),
 			name,
@@ -201,6 +206,26 @@ const Articles = (props: Props) => {
 			shownOnWeb,
 		}
 		setData([...data, newObject])
+
+		// Resetear los estados
+		setId('')
+		setName('')
+		setShortDesc('')
+		setLongDesc('')
+		setSerial('')
+		setPricePaid(0)
+		setValue(0)
+		setLoanFee(0)
+		setLoanPeriod(0)
+		setComponents('')
+		setCareInfo('')
+		setOwnedBy('')
+		setDonatedBy('')
+		setCategory('')
+		setCondition('')
+		setBrand('')
+		setShownOnWeb('false')
+
 		setIsOpenForm(!isOpenForm)
 	}
 	const handleChangeCategory = (event: SelectChangeEvent) => {
