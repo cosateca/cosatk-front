@@ -38,9 +38,9 @@ const theme = createTheme({
 		MuiButton: {
 			defaultProps: {
 				style: {
-					textTransform: 'none',
-					borderRadius: '0px',
-					marginTop: '20px',
+					// textTransform: 'none',
+					// borderRadius: '0px',
+					// marginTop: '20px',
 				},
 			},
 		},
@@ -52,11 +52,11 @@ const theme = createTheme({
 		MuiInputLabel: {
 			defaultProps: {
 				style: {
-					marginBottom: '-20px',
-					marginTop: '20px',
-					fontSize: '1.2rem',
-					color: 'white',
-					fontWeight: 'bold',
+					// marginBottom: '-20px',
+					// marginTop: '20px',
+					// fontSize: '1.2rem',
+					// color: 'white',
+					// fontWeight: 'bold',
 				},
 			},
 		},
