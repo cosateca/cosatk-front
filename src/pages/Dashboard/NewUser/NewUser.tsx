@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 // import { Box, Container, Typography } from '@mui/material'
 // import React from 'react'
 // import Navbar from '../../../components/Navbar/Navbar'
@@ -72,10 +73,7 @@ type Props = {}
 const NewUser = (props: Props) => {
 	const [estat, setEstat] = React.useState('')
 
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
+
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setEstat(event.target.value as string)
@@ -89,46 +87,35 @@ const NewUser = (props: Props) => {
 					<Container
 						sx={{
 							padding: { xs: '25px', sm: '50px' },
-							width: '100vw',
-							height: '100vh',
 						}}
 					>
 						<Typography variant="h1">NOU USUARI</Typography>
 
 						<Box
 							sx={{
+								width: { xs: '100%' , sm: '100wh'},
 								display: 'flex',
 								flexDirection: { xs: 'column', sm: 'row' },
-								justifyContent: 'flex-start',
-								alignItems: 'center',
+								flexWrap:'wrap',
 							}}
 						>
 							<FormControl
 								sx={{
+									width: { xs: '100%' , sm: '100wh'},
 									display: 'flex',
 									flexDirection: { xs: 'column', sm: 'row' },
-									justifyContent: 'flex-start',
-									alignItems: 'center',
-									gap: '20px',
+									flexWrap:'wrap',
 								}}
 								fullWidth
 							>
-								{/* <TextField
-									id="input-article"
-									label="Cerca per article"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/> */}
 								<TextField
-									id="input-nom"
+									id="input-name"
 									label="Nom *"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -136,10 +123,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
+									id="input-last-name"
 									label="Cognoms *"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -147,10 +137,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
+									id="input-mail"
 									label="Email"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -158,10 +151,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
+									id="input-identification-number"
 									label="DNI/NIE/Passaport"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -169,21 +165,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
-									label="DNI/NIE/Passaport"
-									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/>
-								<TextField
-									id="input-nom"
+									id="input-phone"
 									label="Telèfon"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -191,10 +179,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
+									id="input-address"
 									label="Adreça"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -202,10 +193,13 @@ const NewUser = (props: Props) => {
 									}}
 								/>
 								<TextField
-									id="input-nom"
+									id="input-location"
 									label="Localitat"
 									variant="outlined"
-									sx={{ width: { xs: '400px' } }}
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -214,118 +208,75 @@ const NewUser = (props: Props) => {
 								/>
 								<Select
 									displayEmpty
-									sx={{ width: { xs: '200px' } }}
-									id="demo-simple-select"
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
+									id="membership"
 									value={estat}
 									label="Estat"
 									onChange={handleChange}
 								>
 									<MenuItem value="">Membresia</MenuItem>
-									{/* <MenuItem value={10}>Historial de préstec</MenuItem>
-									<MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem> */}
-								</Select>
-
-								{/* <Button
-									sx={{
-										marginBottom: '20px',
-										bgcolor: '#D9D9D9',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									<img src={iconSearch} alt="cerca" />
-								</Button> */}
-							</FormControl>
-							{/* <Link to="/dashboard/newuser">
-								<Button
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									<img src={iconNew} alt="nou" />
-								</Button>
-							</Link> */}
-						</Box>
-						{/* <Box>
-							<Box
+								</Select>	
+      							<FormLabel id="demo-row-radio-buttons-group-label"
 								sx={{
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									gap: '10px',
-									bgcolor: '#67B7E1',
-									minHeight: '40px',
-									width: '100%',
-									paddingLeft: '10px',
+										width: { xs: '95%' , sm: '100%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+																		
+									}}
+								>Suscriptor</FormLabel>
+      							<RadioGroup
+        							row
+        							aria-labelledby="demo-row-radio-buttons-group-label"
+        							name="row-radio-buttons-group"
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+										
+									}}
+      							>
+        							<FormControlLabel value="Si" control={<Radio />} label="Si" />
+        							<FormControlLabel value="No" control={<Radio />} label="No" />
+      							</RadioGroup>
+
+							<TextField
+									id="input-date-born"
+									label="Data de naixement"
+									variant="outlined"
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
+									InputLabelProps={{
+										style: {
+											color: '#222222',
+										},
+									}}
+								/>
+								<Select
+									displayEmpty
+									sx={{
+										width: { xs: '95%' , sm: '42%'},
+										margin: { xs: '10px' , sm: '20px 10px'},
+									}}
+									id="demo-simple-select"
+									value={estat}
+									label="Estat"
+									onChange={handleChange}
+								>
+									<MenuItem value="">Com ens va conèxier</MenuItem>
+								</Select>	
+								<Button variant="contained"
+								sx={{
+									width: { xs: '95%' , sm: '20%'},
+									height: { xs: '45px' , sm: '45px' },
+									color: { xs: 'white' , sm: 'white'},
+									margin: { xs: '0 auto' , sm: '0 auto' },	
 								}}
-							>
-								<Box>
-								914582457 | Joaquín Rodríguez Mata | 529482713T |
-								003469584756 | joqrodma@gmail.com{' '}
-								</Box>
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-										marginRight: '10px',
-										gap: '10px',
-										height: '40px',
-										marginTop: '-20px',
-									}}
-								>
-									<Button
-										onClick={handleOpen}
-										sx={{
-											height: '35px',
-											bgcolor: 'white',
-										}}
-										variant="contained"
-									>
-										<img src={iconTrash} alt="eliminar" />
-									</Button>
-									<Button
-										sx={{
-											height: '35px',
-											bgcolor: 'white',
-										}}
-										variant="contained"
-									>
-										<img src={iconEdit} alt="modificar" />
-									</Button>
-								</Box>
-							</Box>
-						</Box> */}
-						{/* <Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirma eliminar l'usuari
-								</Typography>
-								<Button
-									onClick={handleClose}
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									OK
-								</Button>
-							</Box>
-						</Modal> */}
+								>Enviar</Button>
+    						</FormControl>
+						</Box>
 					</Container>
 				</section>
 			</Box>

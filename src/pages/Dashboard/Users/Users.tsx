@@ -109,17 +109,6 @@ const Users = (props: Props) => {
 								}}
 								fullWidth
 							>
-								{/* <TextField
-									id="input-article"
-									label="Cerca per article"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/> */}
 								<TextField
 									id="input-nom"
 									label="Cerca per nom"
