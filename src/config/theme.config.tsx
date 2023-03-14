@@ -39,16 +39,14 @@ const theme = createTheme({
 			defaultProps: {
 				style: {
 					textTransform: 'none',
-					borderRadius: '0.5em',
+					borderRadius: '0px',
 					marginTop: '20px',
 				},
 			},
 		},
 		MuiInput: {
 			defaultProps: {
-				style: {
-					marginTop: '20px',
-				},
+				style: {},
 			},
 		},
 		MuiInputLabel: {

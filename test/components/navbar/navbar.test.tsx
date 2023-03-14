@@ -5,7 +5,7 @@ import Loans from '../../../src/pages/Dashboard/Loans/Loans'
 import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import userEvent from '@testing-library/user-event'
-import App from '../../../src/App'
+
 
 let Typography:any;
 describe('NavBar', ()=>{
@@ -20,7 +20,7 @@ describe('NavBar', ()=>{
     it('render appropritoateley', ()=>{
         expect(Typography).toBeInTheDocument()
     })
-    it('Debet mostra la pantalla de prestamo cuando se clcik el boton de prestamo', async ()=>{
+    it('It should show the loan screen when the loan button is clicked', async ()=>{
       render( 
             <BrowserRouter>
             <Routes>
@@ -36,7 +36,7 @@ describe('NavBar', ()=>{
         expect(screen.getByText(/PRÈSTECS/)).toBeInTheDocument()
         // await screen.findByText('ssss')
     })
-    it('no debe mostrar la pantalla de prestamo , cuando se click article', async ()=>{
+    it('It should not show the loan screen, when the article is clicked', async ()=>{
         render( 
               <BrowserRouter>
               <Routes>
