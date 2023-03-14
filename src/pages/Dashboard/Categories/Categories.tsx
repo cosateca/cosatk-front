@@ -74,7 +74,7 @@ const Categories = (props: Props) => {
 	const handleChangeCondition = (event: SelectChangeEvent) => {
 		setCondition(event.target.value as string)
 	}
-
+//this is just to update the grid
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -535,58 +535,59 @@ const Categories = (props: Props) => {
 								<Typography id="modal-modal-title2" variant="h1" component="h2">
 									Nou Categories
 								</Typography>
-								<Box
-									sx={{
-										display: 'flex',
-										flexDirection: { xs: 'column', sm: 'row' },
-									}}
-								>
-									<FormControl
+								<><Box
 										sx={{
 											display: 'flex',
 											flexDirection: { xs: 'column', sm: 'row' },
-											flexWrap: 'wrap',
-											justifyContent: 'flex-start',
-											alignItems: 'center',
-											gap: '20px',
 										}}
-										fullWidth
 									>
-										<TextField
-											id="input-nom"
-											label="Nou Categories"
-											variant="outlined"
-											sx={{ width: { xs: '200px' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
+										<FormControl
+											sx={{
+												display: 'flex',
+												flexDirection: { xs: 'column', sm: 'row' },
+												flexWrap: 'wrap',
+												justifyContent: 'flex-start',
+												alignItems: 'center',
+												gap: '20px',
 											}}
-										/>
-									</FormControl>
-								</Box>
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-									}}
-								>
-									<Button
-										onClick={handleCloseNew}
+											fullWidth
+										>
+											<TextField
+												id="input-nom"
+												label="Nou Categories"
+												variant="outlined"
+												sx={{ width: { xs: '200px' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}} />
+										</FormControl>
+									</Box><Box
 										sx={{
-											marginBottom: '20px',
-											paddingLeft: '40px',
-											paddingRight: '40px',
-											height: '55px',
-											width: { xs: '70%', sm: '40%' },
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
 										}}
-										variant="contained"
 									>
-										<img src={iconNew} alt="nou" />
-									</Button>
+											<Button
+												onClick={handleCloseNew}
+												sx={{
+													marginBottom: '20px',
+													paddingLeft: '40px',
+													paddingRight: '40px',
+													height: '55px',
+													width: { xs: '70%', sm: '40%' },
+												}}
+												variant="contained"
+											>
+												<img src={iconNew} alt="nou" />
+											</Button>
+										</Box></>
+							
 								</Box>
-							</Box>
+								
+							
 						</Modal>
 					</Container>
 				</section>
