@@ -53,11 +53,11 @@ const Detall = (props: Props) => {
                         </Box>
                         <Box>
                             <p><span>Nom:</span>Bicicleta</p>
-                            <p><span>Categoria:</span>Bicicleta</p>
-                            <p><span>Afegit el:</span>Bicicleta</p>
-                            <p><span>Codi:</span>Bicicleta</p>
-                            <p><span>Número de serie:</span>Bicicleta</p>
-                            <p><span>Condicio:</span>Bicicleta</p>
+                            <p><span>Categoria:</span>Nens petits</p>
+                            <p><span>Afegit el:</span>20/10/2023</p>
+                            <p><span>Codi:</span>1234</p>
+                            <p><span>Número de serie:</span>0001</p>
+                            <p><span>Condicio:</span>Bona</p>
                             <p><span>Preu pagat:</span>Bicicleta</p>
                             <p><span>Marca:</span>Bicicleta</p>
                             <p><span>Valor:</span>Bicicleta</p>
@@ -66,6 +66,9 @@ const Detall = (props: Props) => {
                             <p><span>Components:</span>Bicicleta</p>
                             <p><span>Informació de cures:</span>Bicicleta</p>
                             <p><span>Propietar de:</span>Bicicleta</p>
+                            <p><span>Donat per:</span>Bicicleta</p>
+                            <p><span>Descripció llarga:</span>Bicicleta</p>
+                            <p><span>Descripció curta:</span>Bicicleta</p>
                         </Box>
                     </Box>
 					</Container>
