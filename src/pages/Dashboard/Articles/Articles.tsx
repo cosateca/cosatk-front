@@ -3,21 +3,35 @@ import {
 	Button,
 	Container,
 	FormControl,
+	FormControlLabel,
+	FormLabel,
 	InputLabel,
 	MenuItem,
 	Modal,
+	Radio,
+	RadioGroup,
 	Select,
 	SelectChangeEvent,
 	TextareaAutosize,
 	TextField,
 	Typography,
 } from '@mui/material'
+import {
+	DataGrid,
+	GridColDef,
+	GridApi,
+	GridCellValue,
+	GridRenderCellParams,
+	GridRowModel,
+} from '@mui/x-data-grid'
 import React from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import { IArticle } from '../../../interfaces/article.interface'
+import { nanoid } from 'nanoid'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -35,11 +49,105 @@ const style = {
 
 type Props = {}
 
+//Data Grid
+const columns: GridColDef[] = [
+	{
+		field: 'remove',
+		headerName: 'Eliminar',
+		sortable: false,
+		width: 50,
+		renderCell: (params: GridRenderCellParams<any>) => {
+			const onClick = (e: any) => {
+				e.stopPropagation() // don't select this row after clicking
+
+				const api: GridApi = params.api
+				const thisRow: Record<string, GridCellValue> = {}
+
+				api
+					.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach(
+						(c) =>
+							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+					)
+				return alert(JSON.stringify(thisRow, null, 4))
+			}
+
+			return (
+				<Button
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-start',
+						borderRadius: '0px',
+					}}
+					onClick={onClick}
+				>
+					<img src={iconTrash} alt="eliminar" />
+				</Button>
+			)
+		},
+	},
+	{
+		field: 'edit',
+		headerName: 'Editar',
+		sortable: false,
+		width: 50,
+		renderCell: (params: GridRenderCellParams<any>) => {
+			const onClick = (e: any) => {
+				e.stopPropagation() // don't select this row after clicking
+
+				const api: GridApi = params.api
+				const thisRow: Record<string, GridCellValue> = {}
+
+				api
+					.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach(
+						(c) =>
+							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+					)
+
+				return alert(JSON.stringify(thisRow, null, 4))
+			}
+
+			return (
+				<Button
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-start',
+						borderRadius: '0px',
+					}}
+					onClick={onClick}
+				>
+					<img src={iconEdit} alt="modificar" />
+				</Button>
+			)
+		},
+	},
+	{ field: 'id', headerName: 'ID', width: 70 },
+	{ field: 'name', headerName: 'Nom', width: 130 },
+	{
+		field: 'loanFee',
+		headerName: 'Preu',
+		type: 'number',
+		width: 90,
+	},
+	{
+		field: 'loanPeriod',
+		headerName: 'Periode',
+		type: 'number',
+		width: 90,
+	},
+]
+
 const Articles = (props: Props) => {
+	const [data, setData] = React.useState<any>([])
+
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
 
 	//Modal
 	const [open, setOpen] = React.useState(false)
+
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => setOpen(false)
 
@@ -50,32 +158,78 @@ const Articles = (props: Props) => {
 	//New Article
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
 
+	const [id, setId] = React.useState('')
 	const [name, setName] = React.useState('')
 	const [shortDesc, setShortDesc] = React.useState('')
 	const [longDesc, setLongDesc] = React.useState('')
+	const [serial, setSerial] = React.useState('')
+	const [pricePaid, setPricePaid] = React.useState(0)
+	const [value, setValue] = React.useState(0)
+	const [loanFee, setLoanFee] = React.useState(0)
+	const [loanPeriod, setLoanPeriod] = React.useState(0)
 	const [components, setComponents] = React.useState('')
 	const [careInfo, setCareInfo] = React.useState('')
 	const [ownedBy, setOwnedBy] = React.useState('')
 	const [donatedBy, setDonatedBy] = React.useState('')
 	const [category, setCategory] = React.useState('')
-	const [serial, setSerial] = React.useState('')
 	const [condition, setCondition] = React.useState('')
-	const [location, setLocation] = React.useState('')
 	const [brand, setBrand] = React.useState('')
-	const [pricePaid, setPricePaid] = React.useState('')
-	const [shownOnWeb, setShownOnWeb] = React.useState(false)
-	const [loanFee, setLoanFee] = React.useState('')
-	const [loanPeriod, setLoanPeriod] = React.useState('')
+	const [shownOnWeb, setShownOnWeb] = React.useState('false')
 
 	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
 	}
+	const handleSubmit = (e: any) => {
+		e.preventDefault()
+
+		if (name === '') {
+			return
+		}
+
+		const newObject: IArticle = {
+			id: nanoid(),
+			name,
+			shortDesc,
+			longDesc,
+			serial,
+			pricePaid,
+			value,
+			loanFee,
+			loanPeriod,
+			components,
+			careInfo,
+			ownedBy,
+			donatedBy,
+			condition,
+			brand,
+			shownOnWeb,
+		}
+		setData([...data, newObject])
+
+		// Resetear los estados
+		setId('')
+		setName('')
+		setShortDesc('')
+		setLongDesc('')
+		setSerial('')
+		setPricePaid(0)
+		setValue(0)
+		setLoanFee(0)
+		setLoanPeriod(0)
+		setComponents('')
+		setCareInfo('')
+		setOwnedBy('')
+		setDonatedBy('')
+		setCategory('')
+		setCondition('')
+		setBrand('')
+		setShownOnWeb('false')
+
+		setIsOpenForm(!isOpenForm)
+	}
 	const handleChangeCategory = (event: SelectChangeEvent) => {
 		setCategory(event.target.value as string)
-	}
-	const handleChangeCondition = (event: SelectChangeEvent) => {
-		setCondition(event.target.value as string)
 	}
 
 	return (
@@ -95,13 +249,28 @@ const Articles = (props: Props) => {
 							{' '}
 							{isOpenForm ? (
 								<Box>
-									<Typography
-										id="modal-modal-title2"
-										variant="h1"
-										component="h2"
+									<Box
+										sx={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											marginBottom: '10px',
+										}}
 									>
-										Nou Article
-									</Typography>
+										<Typography
+											id="modal-modal-title2"
+											variant="h1"
+											component="h2"
+										>
+											Nou Article
+										</Typography>
+										<Button
+											sx={{ margin: '20px', marginRight: '100px' }}
+											variant="contained"
+										>
+											Tornar
+										</Button>
+									</Box>
+
 									<Box
 										sx={{
 											display: 'flex',
@@ -120,6 +289,7 @@ const Articles = (props: Props) => {
 											fullWidth
 										>
 											<TextField
+												onChange={(e) => setName(e.target.value)}
 												required
 												id="input-nom"
 												label="Nom"
@@ -146,6 +316,7 @@ const Articles = (props: Props) => {
 												<MenuItem value={30}>Ortopedia</MenuItem>
 											</Select>
 											<TextareaAutosize
+												onChange={(e) => setShortDesc(e.target.value)}
 												aria-label="empty textarea"
 												placeholder="Descripció curta"
 												minRows={2}
@@ -153,6 +324,7 @@ const Articles = (props: Props) => {
 												style={{ width: '91%' }}
 											/>
 											<TextareaAutosize
+												onChange={(e) => setLongDesc(e.target.value)}
 												aria-label="empty textarea"
 												placeholder="Descripció larga"
 												minRows={6}
@@ -160,10 +332,11 @@ const Articles = (props: Props) => {
 												style={{ width: '91%' }}
 											/>
 											<TextField
+												onChange={(e) => setSerial(e.target.value)}
 												id="input-serial"
 												label="Núm. Serie"
 												variant="outlined"
-												sx={{ width: { xs: '92%' } }}
+												sx={{ width: { xs: '50%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -171,6 +344,19 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setBrand(e.target.value)}
+												id="input-brand"
+												label="Marca"
+												variant="outlined"
+												sx={{ width: { xs: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setPricePaid(Number(e.target.value))}
 												id="input-preupagat"
 												label="Preu pagat"
 												variant="outlined"
@@ -184,6 +370,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setValue(Number(e.target.value))}
 												id="input-valor"
 												label="Valor"
 												variant="outlined"
@@ -197,6 +384,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setLoanFee(Number(e.target.value))}
 												id="input-preu"
 												label="Preu"
 												variant="outlined"
@@ -210,6 +398,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setLoanPeriod(Number(e.target.value))}
 												id="input-period"
 												label="Periode (dies)"
 												variant="outlined"
@@ -223,6 +412,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setComponents(e.target.value)}
 												id="input-components"
 												label="Components"
 												variant="outlined"
@@ -234,6 +424,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setCareInfo(e.target.value)}
 												id="input-infoCures"
 												label="Info de cures"
 												variant="outlined"
@@ -245,6 +436,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setOwnedBy(e.target.value)}
 												id="input-ownedBy"
 												label="Propietari"
 												variant="outlined"
@@ -256,6 +448,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setDonatedBy(e.target.value)}
 												id="input-donatedBy"
 												label="Donador"
 												variant="outlined"
@@ -267,6 +460,7 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
+												onChange={(e) => setCondition(e.target.value)}
 												id="input-condition"
 												label="Condició"
 												variant="outlined"
@@ -277,6 +471,27 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
+											<FormLabel id="radio-btns-shown">
+												Mostrar al web?
+											</FormLabel>
+											<RadioGroup
+												onChange={(e) => setShownOnWeb(e.target.value)}
+												row
+												aria-labelledby="radio-btns-shown"
+												defaultValue="true"
+												name="radio-buttons-group"
+											>
+												<FormControlLabel
+													value="true"
+													control={<Radio />}
+													label="Públic"
+												/>
+												<FormControlLabel
+													value="false"
+													control={<Radio />}
+													label="Privat"
+												/>
+											</RadioGroup>
 										</FormControl>
 									</Box>
 									<Box
@@ -287,9 +502,10 @@ const Articles = (props: Props) => {
 										}}
 									>
 										<Button
-											onClick={handleClick}
+											onClick={handleSubmit}
 											sx={{
 												marginBottom: '20px',
+												marginTop: '20px',
 												paddingLeft: '40px',
 												paddingRight: '40px',
 												height: '55px',
@@ -346,7 +562,6 @@ const Articles = (props: Props) => {
 											</Select>
 											<Button
 												sx={{
-													marginBottom: '20px',
 													bgcolor: '#D9D9D9',
 													height: '55px',
 												}}
@@ -358,7 +573,6 @@ const Articles = (props: Props) => {
 										<Button
 											onClick={handleClick}
 											sx={{
-												marginBottom: '20px',
 												paddingLeft: '40px',
 												paddingRight: '40px',
 												height: '55px',
@@ -368,51 +582,12 @@ const Articles = (props: Props) => {
 											<img src={iconNew} alt="nou" />
 										</Button>
 									</Box>
-									<Box
-										sx={{
-											display: 'flex',
-											flexDirection: 'row',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-											gap: '10px',
-											bgcolor: '#67B7E1',
-											minHeight: '40px',
-											width: '100%',
-											paddingLeft: '10px',
-										}}
-									>
-										<Box>Crosses | Ortopedia | 7 díes | 0 euros</Box>
-										<Box
-											sx={{
-												display: 'flex',
-												justifyContent: 'center',
-												alignItems: 'center',
-												marginRight: '10px',
-												gap: '10px',
-												height: '40px',
-												marginTop: '-20px',
-											}}
-										>
-											<Button
-												onClick={handleOpen}
-												sx={{
-													height: '35px',
-													bgcolor: 'white',
-												}}
-												variant="contained"
-											>
-												<img src={iconTrash} alt="eliminar" />
-											</Button>
-											<Button
-												sx={{
-													height: '35px',
-													bgcolor: 'white',
-												}}
-												variant="contained"
-											>
-												<img src={iconEdit} alt="modificar" />
-											</Button>
-										</Box>
+									<Box sx={{ height: 600, width: '100%', marginTop: '20px' }}>
+										<DataGrid
+											rows={data}
+											columns={columns}
+											disableSelectionOnClick
+										/>
 									</Box>
 								</>
 							)}
