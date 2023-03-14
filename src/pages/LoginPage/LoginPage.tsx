@@ -19,7 +19,7 @@ const LoginPage = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     width: { xs: '80%', sm: '20%' },
-                    marginTop : 8,
+                   
                     
                     
                 }}
