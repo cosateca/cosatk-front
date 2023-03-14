@@ -3,20 +3,36 @@ import {
 	Button,
 	Container,
 	FormControl,
+	FormControlLabel,
+	FormLabel,
+	InputLabel,
 	MenuItem,
 	Modal,
+	Radio,
+	RadioGroup,
 	Select,
 	SelectChangeEvent,
 	TextareaAutosize,
 	TextField,
 	Typography,
 } from '@mui/material'
+import {
+	DataGrid,
+	GridColDef,
+	GridApi,
+	GridCellValue,
+	GridRenderCellParams,
+	GridRowModel,
+} from '@mui/x-data-grid'
 import React from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import iconBack from '../../../assets/images/icono_flecha_atras.svg'
+import { IArticle } from '../../../interfaces/article.interface'
+import { nanoid } from 'nanoid'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -34,45 +50,187 @@ const style = {
 
 type Props = {}
 
+//Data Grid
+const columns: GridColDef[] = [
+	{
+		field: 'remove',
+		headerName: 'Eliminar',
+		sortable: false,
+		width: 50,
+		renderCell: (params: GridRenderCellParams<any>) => {
+			const onClick = (e: any) => {
+				e.stopPropagation() // don't select this row after clicking
+
+				const api: GridApi = params.api
+				const thisRow: Record<string, GridCellValue> = {}
+
+				api
+					.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach(
+						(c) =>
+							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+					)
+				return alert(JSON.stringify(thisRow, null, 4))
+			}
+
+			return (
+				<Button
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-start',
+						borderRadius: '0px',
+					}}
+					onClick={onClick}
+				>
+					<img src={iconTrash} alt="eliminar" />
+				</Button>
+			)
+		},
+	},
+	{
+		field: 'edit',
+		headerName: 'Editar',
+		sortable: false,
+		width: 50,
+		renderCell: (params: GridRenderCellParams<any>) => {
+			const onClick = (e: any) => {
+				e.stopPropagation() // don't select this row after clicking
+
+				const api: GridApi = params.api
+				const thisRow: Record<string, GridCellValue> = {}
+
+				api
+					.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach(
+						(c) =>
+							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+					)
+
+				return alert(JSON.stringify(thisRow, null, 4))
+			}
+
+			return (
+				<Button
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-start',
+						borderRadius: '0px',
+					}}
+					onClick={onClick}
+				>
+					<img src={iconEdit} alt="modificar" />
+				</Button>
+			)
+		},
+	},
+	{ field: 'id', headerName: 'ID', width: 70 },
+	{ field: 'name', headerName: 'Nom', width: 130 },
+	{
+		field: 'loanFee',
+		headerName: 'Preu',
+		type: 'number',
+		width: 90,
+	},
+	{
+		field: 'loanPeriod',
+		headerName: 'Periode',
+		type: 'number',
+		width: 90,
+	},
+]
+
 const Articles = (props: Props) => {
+	const [data, setData] = React.useState<any>([])
+
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
 
 	//Modal
 	const [open, setOpen] = React.useState(false)
+
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => setOpen(false)
-	//Modal New
-	const [openNew, setOpenNew] = React.useState(false)
-	const handleOpenNew = () => setOpenNew(true)
-	const handleCloseNew = () => setOpenNew(false)
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setPrestecEnCurs(event.target.value as string)
 	}
 
 	//New Article
+	const [isOpenForm, setIsOpenForm] = React.useState(false)
+
+	const [id, setId] = React.useState('')
 	const [name, setName] = React.useState('')
 	const [shortDesc, setShortDesc] = React.useState('')
 	const [longDesc, setLongDesc] = React.useState('')
+	const [serial, setSerial] = React.useState('')
+	const [pricePaid, setPricePaid] = React.useState(0)
+	const [value, setValue] = React.useState(0)
+	const [loanFee, setLoanFee] = React.useState(0)
+	const [loanPeriod, setLoanPeriod] = React.useState(0)
 	const [components, setComponents] = React.useState('')
 	const [careInfo, setCareInfo] = React.useState('')
 	const [ownedBy, setOwnedBy] = React.useState('')
 	const [donatedBy, setDonatedBy] = React.useState('')
 	const [category, setCategory] = React.useState('')
-	const [serial, setSerial] = React.useState('')
 	const [condition, setCondition] = React.useState('')
-	const [location, setLocation] = React.useState('')
 	const [brand, setBrand] = React.useState('')
-	const [pricePaid, setPricePaid] = React.useState('')
-	const [shownOnWeb, setShownOnWeb] = React.useState(false)
-	const [loanFee, setLoanFee] = React.useState('')
-	const [loanPeriod, setLoanPeriod] = React.useState('')
+	const [shownOnWeb, setShownOnWeb] = React.useState('false')
 
+	const handleClick = (e: any) => {
+		e.preventDefault()
+		setIsOpenForm(!isOpenForm)
+	}
+	const handleSubmit = (e: any) => {
+		e.preventDefault()
+
+		if (name === '') {
+			return
+		}
+
+		const newObject: IArticle = {
+			id: nanoid(),
+			name,
+			shortDesc,
+			longDesc,
+			serial,
+			pricePaid,
+			value,
+			loanFee,
+			loanPeriod,
+			components,
+			careInfo,
+			ownedBy,
+			donatedBy,
+			condition,
+			brand,
+			shownOnWeb,
+		}
+		setData([...data, newObject])
+
+		// Resetear los estados
+		setId('')
+		setName('')
+		setShortDesc('')
+		setLongDesc('')
+		setSerial('')
+		setPricePaid(0)
+		setValue(0)
+		setLoanFee(0)
+		setLoanPeriod(0)
+		setComponents('')
+		setCareInfo('')
+		setOwnedBy('')
+		setDonatedBy('')
+		setCategory('')
+		setCondition('')
+		setBrand('')
+		setShownOnWeb('false')
+
+		setIsOpenForm(!isOpenForm)
+	}
 	const handleChangeCategory = (event: SelectChangeEvent) => {
 		setCategory(event.target.value as string)
-	}
-	const handleChangeCondition = (event: SelectChangeEvent) => {
-		setCondition(event.target.value as string)
 	}
 
 	return (
@@ -88,121 +246,353 @@ const Articles = (props: Props) => {
 						}}
 					>
 						<Typography variant="h1">ARTICLES</Typography>
-						<Box
-							sx={{
-								display: 'flex',
-								flexDirection: { xs: 'column', sm: 'row' },
-								justifyContent: 'flex-start',
-								alignItems: 'center',
-							}}
-						>
-							<FormControl
-								sx={{
-									display: 'flex',
-									flexDirection: { xs: 'column', sm: 'row' },
-									justifyContent: 'flex-start',
-									alignItems: 'center',
-									gap: '20px',
-								}}
-								fullWidth
-							>
-								<TextField
-									id="input-nom"
-									label="Cerca per nom"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/>
-								<Select
-									displayEmpty
-									sx={{ width: { xs: '200px' } }}
-									id="demo-simple-select"
-									value={prestecEnCurs}
-									label="Estat"
-									onChange={handleChange}
-								>
-									<MenuItem value="">Selecciona estat</MenuItem>
-									<MenuItem value={10}>Disponible</MenuItem>
-									<MenuItem value={20}>En prèstec</MenuItem>
-								</Select>
-								<Button
-									sx={{
-										marginBottom: '20px',
-										bgcolor: '#D9D9D9',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									<img src={iconSearch} alt="cerca" />
-								</Button>
-							</FormControl>
-							<Button
-								onClick={handleOpenNew}
-								sx={{
-									marginBottom: '20px',
-									paddingLeft: '40px',
-									paddingRight: '40px',
-									height: '55px',
-								}}
-								variant="contained"
-							>
-								<img src={iconNew} alt="nou" />
-							</Button>
-						</Box>
 						<Box>
-							<Box
-								sx={{
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									gap: '10px',
-									bgcolor: '#67B7E1',
-									minHeight: '40px',
-									width: '100%',
-									paddingLeft: '10px',
-								}}
-							>
+							{' '}
+							{isOpenForm ? (
 								<Box>
-									Crosses | Joaquín Rodríguez Mata | Data inici: 26/12/2023 |
-									Data fi: 02/01/2024{' '}
-								</Box>
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-										marginRight: '10px',
-										gap: '10px',
-										height: '40px',
-										marginTop: '-20px',
-									}}
-								>
-									<Button
-										onClick={handleOpen}
+									<Box
 										sx={{
-											height: '35px',
-											bgcolor: 'white',
+											display: 'flex',
+											justifyContent: 'space-between',
+											marginBottom: '10px',
 										}}
-										variant="contained"
 									>
-										<img src={iconTrash} alt="eliminar" />
-									</Button>
-									<Button
+										<Typography
+											id="modal-modal-title2"
+											variant="h1"
+											component="h2"
+										>
+											Nou Article
+										</Typography>
+										<Button
+											onClick={() => setIsOpenForm(false)}
+											sx={{ margin: '20px', marginRight: '100px' }}
+											variant="contained"
+										>
+											<img src={iconBack} alt="tornar" />
+										</Button>
+									</Box>
+
+									<Box
 										sx={{
-											height: '35px',
-											bgcolor: 'white',
+											display: 'flex',
+											flexDirection: { xs: 'column', sm: 'row' },
 										}}
-										variant="contained"
 									>
-										<img src={iconEdit} alt="modificar" />
-									</Button>
+										<FormControl
+											sx={{
+												display: 'flex',
+												flexDirection: { xs: 'column', sm: 'row' },
+												flexWrap: 'wrap',
+												justifyContent: 'flex-start',
+												alignItems: 'center',
+												gap: '20px',
+											}}
+											fullWidth
+										>
+											<TextField
+												onChange={(e) => setName(e.target.value)}
+												required
+												id="input-nom"
+												label="Nom"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+
+											<Select
+												displayEmpty
+												sx={{ width: { xs: '92%', sm: '40%' } }}
+												id="selectcategoria"
+												value={category}
+												label="Categoria"
+												onChange={handleChangeCategory}
+											>
+												<MenuItem value="">Selecciona categoria</MenuItem>
+												<MenuItem value={10}>Eines de bricolatge</MenuItem>
+												<MenuItem value={20}>Nens petits</MenuItem>
+												<MenuItem value={30}>Ortopedia</MenuItem>
+											</Select>
+											<TextareaAutosize
+												onChange={(e) => setShortDesc(e.target.value)}
+												aria-label="empty textarea"
+												placeholder="Descripció curta"
+												minRows={2}
+												maxLength={300}
+												style={{ width: '91%' }}
+											/>
+											<TextareaAutosize
+												onChange={(e) => setLongDesc(e.target.value)}
+												aria-label="empty textarea"
+												placeholder="Descripció larga"
+												minRows={6}
+												maxLength={2000}
+												style={{ width: '91%' }}
+											/>
+											<TextField
+												onChange={(e) => setSerial(e.target.value)}
+												id="input-serial"
+												label="Núm. Serie"
+												variant="outlined"
+												sx={{ width: { xs: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setBrand(e.target.value)}
+												id="input-brand"
+												label="Marca"
+												variant="outlined"
+												sx={{ width: { xs: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setPricePaid(Number(e.target.value))}
+												id="input-preupagat"
+												label="Preu pagat"
+												variant="outlined"
+												type="Number"
+												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setValue(Number(e.target.value))}
+												id="input-valor"
+												label="Valor"
+												variant="outlined"
+												type="Number"
+												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												sx={{ width: { xs: '92%', sm: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setLoanFee(Number(e.target.value))}
+												id="input-preu"
+												label="Preu"
+												variant="outlined"
+												type="Number"
+												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setLoanPeriod(Number(e.target.value))}
+												id="input-period"
+												label="Periode (dies)"
+												variant="outlined"
+												type="Number"
+												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												sx={{ width: { xs: '92%', sm: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setComponents(e.target.value)}
+												id="input-components"
+												label="Components"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setCareInfo(e.target.value)}
+												id="input-infoCures"
+												label="Info de cures"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setOwnedBy(e.target.value)}
+												id="input-ownedBy"
+												label="Propietari"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setDonatedBy(e.target.value)}
+												id="input-donatedBy"
+												label="Donador"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '40%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e) => setCondition(e.target.value)}
+												id="input-condition"
+												label="Condició"
+												variant="outlined"
+												sx={{ width: { xs: '92%', sm: '50%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<FormLabel id="radio-btns-shown">
+												Mostrar al web?
+											</FormLabel>
+											<RadioGroup
+												onChange={(e) => setShownOnWeb(e.target.value)}
+												row
+												aria-labelledby="radio-btns-shown"
+												defaultValue="true"
+												name="radio-buttons-group"
+											>
+												<FormControlLabel
+													value="true"
+													control={<Radio />}
+													label="Públic"
+												/>
+												<FormControlLabel
+													value="false"
+													control={<Radio />}
+													label="Privat"
+												/>
+											</RadioGroup>
+										</FormControl>
+									</Box>
+									<Box
+										sx={{
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
+										<Button
+											onClick={handleSubmit}
+											sx={{
+												marginBottom: '20px',
+												marginTop: '20px',
+												paddingLeft: '40px',
+												paddingRight: '40px',
+												height: '55px',
+												width: { xs: '70%', sm: '40%' },
+											}}
+											variant="contained"
+										>
+											<img src={iconNew} alt="nou" />
+										</Button>
+									</Box>
 								</Box>
-							</Box>
+							) : (
+								<>
+									<Box
+										sx={{
+											display: 'flex',
+											flexDirection: { xs: 'column', sm: 'row' },
+											justifyContent: 'flex-start',
+											alignItems: 'center',
+										}}
+									>
+										<FormControl
+											sx={{
+												display: 'flex',
+												flexDirection: { xs: 'column', sm: 'row' },
+												justifyContent: 'flex-start',
+												alignItems: 'center',
+												gap: '20px',
+											}}
+											fullWidth
+										>
+											<TextField
+												id="input-nom"
+												label="Cerca per nom"
+												variant="outlined"
+												sx={{ width: { xs: '200px' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<Select
+												displayEmpty
+												sx={{ width: { xs: '200px' } }}
+												id="demo-simple-select"
+												value={prestecEnCurs}
+												label="Estat"
+												onChange={handleChange}
+											>
+												<MenuItem value="">Selecciona estat</MenuItem>
+												<MenuItem value={10}>Disponible</MenuItem>
+												<MenuItem value={20}>En prèstec</MenuItem>
+											</Select>
+											<Button
+												sx={{
+													bgcolor: '#D9D9D9',
+													height: '55px',
+												}}
+												variant="contained"
+											>
+												<img src={iconSearch} alt="cerca" />
+											</Button>
+										</FormControl>
+										<Button
+											onClick={handleClick}
+											sx={{
+												paddingLeft: '40px',
+												paddingRight: '40px',
+												height: '55px',
+											}}
+											variant="contained"
+										>
+											<img src={iconNew} alt="nou" />
+										</Button>
+									</Box>
+									<Box sx={{ height: 600, width: '100%', marginTop: '20px' }}>
+										<DataGrid
+											rows={data}
+											columns={columns}
+											disableSelectionOnClick
+										/>
+									</Box>
+								</>
+							)}
 						</Box>
 						<Modal
 							open={open}
@@ -226,218 +616,6 @@ const Articles = (props: Props) => {
 								>
 									OK
 								</Button>
-							</Box>
-						</Modal>
-						<Modal
-							open={openNew}
-							onClose={handleCloseNew}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title2" variant="h1" component="h2">
-									Nou Article
-								</Typography>
-								<Box
-									sx={{
-										display: 'flex',
-										flexDirection: { xs: 'column', sm: 'row' },
-									}}
-								>
-									<FormControl
-										sx={{
-											display: 'flex',
-											flexDirection: { xs: 'column', sm: 'row' },
-											flexWrap: 'wrap',
-											justifyContent: 'flex-start',
-											alignItems: 'center',
-											gap: '20px',
-										}}
-										fullWidth
-									>
-										<TextField
-											required
-											id="input-nom"
-											label="Nom"
-											variant="outlined"
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<Select
-											displayEmpty
-											sx={{ width: { xs: '92%', sm: '40%' } }}
-											id="select-categoria"
-											value={category}
-											label="Categoria"
-											onChange={handleChangeCategory}
-										>
-											<MenuItem value="">Selecciona categoria</MenuItem>
-											<MenuItem value={10}>Eines de bricolatge</MenuItem>
-											<MenuItem value={20}>Nens petits</MenuItem>
-											<MenuItem value={30}>Ortopedia</MenuItem>
-										</Select>
-										<TextareaAutosize
-											aria-label="empty textarea"
-											placeholder="Descripció curta"
-											minRows={2}
-											maxLength={300}
-											style={{ width: '92%' }}
-										/>
-										<TextareaAutosize
-											aria-label="empty textarea"
-											placeholder="Descripció larga"
-											minRows={6}
-											maxLength={2000}
-											style={{ width: '92%' }}
-										/>
-										<TextField
-											id="input-serial"
-											label="Núm. Serie"
-											variant="outlined"
-											sx={{ width: { xs: '92%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-preupagat"
-											label="Preu pagat"
-											variant="outlined"
-											type="Number"
-											InputProps={{ inputProps: { min: 0, max: 1000 } }}
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-valor"
-											label="Valor"
-											variant="outlined"
-											type="Number"
-											InputProps={{ inputProps: { min: 0, max: 1000 } }}
-											sx={{ width: { xs: '92%', sm: '40%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-preu"
-											label="Preu"
-											variant="outlined"
-											type="Number"
-											InputProps={{ inputProps: { min: 0, max: 1000 } }}
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-period"
-											label="Periode (dies)"
-											variant="outlined"
-											type="Number"
-											InputProps={{ inputProps: { min: 0, max: 1000 } }}
-											sx={{ width: { xs: '92%', sm: '40%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-components"
-											label="Components"
-											variant="outlined"
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-infoCures"
-											label="Info de cures"
-											variant="outlined"
-											sx={{ width: { xs: '92%', sm: '40%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-ownedBy"
-											label="Propietari"
-											variant="outlined"
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<TextField
-											id="input-donatedBy"
-											label="Donador"
-											variant="outlined"
-											sx={{ width: { xs: '92%', sm: '40%' } }}
-											InputLabelProps={{
-												style: {
-													color: '#222222',
-												},
-											}}
-										/>
-										<Select
-											displayEmpty
-											sx={{ width: { xs: '92%', sm: '50%' } }}
-											id="select-condicio"
-											value={condition}
-											label="Condició"
-											onChange={handleChangeCondition}
-										>
-											<MenuItem value="">Selecciona condició</MenuItem>
-											<MenuItem value={10}>Nou</MenuItem>
-											<MenuItem value={20}>Seminou</MenuItem>
-											<MenuItem value={30}>Usat</MenuItem>
-											<MenuItem value={40}>Desgastat</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-									}}
-								>
-									<Button
-										onClick={handleCloseNew}
-										sx={{
-											marginBottom: '20px',
-											paddingLeft: '40px',
-											paddingRight: '40px',
-											height: '55px',
-											width: { xs: '70%', sm: '40%' },
-										}}
-										variant="contained"
-									>
-										<img src={iconNew} alt="nou" />
-									</Button>
-								</Box>
 							</Box>
 						</Modal>
 					</Container>

@@ -115,7 +115,6 @@ const Loans = (props: Props) => {
 								</Select>
 								<Button
 									sx={{
-										marginBottom: '20px',
 										bgcolor: '#D9D9D9',
 										height: '55px',
 									}}
@@ -126,7 +125,6 @@ const Loans = (props: Props) => {
 							</FormControl>
 							<Button
 								sx={{
-									marginBottom: '20px',
 									paddingLeft: '40px',
 									paddingRight: '40px',
 									height: '55px',
@@ -139,6 +137,7 @@ const Loans = (props: Props) => {
 						<Box>
 							<Box
 								sx={{
+									marginTop: '20px',
 									display: 'flex',
 									flexDirection: 'row',
 									alignItems: 'center',
@@ -150,41 +149,7 @@ const Loans = (props: Props) => {
 									paddingLeft: '10px',
 								}}
 							>
-								<Box>
-									Crosses | Joaquín Rodríguez Mata | Data inici: 26/12/2023 |
-									Data fi: 02/01/2024{' '}
-								</Box>
-								<Box
-									sx={{
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-										marginRight: '10px',
-										gap: '10px',
-										height: '40px',
-										marginTop: '-20px',
-									}}
-								>
-									<Button
-										onClick={handleOpen}
-										sx={{
-											height: '35px',
-											bgcolor: 'white',
-										}}
-										variant="contained"
-									>
-										<img src={iconTrash} alt="eliminar" />
-									</Button>
-									<Button
-										sx={{
-											height: '35px',
-											bgcolor: 'white',
-										}}
-										variant="contained"
-									>
-										<img src={iconEdit} alt="modificar" />
-									</Button>
-								</Box>
+								DATAGRID
 							</Box>
 						</Box>
 						<Modal
