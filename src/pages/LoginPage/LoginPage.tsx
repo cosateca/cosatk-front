@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { Typography } from "@mui/material";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 
 const LoginPage = () => {
@@ -97,9 +98,11 @@ const LoginPage = () => {
                         <Link href="#" variant="body2">
                             {"No tens compte ? Registra't !"}
                         </Link>
-                    </Grid>
-
+                    </Grid
+                    >
+                    <Footer />
                 </Box>
+                
            
         </>
     )

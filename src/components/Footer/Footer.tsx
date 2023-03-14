@@ -8,9 +8,9 @@ const Footer = () => {
    display: 'flex',
    flexDirection: 'column',
    alignItems: 'center',
-   lineHeight:'1em',
+   justifyContent:'center',
    textAlign:'center',
-   paddingBottom: '1em'
+  
    
     }}>
   <p>Copyright © 2023</p>
