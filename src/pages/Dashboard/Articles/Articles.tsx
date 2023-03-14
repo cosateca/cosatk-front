@@ -31,8 +31,10 @@ import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import iconBack from '../../../assets/images/icono_flecha_atras.svg'
+import iconLoan from '../../../assets/images/icono_prestamos_mano.svg'
 import { IArticle } from '../../../interfaces/article.interface'
 import { nanoid } from 'nanoid'
+import { redirect, useNavigate } from 'react-router'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -121,6 +123,44 @@ const columns: GridColDef[] = [
 					onClick={onClick}
 				>
 					<img src={iconEdit} alt="modificar" />
+				</Button>
+			)
+		},
+	},
+	{
+		field: 'loan',
+		headerName: 'Prèstec',
+		sortable: false,
+		width: 50,
+		renderCell: (params: GridRenderCellParams<any>) => {
+			const navigate = useNavigate()
+			const onClick = (e: any) => {
+				e.stopPropagation() // don't select this row after clicking
+
+				const api: GridApi = params.api
+				const thisRow: Record<string, GridCellValue> = {}
+
+				api
+					.getAllColumns()
+					.filter((c) => c.field !== '__check__' && !!c)
+					.forEach(
+						(c) =>
+							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+					)
+
+				return navigate(`/dashboard/newloan/${thisRow.id}`)
+			}
+
+			return (
+				<Button
+					sx={{
+						display: 'flex',
+						justifyContent: 'flex-start',
+						borderRadius: '0px',
+					}}
+					onClick={onClick}
+				>
+					<img src={iconLoan} alt="prestar" />
 				</Button>
 			)
 		},

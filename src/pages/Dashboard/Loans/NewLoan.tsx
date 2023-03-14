@@ -1,22 +1,17 @@
 import {
-	Box,
 	Button,
-	Container,
 	FormControl,
-	InputLabel,
 	MenuItem,
-	Modal,
 	Select,
-	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
-import Navbar from '../../../components/Navbar/Navbar'
+import { Box, Container } from '@mui/system'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
-import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import { useParams } from 'react-router'
+import Navbar from '../../../components/Navbar/Navbar'
 import {
 	DataGrid,
 	GridApi,
@@ -24,21 +19,7 @@ import {
 	GridColDef,
 	GridRenderCellParams,
 } from '@mui/x-data-grid'
-import { nanoid } from 'nanoid'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
+import { useState } from 'react'
 
 type Props = {}
 
@@ -118,52 +99,28 @@ const columns: GridColDef[] = [
 		},
 	},
 	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'articleName', headerName: 'Nom article', width: 190 },
+	{ field: 'name', headerName: 'Nom', width: 130 },
 	{
-		field: 'personName',
-		headerName: 'Nom',
-		width: 140,
-	},
-	{
-		field: 'personLastName',
+		field: 'lastName',
 		headerName: 'Cognoms',
 		width: 190,
 	},
 	{
-		field: 'checkinDate',
-		headerName: 'Data inici',
-		width: 120,
+		field: 'dni',
+		headerName: 'DNI/Passaport',
+		width: 150,
 	},
 	{
-		field: 'checkoutDate',
-		headerName: 'Data fi',
-		width: 120,
+		field: 'email',
+		headerName: 'Email',
+		width: 190,
 	},
 ]
 
-const Loans = (props: Props) => {
-	const [estat, setEstat] = React.useState('')
+const NewLoan = (props: Props) => {
+	const { id } = useParams()
 
-	//Data
-	const [data, setData] = useState<any>([
-		{
-			id: nanoid(),
-			articleName: 'Crosses',
-			personName: 'Jose',
-			personLastName: 'Mata Mateo',
-			checkinDate: '24/05/2022',
-			checkoutDate: '24/06/2022',
-		},
-	])
-
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
-
-	const handleChange = (event: SelectChangeEvent) => {
-		setEstat(event.target.value as string)
-	}
+	const [data, setData] = useState<any>([])
 
 	return (
 		<>
@@ -177,7 +134,7 @@ const Loans = (props: Props) => {
 							height: '100vh',
 						}}
 					>
-						<Typography variant="h1">PRÈSTECS</Typography>
+						<Typography variant="h1">NOU PRÈSTEC</Typography>
 
 						<Box
 							sx={{
@@ -198,19 +155,8 @@ const Loans = (props: Props) => {
 								fullWidth
 							>
 								<TextField
-									id="input-article"
-									label="Cerca per article"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/>
-								<TextField
 									id="input-nom"
-									label="Cerca per nom"
+									label="Cerca usuari"
 									variant="outlined"
 									sx={{ width: { xs: '200px' } }}
 									InputLabelProps={{
@@ -219,19 +165,6 @@ const Loans = (props: Props) => {
 										},
 									}}
 								/>
-								<Select
-									displayEmpty
-									sx={{ width: { xs: '200px' } }}
-									id="demo-simple-select"
-									value={estat}
-									label="Estat"
-									onChange={handleChange}
-								>
-									<MenuItem value="">Selecciona Estat</MenuItem>
-									<MenuItem value={10}>En termini</MenuItem>
-									<MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem>
-								</Select>
 								<Button
 									sx={{
 										bgcolor: '#D9D9D9',
@@ -241,53 +174,36 @@ const Loans = (props: Props) => {
 								>
 									<img src={iconSearch} alt="cerca" />
 								</Button>
-							</FormControl>
-						</Box>
-						<Box>
-							<Box
-								sx={{
-									marginTop: '20px',
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									gap: '10px',
-									width: '100%',
-								}}
-							>
-								<Box sx={{ height: 600, width: '100%' }}>
-									<DataGrid
-										rows={data}
-										columns={columns}
-										disableSelectionOnClick
-									/>
-								</Box>
-							</Box>
-						</Box>
-						<Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirmar devolució
-								</Typography>
-								<Button
-									onClick={handleClose}
+								<Box
 									sx={{
+										display: 'flex',
 										marginBottom: '20px',
+										marginTop: '20px',
 										paddingLeft: '40px',
 										paddingRight: '40px',
 										height: '55px',
+										bgcolor: '#67b7e1',
+										width: { xs: '70%', sm: '100%' },
 									}}
-									variant="contained"
 								>
-									OK
-								</Button>
+									<p>Id. article seleccionat: {id}</p>
+								</Box>
+							</FormControl>
+						</Box>
+						<Box>
+							<Typography variant="h2" color="initial">
+								Per crear un nou prèstec associat a l'article seleccionat cerca
+								un usuari
+							</Typography>
+
+							<Box sx={{ height: 600, width: '100%' }}>
+								<DataGrid
+									rows={data}
+									columns={columns}
+									disableSelectionOnClick
+								/>
 							</Box>
-						</Modal>
+						</Box>
 					</Container>
 				</section>
 			</Box>
@@ -295,4 +211,4 @@ const Loans = (props: Props) => {
 	)
 }
 
-export default Loans
+export default NewLoan
