@@ -249,13 +249,28 @@ const Articles = (props: Props) => {
 							{' '}
 							{isOpenForm ? (
 								<Box>
-									<Typography
-										id="modal-modal-title2"
-										variant="h1"
-										component="h2"
+									<Box
+										sx={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											marginBottom: '10px',
+										}}
 									>
-										Nou Article
-									</Typography>
+										<Typography
+											id="modal-modal-title2"
+											variant="h1"
+											component="h2"
+										>
+											Nou Article
+										</Typography>
+										<Button
+											sx={{ margin: '20px', marginRight: '100px' }}
+											variant="contained"
+										>
+											Tornar
+										</Button>
+									</Box>
+
 									<Box
 										sx={{
 											display: 'flex',
@@ -463,7 +478,7 @@ const Articles = (props: Props) => {
 												onChange={(e) => setShownOnWeb(e.target.value)}
 												row
 												aria-labelledby="radio-btns-shown"
-												defaultValue="public"
+												defaultValue="true"
 												name="radio-buttons-group"
 											>
 												<FormControlLabel
