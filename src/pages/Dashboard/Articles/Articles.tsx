@@ -30,6 +30,7 @@ import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import iconBack from '../../../assets/images/icono_flecha_atras.svg'
 import { IArticle } from '../../../interfaces/article.interface'
 import { nanoid } from 'nanoid'
 
@@ -264,10 +265,11 @@ const Articles = (props: Props) => {
 											Nou Article
 										</Typography>
 										<Button
+											onClick={() => setIsOpenForm(false)}
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											Tornar
+											<img src={iconBack} alt="tornar" />
 										</Button>
 									</Box>
 
