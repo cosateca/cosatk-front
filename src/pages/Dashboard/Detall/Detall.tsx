@@ -62,10 +62,10 @@ const Detall = (props: Props) => {
                             <p><span>Marca:</span>Bicicleta</p>
                             <p><span>Valor:</span>Bicicleta</p>
                             <p><span>Preu de lloguer:</span>Bicicleta</p>
-                            <p><span>Marca:</span>Bicicleta</p>
-                            <p><span>Marca:</span>Bicicleta</p>
-                            <p><span>Marca:</span>Bicicleta</p>
-                            <p><span>Marca:</span>Bicicleta</p>
+                            <p><span>Període de lloguer:</span>Bicicleta</p>
+                            <p><span>Components:</span>Bicicleta</p>
+                            <p><span>Informació de cures:</span>Bicicleta</p>
+                            <p><span>Propietar de:</span>Bicicleta</p>
                         </Box>
                     </Box>
 					</Container>
