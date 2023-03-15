@@ -5,11 +5,14 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { Typography } from "@mui/material";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 
 const LoginPage = () => {
     return (
         <>
+        <Header/>
             <Box
                 sx={{
                     margin: '0 auto',
@@ -17,7 +20,7 @@ const LoginPage = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     width: { xs: '80%', sm: '20%' },
-                    marginTop : 8,
+                   
                     
                     
                 }}
@@ -95,9 +98,11 @@ const LoginPage = () => {
                         <Link href="#" variant="body2">
                             {"No tens compte ? Registra't !"}
                         </Link>
-                    </Grid>
-
+                    </Grid
+                    >
+                    <Footer />
                 </Box>
+                
            
         </>
     )
