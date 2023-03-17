@@ -255,7 +255,7 @@ const Loans = (props: Props) => {
 									width: '100%',
 								}}
 							>
-								<Box sx={{ height: 600, width: '100%' }}>
+								<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 									<DataGrid
 										rows={data}
 										columns={columns}
