@@ -14,7 +14,7 @@ async function getData() {
 	}
 }
 
-async function postData(categoryObject: any) {
+async function postData(categoryObject: ICategory) {
 	try {
 		const response = await axios.post(URL_API_POST, categoryObject)
 		return response.data

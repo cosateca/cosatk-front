@@ -4,7 +4,6 @@ import {
 	Container,
 	FormControl,
 	Modal,
-	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material'
@@ -124,7 +123,7 @@ const columns: GridColDef[] = [
 const Categories = (props: Props) => {
 	//Data
 	const [data, setData] = React.useState<ICategory[]>([])
-	const [loading, setLoading] = React.useState(true)
+	const [trigger, setTrigger] = React.useState(false)
 
 	//Modal
 	const [open, setOpen] = React.useState(false)
@@ -159,7 +158,7 @@ const Categories = (props: Props) => {
 
 		// Reset states
 		setCategory_name('')
-		setLoading(!loading)
+		setTrigger(!trigger)
 		setIsOpenForm(!isOpenForm)
 	}
 
@@ -172,7 +171,7 @@ const Categories = (props: Props) => {
 			.catch((error: Error) => {
 				console.log(error)
 			})
-	}, [loading])
+	}, [trigger])
 
 	return (
 		<>
