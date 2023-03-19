@@ -15,6 +15,8 @@ import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
 import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
+import CustomizedAccordions from '../../components/Faqs/Faqs'
+import Typography from 'material-ui/styles/typography'
 
 
 
@@ -159,8 +161,13 @@ const HomePage = ( ) => {
 					<CardProduct/>
 					<CardProduct/>
 					<CardProduct/>
-				</Box>				
-			</Container>		
+				</Box>
+			<Box>
+			{/* <Typography>Preguntes freqüents</Typography> */}
+			Preguntes freqüents
+			<CustomizedAccordions/>			
+			</Box>		
+			</Container>
 			<Footer/>
 		</>
 	)
