@@ -13,6 +13,7 @@ import imagepet from '../../assets/images/banner/component26.svg'
 import imagebbq from '../../assets/images/banner/component27.svg'
 import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
+import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 
 
 
@@ -22,6 +23,7 @@ const HomePage = ( ) => {
 	return (
 		<>
 			<Header/>
+			<ResponsiveAppBar/>
 			<Box
 			sx={{
 				backgroundImage: 'url(https://cdn.pixabay.com/photo/2015/08/19/05/23/banner-895571_1280.jpg)',
@@ -129,7 +131,6 @@ const HomePage = ( ) => {
 					/>
 				</Box>
 			</Box>
-
 			<Container>
 				<h2>ARTICLES POPULARS</h2>
 					<Box
