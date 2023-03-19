@@ -2,8 +2,8 @@ import axios from 'axios'
 import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
-const URL_API_GET = `${URLBASE}/api/v1/category`
-const URL_API_POST = `${URLBASE}/api/v1/category/create`
+const URL_API_GET = `${URLBASE}/category`
+const URL_API_POST = `${URLBASE}/category/create`
 
 async function getData() {
 	try {
