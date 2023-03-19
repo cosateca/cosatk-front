@@ -14,6 +14,7 @@ import imagebbq from '../../assets/images/banner/component27.svg'
 import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
 import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
+import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
 
 
 
@@ -132,6 +133,7 @@ const HomePage = ( ) => {
 				</Box>
 			</Box>
 			<Container>
+				<FilterHomePage/>
 				<h2>ARTICLES POPULARS</h2>
 					<Box
 					sx={{
