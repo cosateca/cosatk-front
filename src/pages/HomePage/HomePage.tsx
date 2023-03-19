@@ -35,16 +35,14 @@ const HomePage = ( ) => {
 			}}
 			>
 				<Box
-							sx={{
-								backgroundImage: 'url(https://cdn.pixabay.com/photo/2015/08/19/05/23/banner-895571_1280.jpg)',
-								width: '100%',
-								// height: '250px',
-								display: 'flex',
-								flexDirection: 'row',
-								flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-								justifyContent: 'space-around',
-								alignItems: 'center',
-							}}
+				sx={{
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'row',
+					flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
+					justifyContent: 'space-around',
+					alignItems: 'center',
+				}}
 				>
 					<Box
 						component="img"
@@ -84,16 +82,14 @@ const HomePage = ( ) => {
 					/>
 				</Box>
 				<Box
-							sx={{
-								backgroundImage: 'url(https://cdn.pixabay.com/photo/2015/08/19/05/23/banner-895571_1280.jpg)',
-								width: '100%',
-								// height: '250px',
-								display: 'flex',
-								flexDirection: 'row',
-								flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-								justifyContent: 'space-around',
-								alignItems: 'center',
-							}}
+					sx={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'row',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
+						justifyContent: 'space-around',
+						alignItems: 'center',
+					}}
 				>
 					<Box
 						component="img"
