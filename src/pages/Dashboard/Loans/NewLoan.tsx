@@ -134,7 +134,7 @@ const NewLoan = (props: Props) => {
 							height: '100vh',
 						}}
 					>
-						<Typography variant="h1">NOU PRÈSTEC</Typography>
+						<Typography variant="h1">✏️Prèstec</Typography>
 
 						<Box
 							sx={{
@@ -196,7 +196,7 @@ const NewLoan = (props: Props) => {
 								un usuari
 							</Typography>
 
-							<Box sx={{ height: 600, width: '100%' }}>
+							<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 								<DataGrid
 									rows={data}
 									columns={columns}

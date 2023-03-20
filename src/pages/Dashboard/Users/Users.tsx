@@ -256,7 +256,7 @@ const Users = (props: Props) => {
 											variant="h1"
 											component="h2"
 										>
-											Nou Usuari
+											✏️Usuari
 										</Typography>
 										<Button
 											onClick={() => setIsOpenForm(false)}
@@ -556,7 +556,7 @@ const Users = (props: Props) => {
 											width: '100%',
 										}}
 									>
-										<Box sx={{ height: 600, width: '100%' }}>
+										<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 											<DataGrid
 												rows={data}
 												columns={columns}

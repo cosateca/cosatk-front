@@ -302,7 +302,7 @@ const Articles = (props: Props) => {
 											variant="h1"
 											component="h2"
 										>
-											Nou Article
+											✏️Article
 										</Typography>
 										<Button
 											onClick={() => setIsOpenForm(false)}
@@ -624,7 +624,13 @@ const Articles = (props: Props) => {
 											<img src={iconNew} alt="nou" />
 										</Button>
 									</Box>
-									<Box sx={{ height: 600, width: '100%', marginTop: '20px' }}>
+									<Box
+										sx={{
+											height: { xs: 460, xl: 600 },
+											width: '100%',
+											marginTop: '20px',
+										}}
+									>
 										<DataGrid
 											rows={data}
 											columns={columns}
