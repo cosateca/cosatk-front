@@ -10,7 +10,8 @@ const Header = () => {
         display : 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop:'10px'
+        marginTop:'10px',
+        marginBottom: '10px',
     }}>
         <img src={logo} alt="" /> 
 			<div className="App">
