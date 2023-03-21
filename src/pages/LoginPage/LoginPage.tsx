@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
@@ -7,8 +7,62 @@ import Link from '@mui/material/Link'
 import { Typography } from '@mui/material'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
+import FormAlert from '../../components/FormAlert/FormAlert'
+import { loginUser } from '../../services/userService'
+import { useNavigate } from 'react-router'
+import useAuth from '../../hooks/useAuth'
 
 const LoginPage = () => {
+	const navigate = useNavigate()
+
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+
+	const [alert, setAlert] = useState<any>({})
+
+	const { msg } = alert
+	const { auth, setAuth } = useAuth()
+
+	const handleSubmit = async (e: any) => {
+		e.preventDefault()
+
+		if ([email, password].includes('')) {
+			setAlert({
+				msg: 'Algun dels camps ha quedat buit.',
+				isError: true,
+			})
+			console.error('Form validation: Error 1')
+			return
+		}
+
+		const userInfo = {
+			email,
+			password,
+		}
+
+		await loginUser(userInfo)
+			.then(async (response) => {
+				const { user } = response
+
+				if (user) {
+					setAuth(user)
+					setAlert({
+						msg: 'Login correcte! Seràs redirigit en un instant...',
+						isError: false,
+					})
+					setTimeout(() => {
+						navigate('/')
+					}, 3000)
+				} else {
+					setAlert({ msg: "Error quan s'intentava el login", isError: true })
+				}
+			})
+			.catch((error) => {
+				console.log("Error quan s'intentava el login: ", error)
+				setAlert({ msg: "Error quan s'intentava el login", isError: true })
+			})
+	}
+
 	return (
 		<>
 			<Header />
@@ -27,9 +81,13 @@ const LoginPage = () => {
 				</Typography>
 
 				<TextField
+					onChange={(e) => {
+						setEmail(e.target.value)
+					}}
 					id="Email"
 					label="Email"
 					variant="outlined"
+					required
 					fullWidth
 					InputLabelProps={{
 						style: {
@@ -39,23 +97,24 @@ const LoginPage = () => {
 				/>
 
 				<TextField
+					onChange={(e) => {
+						setPassword(e.target.value)
+					}}
 					margin="normal"
 					required
 					fullWidth
 					name="password"
-					label="password"
+					label="Contrasenya"
 					id="password"
+					type="password"
 					InputLabelProps={{
 						style: {
 							color: '#222222',
 						},
 					}}
 				/>
-				{/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
 				<Button
+					onClick={handleSubmit}
 					type="submit"
 					variant="contained"
 					sx={{
@@ -69,19 +128,15 @@ const LoginPage = () => {
 				>
 					Login
 				</Button>
+				{msg && <FormAlert alert={alert} />}
 
-				<Grid item xs>
-					<Link href="#" variant="body2">
-						Has perdut la contrassenya ?
-					</Link>
-				</Grid>
 				<Grid item>
-					<Link href="#" variant="body2">
+					<Link href="/register" variant="body2">
 						{"No tens compte ? Registra't !"}
 					</Link>
 				</Grid>
-				<Footer />
 			</Box>
+			<Footer />
 		</>
 	)
 }

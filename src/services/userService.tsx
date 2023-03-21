@@ -22,6 +22,7 @@ export const loginUser = async (data: { email: string; password: string }) => {
 		return response.data
 	} catch (error) {
 		console.log(error)
+		return error
 	}
 }
 export const findUserById = async (id: string) => {

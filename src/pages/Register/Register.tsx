@@ -14,13 +14,14 @@ const Register = () => {
 	const [last_name, setLast_name] = useState<string>('')
 	const [email, setEmail] = useState<string>('')
 	const [telephone, setTelephone] = useState<number | null>(null)
-	const [adress, setAdress] = useState<string | null>(null)
+	const [address, setAddress] = useState<string | null>(null)
 	const [city, setCity] = useState<string | null>(null)
 	const [how_meet_us, setHow_meet_us] = useState<string | null>(null)
 	const [dni, setDni] = useState<string | null>(null)
 	const [birth_date, setBirth_date] = useState<Date | null>(null)
 	const [password, setPassword] = useState<string>('')
 	const [repassword, setRepassword] = useState<string>('')
+	const [confirmation, setConfirmation] = useState(false)
 
 	const [alert, setAlert] = useState<any>({})
 
@@ -30,32 +31,55 @@ const Register = () => {
 		//Form Validation
 
 		if ([email, password, repassword, first_name, last_name].includes('')) {
-			setAlert({ msg: 'There is some empty input', isError: true })
+			setAlert({
+				msg: 'Hi ha algun camp requerit que està buit',
+				isError: true,
+			})
 			console.error('Form validation: Error 1')
 			return
 		}
 
 		if (password !== repassword) {
-			setAlert({ msg: 'Password not coincident', isError: true })
+			setAlert({ msg: 'La contrasenya no coincideix', isError: true })
 			console.error('Form validation: Error 2')
 			return
 		}
 
 		if (password.length < 8) {
-			setAlert({ msg: 'Password too short', isError: true })
+			setAlert({ msg: 'La contrasenya és massa curta', isError: true })
 			console.error('Form validation: Error 3')
 			return
 		}
 
 		if (!validator.isEmail(email)) {
-			setAlert({ msg: 'Invalid Email format', isError: true })
+			setAlert({ msg: 'El format del correu no és correcte', isError: true })
+			console.error('Form validation: Error 4')
+			return
+		}
+
+		if (!confirmation) {
+			setAlert({
+				msg: 'Cal acceptar les condicions.',
+				isError: true,
+			})
 			console.error('Form validation: Error 4')
 			return
 		}
 
 		//Create user with Api
 
-		const newUser = { password, email, first_name, last_name }
+		const newUser = {
+			password,
+			email,
+			first_name,
+			last_name,
+			dni,
+			address,
+			city,
+			telephone,
+			birth_date: birth_date?.toISOString().substring(0, 10),
+			how_meet_us,
+		}
 		await registerUser(newUser)
 			.then(async (response) => {
 				if (typeof response !== 'undefined' && response.data.idUsers) {
@@ -66,11 +90,22 @@ const Register = () => {
 				console.log('Error when trying to create a new user: ', error)
 			})
 
-		setAlert({})
-		navigate('/login')
+		setAlert({
+			msg: 'Usuari registrat correctament... serà redirigit a la pantalla de login',
+			isError: false,
+		})
+		setTimeout(() => {
+			setAlert({})
+			navigate('/login')
+		}, 5000)
 	}
 
 	const { msg } = alert
+
+	const handleDateChange = (event: any) => {
+		const date = new Date(event.target.value)
+		setBirth_date(date)
+	}
 
 	return (
 		<>
@@ -121,6 +156,7 @@ const Register = () => {
 						sx={{
 							width: { xs: '80%', sm: '35%' },
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -138,6 +174,7 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -154,6 +191,7 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -174,7 +212,7 @@ const Register = () => {
 					/>
 					<TextField
 						onChange={(e) => {
-							setAdress(e.target.value)
+							setAddress(e.target.value)
 						}}
 						id="Adress"
 						label="Adreça"
@@ -187,6 +225,7 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -203,6 +242,7 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -221,13 +261,12 @@ const Register = () => {
 						}}
 					/>
 					<TextField
-						onChange={(e) => {
-							setBirth_date(new Date(e.target.value))
-						}}
 						type="date"
 						id="birth_date"
 						label="Data de naixement"
 						variant="outlined"
+						name="bdate"
+						onChange={handleDateChange}
 						sx={{
 							width: { xs: '80%', sm: '35%' },
 						}}
@@ -250,6 +289,7 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 250 }}
 					/>
 					<TextField
 						onChange={(e) => {
@@ -259,6 +299,7 @@ const Register = () => {
 						label="Contrasenya"
 						variant="outlined"
 						required
+						type="password"
 						sx={{
 							width: { xs: '80%', sm: '35%' },
 						}}
@@ -267,12 +308,14 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 25 }}
 					/>
 					<TextField
 						onChange={(e) => {
 							setRepassword(e.target.value)
 						}}
 						required
+						type="password"
 						name="repet_password"
 						label="Repetir contrasenya"
 						id="password"
@@ -284,10 +327,16 @@ const Register = () => {
 								color: '#222222',
 							},
 						}}
+						inputProps={{ maxLength: 25 }}
 					/>
 					<Box sx={{ width: { xs: '80%', sm: '35%' } }}>
-						<Checkbox /> He llegit i accepto els termes i condicions i la
-						política de privacitat.
+						<Checkbox
+							onChange={() => {
+								setConfirmation(!confirmation)
+							}}
+						/>{' '}
+						He llegit i accepto els termes i condicions i la política de
+						privacitat.
 					</Box>
 					<Button
 						onClick={handleSubmit}

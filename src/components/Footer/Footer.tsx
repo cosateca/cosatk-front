@@ -10,6 +10,7 @@ const Footer = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				textAlign: 'center',
+				marginTop: '30px',
 			}}
 		>
 			<p>Copyright © 2023</p>

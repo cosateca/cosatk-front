@@ -2,7 +2,17 @@ import { Box } from '@mui/material'
 
 const FormAlert = ({ alert }: any) => {
 	return (
-		<Box sx={{ bgcolor: 'orange', padding: '3px' }} role="alert">
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				bgcolor: alert.isError ? 'orange' : 'green',
+				padding: '10px',
+				width: '100%',
+			}}
+			role="alert"
+		>
 			{alert.msg}
 		</Box>
 	)
