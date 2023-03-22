@@ -5,10 +5,27 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import product from '../../assets/images/picture.png'
+import { getArticles } from '../../services/HomePage/home.api';
+import { useEffect, useState } from 'react';
 
-type Props = {}
 
-const CardProduct = (props: Props) => {
+type Home = {
+  name: string
+}
+
+const CardProduct = () => {
+
+  const [homes,setHomes] = useState <Home> ()
+
+  useEffect (() => {
+    async function loadHome() {
+      const response = await getArticles ()
+      console.log (response.data)
+      setHomes (response.data.Object)
+    }
+    loadHome()
+  },[])
+
   return ( 
         <Card sx={{ maxWidth: 345 }}>
           <CardActionArea>
@@ -20,7 +37,7 @@ const CardProduct = (props: Props) => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Lizard
+                {homes?.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Lizards are a widespread group of squamate reptiles, with over 6,000
