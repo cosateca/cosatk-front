@@ -5,18 +5,18 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import product from '../../assets/images/picture.png'
-import { getArticles } from '../../services/HomePage/homeService';
-import { useEffect, useState } from 'react';
 
 
-type Home = {
+
+export type Article = {
   id:string;
   name: string;
-  shortDesc: string;
+  short_description: string;
   longDesc: string;
   serial: string;
   pricePaid: number;
   value: number;
+  image: null;
   loanFee: number;
   loanPeriod: number;
   components: string;
@@ -28,19 +28,7 @@ type Home = {
   shownOnWeb: string;
 }
 
-const CardProduct = () => {
-
-  const [homes,setHomes] = useState <Home[]> ([])
-
-  useEffect (() => {
-    async function loadHome() {
-      const response = await getArticles ()
-      console.log (response.data)
-      setHomes (response.data)
-    }
-    loadHome()
-  },[])
-
+const CardProduct = ({article}:any) => {
   return ( 
         <Card sx={{ maxWidth: 345 }}>
           <CardActionArea>
@@ -49,19 +37,16 @@ const CardProduct = () => {
               height="240"
               image={product}
               alt="green iguana"
-            />
+              />
             <CardContent>
-              {homes.map(home =>(
-              // eslint-disable-next-line react/jsx-key, react/jsx-no-comment-textnodes
-              <>
                   <Typography gutterBottom variant="h5" component="div">
-                    {home.name}
+                    {article.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {home.id}
-                  </Typography></>
-              ))}
+                    {article.short_description}
+                  </Typography>
             </CardContent>
+            
           </CardActionArea>
         </Card>
   )

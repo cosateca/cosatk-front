@@ -1,10 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Container, Button, Box, Typography } from '@mui/material'
+import { Container, Button, Box, Typography, AccordionActionsClasses } from '@mui/material'
 
 
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import CardProduct from '../../components/CardProduct/CardProduct'
+import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
 import imagetools from '../../assets/images/banner/component22.svg'
 import imagebaby from '../../assets/images/banner/component23.svg'
 import imagehandicap from '../../assets/images/banner/component24.svg'
@@ -16,8 +16,9 @@ import imageprueba from '../../assets/images/banner/component29.svg'
 import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
 import CustomizedAccordions from '../../components/Faqs/Faqs'
-import SwipeableTextMobileStepper from '../../components/Carrusel/Carrusel'
-
+import { useEffect, useState } from 'react'
+import { getArticles } from '../../services/HomePage/homeService'
+// import { Article } from '../../components/CardProduct/CardProduct'
 
 
 
@@ -25,6 +26,19 @@ import SwipeableTextMobileStepper from '../../components/Carrusel/Carrusel'
 // type Props = {}
 
 const HomePage = ( ) => {
+
+const [articles, setArticle]= useState <Article[]>([])
+
+useEffect(() =>{
+	async function loadhome() {
+		const response = await getArticles()
+		console.log(response.data)
+			setArticle (response.data)
+}
+loadhome();
+},[])
+
+
 	return (
 		<>
 			<Header/>
@@ -146,10 +160,9 @@ const HomePage = ( ) => {
 						gap: '20px',
 					}}
 					>
-						<CardProduct/>
-						<CardProduct/>
-						<CardProduct/>
-						<CardProduct/>
+						{articles.map((article, index) =>(
+						<CardProduct article={article} key={index}/>
+						))}
 					</Box>
 				<h2>ARTICLES POPULARS</h2>
 				<Box
@@ -159,10 +172,6 @@ const HomePage = ( ) => {
 					gap: '20px',
 				}}
 				>
-					<CardProduct/>
-					<CardProduct/>
-					<CardProduct/>
-					<CardProduct/>
 				</Box>
 			</Container>
 			<Box
