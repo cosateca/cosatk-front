@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Container, Button, Box } from '@mui/material'
+import { Container, Button, Box, Typography } from '@mui/material'
 
 
 import Header from '../../components/Header/Header'
@@ -16,7 +16,9 @@ import imageprueba from '../../assets/images/banner/component29.svg'
 import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
 import CustomizedAccordions from '../../components/Faqs/Faqs'
-import Typography from 'material-ui/styles/typography'
+import SwipeableTextMobileStepper from '../../components/Carrusel/Carrusel'
+
+
 
 
 
@@ -162,12 +164,22 @@ const HomePage = ( ) => {
 					<CardProduct/>
 					<CardProduct/>
 				</Box>
-			<Box>
-			{/* <Typography>Preguntes freqüents</Typography> */}
-			Preguntes freqüents
-			<CustomizedAccordions/>			
-			</Box>		
 			</Container>
+			<Box
+			sx={{
+				backgroundColor: '#F9F9F9',
+				marginTop: '30px',
+				padding: '20px',
+			}}
+			>
+			<Typography
+			sx={{
+				textAlign: 'center',
+				marginBottom: '20px',
+			}}
+			>Preguntes freqüents</Typography>
+			<CustomizedAccordions/>			
+			</Box>
 			<Footer/>
 		</>
 	)
