@@ -5,7 +5,6 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	InputLabel,
 	MenuItem,
 	Modal,
 	Radio,
@@ -22,9 +21,8 @@ import {
 	GridApi,
 	GridCellValue,
 	GridRenderCellParams,
-	GridRowModel,
 } from '@mui/x-data-grid'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
@@ -34,7 +32,11 @@ import iconBack from '../../../assets/images/icono_flecha_atras.svg'
 import iconLoan from '../../../assets/images/icono_prestamos_mano.svg'
 import { IArticle } from '../../../interfaces/article.interface'
 import { nanoid } from 'nanoid'
-import { redirect, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
+import articleService from '../../../services/articleService'
+import { ICategory } from '../../../interfaces/category.interface'
+import categoryService from '../../../services/categoryService'
+import iconFolder from '../../../assets/images/icon_folder_upload.svg'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -49,8 +51,6 @@ const style = {
 	boxShadow: 24,
 	p: 4,
 }
-
-type Props = {}
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -181,10 +181,15 @@ const columns: GridColDef[] = [
 	},
 ]
 
-const Articles = (props: Props) => {
+const Articles = () => {
+	//Data
 	const [data, setData] = React.useState<any>([])
+	const [categories, setCategories] = useState<any>([])
 
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
+
+	//File
+	const [image, setImage] = useState<File | null>(null)
 
 	//Modal
 	const [open, setOpen] = React.useState(false)
@@ -204,10 +209,10 @@ const Articles = (props: Props) => {
 	const [shortDesc, setShortDesc] = React.useState('')
 	const [longDesc, setLongDesc] = React.useState('')
 	const [serial, setSerial] = React.useState('')
-	const [pricePaid, setPricePaid] = React.useState(0)
-	const [value, setValue] = React.useState(0)
-	const [loanFee, setLoanFee] = React.useState(0)
-	const [loanPeriod, setLoanPeriod] = React.useState(0)
+	const [pricePaid, setPricePaid] = React.useState('0')
+	const [value, setValue] = React.useState('0')
+	const [loanFee, setLoanFee] = React.useState('0')
+	const [loanPeriod, setLoanPeriod] = React.useState('0')
 	const [components, setComponents] = React.useState('')
 	const [careInfo, setCareInfo] = React.useState('')
 	const [ownedBy, setOwnedBy] = React.useState('')
@@ -215,7 +220,8 @@ const Articles = (props: Props) => {
 	const [category, setCategory] = React.useState('')
 	const [condition, setCondition] = React.useState('')
 	const [brand, setBrand] = React.useState('')
-	const [shownOnWeb, setShownOnWeb] = React.useState('false')
+	const [shownOnWeb, setShownOnWeb] = React.useState('true')
+	const [categoryId, setCategoryId] = React.useState('0')
 
 	const handleClick = (e: any) => {
 		e.preventDefault()
@@ -228,36 +234,52 @@ const Articles = (props: Props) => {
 			return
 		}
 
+		if (!image) {
+			console.log('There is no image')
+			return
+		}
+
+		const formData = new FormData()
+		formData.append('image', image)
+
 		const newObject: IArticle = {
-			id: nanoid(),
+			code: nanoid(),
 			name,
-			shortDesc,
-			longDesc,
-			serial,
-			pricePaid,
+			short_description: shortDesc,
+			long_description: longDesc,
+			serial_number: serial,
+			price_paid: pricePaid,
 			value,
-			loanFee,
-			loanPeriod,
+			loan_fee: loanFee,
+			loan_period: loanPeriod,
 			components,
-			careInfo,
-			ownedBy,
-			donatedBy,
+			care_information: careInfo,
+			owned_by: ownedBy,
+			donated_by: donatedBy,
 			condition,
 			brand,
-			shownOnWeb,
+			shown_on_website: shownOnWeb,
+			categoryIdCategory: categoryId,
 		}
-		setData([...data, newObject])
+
+		articleService
+			.createArticle(newObject, image)
+			.then((data) => {
+				data && console.log('Article enviat correctament')
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 
 		// Resetear los estados
-		setId('')
 		setName('')
 		setShortDesc('')
 		setLongDesc('')
 		setSerial('')
-		setPricePaid(0)
-		setValue(0)
-		setLoanFee(0)
-		setLoanPeriod(0)
+		setPricePaid('0')
+		setValue('0')
+		setLoanFee('0')
+		setLoanPeriod('0')
 		setComponents('')
 		setCareInfo('')
 		setOwnedBy('')
@@ -265,13 +287,32 @@ const Articles = (props: Props) => {
 		setCategory('')
 		setCondition('')
 		setBrand('')
-		setShownOnWeb('false')
+		setShownOnWeb('true')
+		setImage(null)
+		setCategoryId('0')
 
 		setIsOpenForm(!isOpenForm)
 	}
 	const handleChangeCategory = (event: SelectChangeEvent) => {
-		setCategory(event.target.value as string)
+		setCategoryId(event.target.value)
+		setCategory(event.target.value)
 	}
+
+	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const selectedImage = event.target.files ? event.target.files[0] : null
+		setImage(selectedImage)
+	}
+
+	useEffect(() => {
+		categoryService
+			.getData()
+			.then((data) => {
+				setCategories(data)
+			})
+			.catch((error: Error) => {
+				console.log(error)
+			})
+	}, [])
 
 	return (
 		<>
@@ -353,9 +394,12 @@ const Articles = (props: Props) => {
 												onChange={handleChangeCategory}
 											>
 												<MenuItem value="">Selecciona categoria</MenuItem>
-												<MenuItem value={10}>Eines de bricolatge</MenuItem>
-												<MenuItem value={20}>Nens petits</MenuItem>
-												<MenuItem value={30}>Ortopedia</MenuItem>
+												{categories &&
+													categories.map((category: ICategory, index: any) => (
+														<MenuItem key={index} value={category.idCategory}>
+															{category.category_name}
+														</MenuItem>
+													))}
 											</Select>
 											<TextareaAutosize
 												onChange={(e) => setShortDesc(e.target.value)}
@@ -398,11 +442,20 @@ const Articles = (props: Props) => {
 												}}
 											/>
 											<TextField
-												onChange={(e) => setPricePaid(Number(e.target.value))}
+												onChange={(e: any) => setPricePaid(e.target.value)}
+												onKeyPress={(e: any) => {
+													const charCode = e.which ? e.which : e.keyCode
+													if (
+														charCode > 31 &&
+														(charCode < 48 || charCode > 57)
+													) {
+														e.preventDefault()
+													}
+												}}
 												id="input-preupagat"
 												label="Preu pagat"
 												variant="outlined"
-												type="Number"
+												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
 												sx={{ width: { xs: '92%', sm: '50%' } }}
 												InputLabelProps={{
@@ -411,12 +464,22 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
+
 											<TextField
-												onChange={(e) => setValue(Number(e.target.value))}
+												onChange={(e: any) => setValue(e.target.value)}
+												onKeyPress={(e: any) => {
+													const charCode = e.which ? e.which : e.keyCode
+													if (
+														charCode > 31 &&
+														(charCode < 48 || charCode > 57)
+													) {
+														e.preventDefault()
+													}
+												}}
 												id="input-valor"
 												label="Valor"
 												variant="outlined"
-												type="Number"
+												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
 												sx={{ width: { xs: '92%', sm: '40%' } }}
 												InputLabelProps={{
@@ -425,12 +488,22 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
+
 											<TextField
-												onChange={(e) => setLoanFee(Number(e.target.value))}
+												onChange={(e: any) => setLoanFee(e.target.value)}
+												onKeyPress={(e: any) => {
+													const charCode = e.which ? e.which : e.keyCode
+													if (
+														charCode > 31 &&
+														(charCode < 48 || charCode > 57)
+													) {
+														e.preventDefault()
+													}
+												}}
 												id="input-preu"
 												label="Preu"
 												variant="outlined"
-												type="Number"
+												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
 												sx={{ width: { xs: '92%', sm: '50%' } }}
 												InputLabelProps={{
@@ -439,13 +512,27 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
+
 											<TextField
-												onChange={(e) => setLoanPeriod(Number(e.target.value))}
+												onChange={(e: any) => {
+													setLoanPeriod(e.target.value)
+												}}
+												onKeyPress={(e: any) => {
+													const charCode = e.which ? e.which : e.keyCode
+													if (
+														charCode > 31 &&
+														(charCode < 48 || charCode > 57)
+													) {
+														e.preventDefault()
+													}
+												}}
 												id="input-period"
-												label="Periode (dies)"
+												label="Periode prèstec (dies)"
 												variant="outlined"
-												type="Number"
-												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												type="number"
+												InputProps={{
+													inputProps: { min: 0, max: 1000 },
+												}}
 												sx={{ width: { xs: '92%', sm: '40%' } }}
 												InputLabelProps={{
 													style: {
@@ -453,6 +540,7 @@ const Articles = (props: Props) => {
 													},
 												}}
 											/>
+
 											<TextField
 												onChange={(e) => setComponents(e.target.value)}
 												id="input-components"
@@ -534,6 +622,25 @@ const Articles = (props: Props) => {
 													label="Privat"
 												/>
 											</RadioGroup>
+											<Button
+												sx={{
+													width: { xs: '92%', sm: '92%' },
+													paddingTop: '10px',
+													paddingBottom: '10px',
+												}}
+												variant="contained"
+												component="label"
+											>
+												<img src={iconFolder} alt="carpeta" />
+												&nbsp; Imatge *
+												<input
+													onChange={handleFileSelect}
+													type="file"
+													id="file_input"
+													accept="image/*"
+													hidden
+												/>
+											</Button>
 										</FormControl>
 									</Box>
 									<Box
