@@ -1,19 +1,20 @@
 export interface IArticle {
-  id:string;
+  code: string;
   name: string;
-  shortDesc: string;
-  longDesc: string;
-  serial: string;
-  pricePaid: number;
-  value: number;
-  loanFee: number;
-  loanPeriod: number;
+  short_description: string;
+  long_description: string;
+  serial_number: string;
+  price_paid: string;
+  value: string;
+  loan_fee: string;
+  loan_period: string;
   components: string;
-  careInfo: string;
-  ownedBy: string;
-  donatedBy: string;
+  care_information: string;
+  owned_by: string;
+  donated_by: string;
   condition: string;
   brand: string;
-  shownOnWeb: string;
+  shown_on_website: string;
+  categoryIdCategory:string;
 
 }
