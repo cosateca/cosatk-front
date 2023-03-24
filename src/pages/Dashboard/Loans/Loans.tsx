@@ -11,7 +11,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
@@ -25,6 +25,8 @@ import {
 	GridRenderCellParams,
 } from '@mui/x-data-grid'
 import { nanoid } from 'nanoid'
+import {getLoanRequest} from '../../../services/loans/loansService'
+import { ILoans } from '../../../interfaces/loans.interface'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -44,24 +46,28 @@ type Props = {}
 
 //Data Grid
 const columns: GridColDef[] = [
+
+
 	{
 		field: 'remove',
 		headerName: 'Eliminar',
 		sortable: false,
 		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
+		renderCell: (params: GridRenderCellParams<ILoans>) => {
 			const onClick = (e: any) => {
 				e.stopPropagation() // don't select this row after clicking
 
 				const api: GridApi = params.api
 				const thisRow: Record<string, GridCellValue> = {}
 
+				
+
 				api
 					.getAllColumns()
 					.filter((c) => c.field !== '__check__' && !!c)
 					.forEach(
 						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+							(thisRow [c.field] = params.getValue(params.id, c.field) || '')
 					)
 				return alert(JSON.stringify(thisRow, null, 4))
 			}
@@ -117,25 +123,31 @@ const columns: GridColDef[] = [
 			)
 		},
 	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'articleName', headerName: 'Nom article', width: 190 },
+	{ field: 'idLoan', headerName: 'ID', width: 70 },
+	{ field: 'articleName', 
+	headerName: 'Nom article', 
+	width: 190,
+	renderCell: (params) => { return params.row.article.name }
+	},
 	{
-		field: 'personName',
+		field: 'user.first_name',
 		headerName: 'Nom',
 		width: 140,
+		renderCell: (params) => { return params.row.user.first_name }
 	},
 	{
 		field: 'personLastName',
 		headerName: 'Cognoms',
 		width: 190,
+		renderCell: (params) => { return params.row.user.last_name }
 	},
 	{
-		field: 'checkinDate',
+		field: 'checked_in',
 		headerName: 'Data inici',
 		width: 120,
 	},
 	{
-		field: 'checkoutDate',
+		field: 'checked_out',
 		headerName: 'Data fi',
 		width: 120,
 	},
@@ -145,15 +157,15 @@ const Loans = (props: Props) => {
 	const [estat, setEstat] = React.useState('')
 
 	//Data
-	const [data, setData] = useState<any>([
-		{
-			id: nanoid(),
-			articleName: 'Crosses',
-			personName: 'Jose',
-			personLastName: 'Mata Mateo',
-			checkinDate: '24/05/2022',
-			checkoutDate: '24/06/2022',
-		},
+	const [data, setData] = useState<ILoans[]>([
+		// {
+		// 	id: nanoid(),
+		// 	articleName: 'Crossessssssss',
+		// 	personName: 'Jose',
+		// 	personLastName: 'Mata Mateo',
+		// 	checkinDate: '24/05/2022',
+		// 	checkoutDate: '24/06/2022',
+		// },
 	])
 
 	//Modal
@@ -164,6 +176,16 @@ const Loans = (props: Props) => {
 	const handleChange = (event: SelectChangeEvent) => {
 		setEstat(event.target.value as string)
 	}
+
+	useEffect (()=>{
+		async function loandLoan (){
+			const response = await getLoanRequest()
+			console.log(response.data)
+			setData(response.data)
+		}
+		loandLoan()
+	
+	}, [])
 
 	return (
 		<>
@@ -207,7 +229,9 @@ const Loans = (props: Props) => {
 											color: '#222222',
 										},
 									}}
+									
 								/>
+								<h1>{}</h1>
 								<TextField
 									id="input-nom"
 									label="Cerca per nom"
@@ -258,6 +282,7 @@ const Loans = (props: Props) => {
 								<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 									<DataGrid
 										rows={data}
+										getRowId={(row: any) => row.idLoan}
 										columns={columns}
 										disableSelectionOnClick
 									/>
