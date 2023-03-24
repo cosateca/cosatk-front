@@ -15,7 +15,7 @@ import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
 import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
-import CustomizedAccordions from '../../components/Faqs/Faqs'
+import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
 import { getArticles } from '../../services/HomePage/homeService'
 // import { Article } from '../../components/CardProduct/CardProduct'
@@ -186,7 +186,8 @@ loadhome();
 				textAlign: 'center',
 				marginBottom: '20px',
 			}}
-			>Preguntes freqüents</Typography>
+			>Te explicamos cómo funciona la
+			Biblioteca de las Cosas en 5 sencillos pasos</Typography>
 			<CustomizedAccordions/>			
 			</Box>
 			<Footer/>
