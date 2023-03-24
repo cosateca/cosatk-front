@@ -2,7 +2,8 @@ import axios from 'axios'
 import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
-const API_URL = `${URLBASE}/user`
+const API_URL_USER = `${URLBASE}/user`
+const API_URL = `${URLBASE}/auth/register`
 const API_URL_LOGIN = `${URLBASE}/auth/login`
 
 export const registerUser = async (data: any): Promise<any> => {
@@ -27,7 +28,7 @@ export const loginUser = async (data: { email: string; password: string }) => {
 }
 export const findUserById = async (id: string) => {
 	try {
-		const response = await axios.get(API_URL + '/' + id)
+		const response = await axios.get(API_URL_USER + '/' + id)
 		return response.data
 	} catch (error) {
 		console.log(error)

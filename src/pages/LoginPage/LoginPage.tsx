@@ -50,9 +50,16 @@ const LoginPage = () => {
 						msg: 'Login correcte! Seràs redirigit en un instant...',
 						isError: false,
 					})
-					setTimeout(() => {
-						navigate('/')
-					}, 3000)
+
+					if (user.role === 'user') {
+						setTimeout(() => {
+							navigate('/')
+						}, 3000)
+					} else if (user.role === 'admin') {
+						setTimeout(() => {
+							navigate('/dashboard/loans')
+						}, 3000)
+					}
 				} else {
 					setAlert({ msg: "Error quan s'intentava el login", isError: true })
 				}

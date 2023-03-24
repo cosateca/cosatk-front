@@ -21,6 +21,7 @@ import {
 	GridApi,
 	GridCellValue,
 	GridRenderCellParams,
+	GridValueGetterParams,
 } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
@@ -37,6 +38,8 @@ import articleService from '../../../services/articleService'
 import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
 import iconFolder from '../../../assets/images/icon_folder_upload.svg'
+import FormAlert from '../../../components/FormAlert/FormAlert'
+import BasicModal from '../../../components/BasicModal/BasicModal'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -60,6 +63,7 @@ const columns: GridColDef[] = [
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
+			const navigate = useNavigate()
 			const onClick = (e: any) => {
 				e.stopPropagation() // don't select this row after clicking
 
@@ -73,7 +77,8 @@ const columns: GridColDef[] = [
 						(c) =>
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
-				return alert(JSON.stringify(thisRow, null, 4))
+
+				return navigate(`/dashboard/deletearticle/${thisRow.code}`)
 			}
 
 			return (
@@ -89,6 +94,66 @@ const columns: GridColDef[] = [
 				</Button>
 			)
 		},
+		// renderCell: (params: GridRenderCellParams<any>) => {
+		// 	//Codigo
+		// 	// const [code, setCode] = useState<string | undefined>('')
+
+		// 	// const handleOpen = () => setOpen(true)
+
+		// 	//Modal
+		// 	// const [open, setOpen] = React.useState(false)
+
+		// 	const onClick = (e: any) => {
+		// 		e.stopPropagation() // don't select this row after clicking
+		// 		// setOpen(!open)
+
+		// 		const api: GridApi = params.api
+		// 		const thisRow: Record<string, GridCellValue> = {}
+
+		// 		api
+		// 			.getAllColumns()
+		// 			.filter((c) => c.field !== '__check__' && !!c)
+		// 			.forEach(
+		// 				(c) =>
+		// 					(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+		// 			)
+		// 		// setCode(thisRow.code?.toString())
+		// 		// const handleClose = () => {
+		// 		// 	//buscar un article amb aquest codi i eliminar, api service
+		// 		// 	useEffect(() => {
+		// 		// 		if (code) {
+		// 		// 			articleService
+		// 		// 				.deleteArticle(code)
+		// 		// 				.then((data: any) => {
+		// 		// 					console.log(data)
+		// 		// 				})
+		// 		// 				.catch((error: Error) => {
+		// 		// 					console.log(error)
+		// 		// 				})
+		// 		// 		}
+		// 		// 	}, [])
+
+		// 		// 	setOpen(false)
+		// 		// }
+
+		// 		// return alert(JSON.stringify(thisRow, null, 4))
+		// 	}
+
+		// 	return (
+		// 		<>
+		// 			<Button
+		// 				sx={{
+		// 					display: 'flex',
+		// 					justifyContent: 'flex-start',
+		// 					borderRadius: '0px',
+		// 				}}
+		// 				onClick={onClick}
+		// 			>
+		// 				<img src={iconTrash} alt="eliminar" />
+		// 			</Button>
+		// 		</>
+		// 	)
+		// },
 	},
 	{
 		field: 'edit',
@@ -148,7 +213,7 @@ const columns: GridColDef[] = [
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
 
-				return navigate(`/dashboard/newloan/${thisRow.id}`)
+				return navigate(`/dashboard/newloan/${thisRow.code}`)
 			}
 
 			return (
@@ -165,18 +230,24 @@ const columns: GridColDef[] = [
 			)
 		},
 	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'name', headerName: 'Nom', width: 130 },
+	{ field: 'code', headerName: 'Codi', width: 150 },
+	{ field: 'name', headerName: 'Nom', width: 200 },
 	{
-		field: 'loanFee',
+		field: 'loan_fee',
 		headerName: 'Preu',
 		type: 'number',
 		width: 90,
 	},
 	{
-		field: 'loanPeriod',
+		field: 'loan_period',
 		headerName: 'Periode',
 		type: 'number',
+		width: 90,
+	},
+	{
+		field: 'is_on_loan',
+		headerName: 'En prèstec',
+		type: 'boolean',
 		width: 90,
 	},
 ]
@@ -184,18 +255,13 @@ const columns: GridColDef[] = [
 const Articles = () => {
 	//Data
 	const [data, setData] = React.useState<any>([])
+	const [data_categories, setData_categories] = React.useState<any>([])
 	const [categories, setCategories] = useState<any>([])
 
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
 
 	//File
 	const [image, setImage] = useState<File | null>(null)
-
-	//Modal
-	const [open, setOpen] = React.useState(false)
-
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setPrestecEnCurs(event.target.value as string)
@@ -223,6 +289,13 @@ const Articles = () => {
 	const [shownOnWeb, setShownOnWeb] = React.useState('true')
 	const [categoryId, setCategoryId] = React.useState('0')
 
+	//Trigger
+	const [trigger, setTrigger] = React.useState(false)
+
+	//Alert
+	const [alert, setAlert] = useState<any>({})
+	const { msg } = alert
+
 	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
@@ -231,10 +304,28 @@ const Articles = () => {
 		e.preventDefault()
 
 		if (name === '') {
+			setAlert({
+				msg: 'El camp del nom és obligatori',
+				isError: true,
+			})
+			console.log('There is no name')
+			return
+		}
+
+		if (category === '') {
+			setAlert({
+				msg: 'El camp de la categoria és obligatori',
+				isError: true,
+			})
+			console.log('There is no category')
 			return
 		}
 
 		if (!image) {
+			setAlert({
+				msg: 'La imatge és necessària',
+				isError: true,
+			})
 			console.log('There is no image')
 			return
 		}
@@ -243,7 +334,7 @@ const Articles = () => {
 		formData.append('image', image)
 
 		const newObject: IArticle = {
-			code: nanoid(),
+			code: nanoid(10),
 			name,
 			short_description: shortDesc,
 			long_description: longDesc,
@@ -266,6 +357,10 @@ const Articles = () => {
 			.createArticle(newObject, image)
 			.then((data) => {
 				data && console.log('Article enviat correctament')
+				setAlert({
+					msg: 'Article introduït correctament, seràs redirigit al llistat...',
+					isError: false,
+				})
 			})
 			.catch((error) => {
 				console.log(error)
@@ -290,9 +385,14 @@ const Articles = () => {
 		setShownOnWeb('true')
 		setImage(null)
 		setCategoryId('0')
+		setTrigger(!trigger)
 
-		setIsOpenForm(!isOpenForm)
+		setTimeout(() => {
+			setAlert({})
+			setIsOpenForm(!isOpenForm)
+		}, 3000)
 	}
+
 	const handleChangeCategory = (event: SelectChangeEvent) => {
 		setCategoryId(event.target.value)
 		setCategory(event.target.value)
@@ -303,16 +403,29 @@ const Articles = () => {
 		setImage(selectedImage)
 	}
 
+	//Bring categories
 	useEffect(() => {
 		categoryService
 			.getData()
-			.then((data) => {
-				setCategories(data)
+			.then((data_categories) => {
+				setCategories(data_categories)
 			})
 			.catch((error: Error) => {
 				console.log(error)
 			})
 	}, [])
+
+	//Bring articles
+	useEffect(() => {
+		articleService
+			.getArticles()
+			.then((data: IArticle[]) => {
+				setData(data)
+			})
+			.catch((error: Error) => {
+				console.log(error)
+			})
+	}, [trigger])
 
 	return (
 		<>
@@ -393,7 +506,7 @@ const Articles = () => {
 												label="Categoria"
 												onChange={handleChangeCategory}
 											>
-												<MenuItem value="">Selecciona categoria</MenuItem>
+												<MenuItem value="">Selecciona categoria *</MenuItem>
 												{categories &&
 													categories.map((category: ICategory, index: any) => (
 														<MenuItem key={index} value={category.idCategory}>
@@ -665,6 +778,7 @@ const Articles = () => {
 											<img src={iconNew} alt="nou" />
 										</Button>
 									</Box>
+									{msg && <FormAlert alert={alert} />}
 								</Box>
 							) : (
 								<>
@@ -740,6 +854,7 @@ const Articles = () => {
 									>
 										<DataGrid
 											rows={data}
+											getRowId={(row: any) => row.idArticle}
 											columns={columns}
 											disableSelectionOnClick
 										/>
@@ -747,30 +862,6 @@ const Articles = () => {
 								</>
 							)}
 						</Box>
-						<Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirmar eliminar
-								</Typography>
-								<Button
-									onClick={handleClose}
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									OK
-								</Button>
-							</Box>
-						</Modal>
 					</Container>
 				</section>
 			</Box>

@@ -1,6 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { Container, Button, Box, Typography, AccordionActionsClasses } from '@mui/material'
-
+import {
+	Container,
+	Button,
+	Box,
+	Typography,
+	AccordionActionsClasses,
+} from '@mui/material'
 
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
@@ -17,59 +22,67 @@ import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
 import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
 import CustomizedAccordions from '../../components/Faqs/Faqs'
 import { useEffect, useState } from 'react'
-import { getArticles } from '../../services/HomePage/homeService'
+import {
+	getArticles,
+	getArticleImage,
+} from '../../services/HomePage/homeService'
 // import { Article } from '../../components/CardProduct/CardProduct'
-
-
-
 
 // type Props = {}
 
-const HomePage = ( ) => {
+const HomePage = () => {
+	const [articles, setArticle] = useState<Article[]>([])
+	const [image, setImage] = useState<any>(null)
 
-const [articles, setArticle]= useState <Article[]>([])
+	useEffect(() => {
+		async function loadhome() {
+			const response = await getArticles()
+			setArticle(response)
+		}
+		loadhome()
+	}, [])
 
-useEffect(() =>{
-	async function loadhome() {
-		const response = await getArticles()
-		console.log(response.data)
-			setArticle (response.data)
-}
-loadhome();
-},[])
+	useEffect(() => {
+		async function loadhome() {
+			const response = await getArticleImage('1')
 
+			setImage(response)
+		}
+		loadhome()
+	}, [])
 
 	return (
 		<>
-			<Header/>
-			<ResponsiveAppBar/>
+			<Header />
+			<ResponsiveAppBar />
 			<Box
-			sx={{
-				backgroundImage: 'url(https://cdn.pixabay.com/photo/2015/08/19/05/23/banner-895571_1280.jpg)',
-				width: '100%',
-				height: '250px',
-				display: 'flex',
-				flexDirection: 'row',
-				flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-				justifyContent: 'space-evenly',
-				alignItems: 'center',
-			}}
-			>
-				<Box
 				sx={{
+					backgroundImage:
+						'url(https://cdn.pixabay.com/photo/2015/08/19/05/23/banner-895571_1280.jpg)',
 					width: '100%',
+					height: '250px',
 					display: 'flex',
 					flexDirection: 'row',
 					flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-					justifyContent: 'space-around',
+					justifyContent: 'space-evenly',
 					alignItems: 'center',
 				}}
+			>
+				<Box
+					sx={{
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'row',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
+						justifyContent: 'space-around',
+						alignItems: 'center',
+					}}
 				>
 					<Box
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagetools}
@@ -78,7 +91,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagebaby}
@@ -87,7 +100,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagehandicap}
@@ -96,7 +109,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagebike}
@@ -116,7 +129,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagepet}
@@ -125,7 +138,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imagebbq}
@@ -134,7 +147,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imageartist}
@@ -143,7 +156,7 @@ loadhome();
 						component="img"
 						sx={{
 							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-							height: { xs: '90px', sm: '100px',md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
 						}}
 						alt="The house from the offer."
 						src={imageprueba}
@@ -151,45 +164,46 @@ loadhome();
 				</Box>
 			</Box>
 			<Container>
-				<FilterHomePage/>
+				<FilterHomePage />
 				<h2>ARTICLES POPULARS</h2>
-					<Box
+				<Box
 					sx={{
 						display: 'flex',
 						flexDirection: { xs: 'column', sm: 'row' },
 						gap: '20px',
 					}}
-					>
-						{articles.map((article, index) =>(
-						<CardProduct article={article} key={index}/>
-						))}
-					</Box>
+				>
+					{articles.map((article, index) => (
+						<CardProduct article={article} key={index} />
+					))}
+				</Box>
 				<h2>ARTICLES POPULARS</h2>
 				<Box
-				sx={{
-					display: 'flex',
-					flexDirection: { xs: 'column', sm: 'row' },
-					gap: '20px',
-				}}
-				>
-				</Box>
+					sx={{
+						display: 'flex',
+						flexDirection: { xs: 'column', sm: 'row' },
+						gap: '20px',
+					}}
+				></Box>
 			</Container>
 			<Box
-			sx={{
-				backgroundColor: '#F9F9F9',
-				marginTop: '30px',
-				padding: '20px',
-			}}
+				sx={{
+					backgroundColor: '#F9F9F9',
+					marginTop: '30px',
+					padding: '20px',
+				}}
 			>
-			<Typography
-			sx={{
-				textAlign: 'center',
-				marginBottom: '20px',
-			}}
-			>Preguntes freqüents</Typography>
-			<CustomizedAccordions/>			
+				<Typography
+					sx={{
+						textAlign: 'center',
+						marginBottom: '20px',
+					}}
+				>
+					Preguntes freqüents
+				</Typography>
+				<CustomizedAccordions />
 			</Box>
-			<Footer/>
+			<Footer />
 		</>
 	)
 }
