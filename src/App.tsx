@@ -13,6 +13,7 @@ import HomePage from './pages/HomePage/HomePage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import NotFound from './pages/NotFoundPage/NotFound'
 import Register from './pages/Register/Register'
+import CataloguePage from './pages/CataloguePage/CataloguePage'
 import './styles/index.css'
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 							<Route path="/dashboard/categories" element={<Categories />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/register" element={<Register />} />
+							<Route path="/catalogue" element={<CataloguePage />} />
 							<Route path="*" element={<NotFound />} />
 						</Route>
 					</Routes>

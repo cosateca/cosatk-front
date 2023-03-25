@@ -5,12 +5,11 @@ import { Container, Button, Box, Typography, AccordionActionsClasses } from '@mu
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
-import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
-import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
 import { getArticles } from '../../services/HomePage/homeService'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
+import MenuHome from '../../components/MenuHome/MenuHome'
 // import { Article } from '../../components/CardProduct/CardProduct'
 
 
@@ -35,10 +34,9 @@ loadhome();
 	return (
 		<>
 			<Header/>
-			<ResponsiveAppBar/>
+			<MenuHome/>
 			<BannerHomePage/>
 			<Container>
-				{/* <FilterHomePage/> */}
 				<h2>Articles populars</h2>
 					<Box
 					sx={{
