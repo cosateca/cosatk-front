@@ -31,21 +31,6 @@ import {
 	GridCellValue,
 	DataGrid,
 } from '@mui/x-data-grid'
-import { nanoid } from 'nanoid'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
 
 type Props = {}
 
@@ -171,19 +156,17 @@ const Users = (props: Props) => {
 		}
 
 		const newObject: IUser = {
-			id: nanoid(),
-			name,
-			lastName,
+			first_name: name,
+			last_name: lastName,
 			email,
 			dni,
 			phone,
 			adress,
 			city,
 			membership,
-			birthDate,
-			howMeet,
-			subscriber: 0,
-			addedOn: new Date(),
+			birth_date: birthDate,
+			how_meet_us: howMeet,
+			subscriber,
 		}
 		setData([...data, newObject])
 
@@ -201,7 +184,9 @@ const Users = (props: Props) => {
 		setPhone(0)
 		setSubscriber(0)
 
-		console.log('New user added: ' + newObject.name + ' ' + newObject.lastName)
+		console.log(
+			'New user added: ' + newObject.first_name + ' ' + newObject.last_name
+		)
 		setIsOpenForm(!isOpenForm)
 	}
 

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ICategory } from '../interfaces/category.interface'
+import { IUser } from '../interfaces/user.interface'
 import URLBASE from './urlConstants'
 
 const API_URL_USER = `${URLBASE}/user`
@@ -29,6 +30,15 @@ export const loginUser = async (data: { email: string; password: string }) => {
 export const findUserById = async (id: string) => {
 	try {
 		const response = await axios.get(API_URL_USER + '/' + id)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const createUserFromDashboard = async (userDto: IUser) => {
+	try {
+		const response = await axios.post(API_URL_USER, userDto)
 		return response.data
 	} catch (error) {
 		console.log(error)
