@@ -273,7 +273,7 @@ const Categories = (props: Props) => {
 									<Box
 										sx={{
 											display: 'flex',
-											flexDirection: { xs: 'column', sm: 'row' },
+											flexDirection: { xs: 'row', sm: 'row' },
 											justifyContent: 'flex-start',
 											alignItems: 'center',
 										}}
@@ -281,7 +281,7 @@ const Categories = (props: Props) => {
 										<FormControl
 											sx={{
 												display: 'flex',
-												flexDirection: { xs: 'column', sm: 'row' },
+												flexDirection: { xs: 'row', sm: 'row' },
 												justifyContent: 'flex-start',
 												alignItems: 'center',
 												gap: '20px',

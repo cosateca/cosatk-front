@@ -788,6 +788,7 @@ const Articles = () => {
 											flexDirection: { xs: 'column', sm: 'row' },
 											justifyContent: 'flex-start',
 											alignItems: 'center',
+											gap: '20px',
 										}}
 									>
 										<FormControl

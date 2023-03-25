@@ -25,12 +25,6 @@ const Navigation = () => {
 		navigate('/dashboard/loans')
 	}
 
-	// const handleLogout = () => {
-	// 	setAuth(null)
-	// 	localStorage.removeItem('token')
-	// 	navigate('/')
-	// }
-
 	return (
 		<div>
 			<header>
@@ -70,10 +64,20 @@ const Navigation = () => {
 										display: 'flex',
 										flexDirection: { xs: 'row', sm: 'column' },
 										width: { xs: 'auto', sm: '250px' },
+										// gap: '20px',
 									}}
 								>
 									<ListItem disablePadding>
-										<ListItemButton component={Link} to="/dashboard/loans">
+										<ListItemButton
+											component={Link}
+											to="/dashboard/loans"
+											sx={{
+												padding: { xs: '0', sm: '15px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
 											<ListItemIcon>
 												<Box
 													display={{ xs: 'flex' }}
@@ -94,7 +98,16 @@ const Navigation = () => {
 										</ListItemButton>
 									</ListItem>
 									<ListItem disablePadding>
-										<ListItemButton component={Link} to="/dashboard/users">
+										<ListItemButton
+											component={Link}
+											to="/dashboard/users"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
 											<ListItemIcon>
 												<Box
 													display={{ xs: 'flex' }}
@@ -115,7 +128,16 @@ const Navigation = () => {
 										</ListItemButton>
 									</ListItem>
 									<ListItem disablePadding>
-										<ListItemButton component={Link} to="/dashboard/articles">
+										<ListItemButton
+											component={Link}
+											to="/dashboard/articles"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
 											<ListItemIcon>
 												<Box
 													display={{ xs: 'flex' }}
@@ -136,7 +158,16 @@ const Navigation = () => {
 										</ListItemButton>
 									</ListItem>
 									<ListItem disablePadding>
-										<ListItemButton component={Link} to="/dashboard/categories">
+										<ListItemButton
+											component={Link}
+											to="/dashboard/categories"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
 											<ListItemIcon>
 												<Box
 													display={{ xs: 'flex' }}
@@ -162,7 +193,16 @@ const Navigation = () => {
 											display: { xs: 'flex', sm: 'none' },
 										}}
 									>
-										<ListItemButton component={Link} to="/">
+										<ListItemButton
+											component={Link}
+											to="/"
+											sx={{
+												display: 'flex',
+												justifyContent: 'center',
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+											}}
+										>
 											<ListItemIcon>
 												<Box
 													display={{ xs: 'flex' }}
@@ -185,7 +225,40 @@ const Navigation = () => {
 								</List>
 							</nav>
 						) : (
-							<Box></Box>
+							<nav>
+								<List>
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/myloans"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconLoan} alt="Icona prèstecs" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Prèstecs"
+											/>
+										</ListItemButton>
+									</ListItem>
+								</List>
+							</nav>
 						)}
 						<Box
 							display={{ xs: 'none', sm: 'flex' }}

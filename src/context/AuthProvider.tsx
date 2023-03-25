@@ -23,19 +23,22 @@ export const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider: any = ({ children }: any): any => {
 	const [auth, setAuth] = useState<User | null>(null)
-	const [loading_user, setLoading_user] = useState<boolean>(false)
 
 	useEffect(() => {
+		console.log('User auth: ' + auth?.id)
 		const authenticateUser = async () => {
 			const token = localStorage.getItem('token')
 			if (!token) {
-				setLoading_user(false)
 				console.log('Token not found')
 				return
 			}
+			console.log('Token found')
 
+			//Decode Token
 			const decodedToken: { email: string; id: string; role: string } =
 				jwt_decode(token)
+
+			console.log('AuthProvider, from auth: ' + decodedToken.email)
 
 			const authData = {
 				email: decodedToken.email,
@@ -43,6 +46,7 @@ const AuthProvider: any = ({ children }: any): any => {
 				role: decodedToken.role,
 			}
 
+			//Find user
 			try {
 				const userData = await findUserById(authData.id)
 				// delete userData.password
@@ -53,7 +57,7 @@ const AuthProvider: any = ({ children }: any): any => {
 			}
 		}
 		authenticateUser()
-	}, [auth])
+	}, [auth?.id])
 
 	const navigate = useNavigate()
 

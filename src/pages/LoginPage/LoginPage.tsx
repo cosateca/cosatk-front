@@ -53,7 +53,7 @@ const LoginPage = () => {
 
 					if (user.role === 'user') {
 						setTimeout(() => {
-							navigate('/')
+							navigate('/dashboard')
 						}, 3000)
 					} else if (user.role === 'admin') {
 						setTimeout(() => {
