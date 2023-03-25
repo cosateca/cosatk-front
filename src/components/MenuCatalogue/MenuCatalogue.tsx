@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 const pages = ['Bricolatge i jardineria', 'Criança', 'Neteja i llar', 'Oci i aventura', 'Oficina', 'Salut i cures'];
 // const pages = [
@@ -44,9 +45,8 @@ function MenuCatalogue() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          
-          {/* <Typography
+          <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }} />
+          <Typography
             variant="h6"
             noWrap
             component="a"
@@ -54,15 +54,17 @@ function MenuCatalogue() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              fontFamily: 'Open Sans',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              // letterSpacing: '.1rem',
+              // color: 'inherit',
               textDecoration: 'none',
+              color: 'white',
             }}
+           
           >
-            LOGO
-          </Typography> */}
+            HOME
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -71,7 +73,8 @@ function MenuCatalogue() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              // color="disabled"
+              sx={{ color: "white" }}
             >
               <MenuIcon />
             </IconButton>
@@ -100,26 +103,28 @@ function MenuCatalogue() {
               ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           
-          {/* <Typography
+          <HomeIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'white' }} />
+          
+          <Typography
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
+              // flexGrow: 1,
+              fontFamily: 'Open Sans',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              // letterSpacing: '.1rem',
+              // color: 'inherit',
               textDecoration: 'none',
+              color: 'white',
             }}
           >
-            LOGO
-          </Typography> */}
+            HOME
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
             {pages.map((page) => (
               <Button
