@@ -38,28 +38,23 @@ loadhome();
 			<ResponsiveAppBar/>
 			<BannerHomePage/>
 			<Container>
-				<FilterHomePage/>
-				<h2>ARTICLES POPULARS</h2>
+				{/* <FilterHomePage/> */}
+				<h2>Articles populars</h2>
 					<Box
 					sx={{
 						display: 'flex',
 						flexDirection: { xs: 'column', sm: 'row' },
-						gap: '20px',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'wrap', lg: 'wrap' },
+						gap: '40px',
+						marginTop: '50px',
+						marginBottom: '50px',
 					}}
 					>
 						{articles.map((article, index) =>(
 						<CardProduct article={article} key={index}/>
 						))}
 					</Box>
-				<h2>ARTICLES POPULARS</h2>
-				<Box
-				sx={{
-					display: 'flex',
-					flexDirection: { xs: 'column', sm: 'row' },
-					gap: '20px',
-				}}
-				>
-				</Box>
+				<h2>Afegits recentment</h2>
 			</Container>
 			<Box
 			sx={{

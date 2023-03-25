@@ -23,6 +23,7 @@ const BannerHomePage = (props: Props) => {
 				flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
 				justifyContent: 'space-evenly',
 				alignItems: 'center',
+				marginBottom: '100px',
 			}}
 			>
 				<Box
