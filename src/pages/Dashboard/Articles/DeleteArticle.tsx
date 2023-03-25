@@ -14,6 +14,10 @@ const DeleteArticle = () => {
 	const [alert, setAlert] = useState<any>({})
 	const { msg } = alert
 
+	const handleSkip = () => {
+		navigate('/dashboard/articles')
+	}
+
 	const handleDelete = () => {
 		if (id) {
 			articleService
@@ -21,7 +25,7 @@ const DeleteArticle = () => {
 				.then((data: any) => {
 					console.log(data)
 					setAlert({
-						msg: 'Article eliminat correctament, seràs redirigit...',
+						msg: 'Article eliminat correctament, redirigint...',
 						isError: false,
 					})
 					setTimeout(() => {
@@ -30,7 +34,7 @@ const DeleteArticle = () => {
 				})
 				.catch((error: Error) => {
 					setAlert({
-						msg: 'Error inesperat, seràs redirigit...',
+						msg: 'Error inesperat, redirigint...',
 						isError: true,
 					})
 					setTimeout(() => {
@@ -61,7 +65,7 @@ const DeleteArticle = () => {
 							sx={{
 								display: 'flex',
 								marginBottom: '20px',
-								marginTop: '20px',
+								marginTop: '70px',
 								height: '55px',
 							}}
 						>
@@ -75,6 +79,16 @@ const DeleteArticle = () => {
 							variant="contained"
 						>
 							Confirmar
+						</Button>
+						<Button
+							sx={{
+								marginBottom: { xs: '25px', sm: '50px' },
+								marginLeft: { xs: '15px', sm: '20px' },
+							}}
+							onClick={handleSkip}
+							variant="contained"
+						>
+							Descartar
 						</Button>
 						{msg && <FormAlert alert={alert} />}
 					</Container>

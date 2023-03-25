@@ -32,12 +32,12 @@ const CardProduct = ({ article }: any) => {
 	const [image, setImage] = useState<any>(null)
 
 	useEffect(() => {
-		async function loadhome() {
+		async function getImg() {
 			const response = await getArticleImage(article.idArticle)
 
 			setImage(response)
 		}
-		loadhome()
+		getImg()
 	}, [])
 
 	return (

@@ -1,10 +1,12 @@
 import { useState, useEffect, createContext } from 'react'
 import { findUserById } from '../services/userService'
 import jwt_decode from 'jwt-decode'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
 	auth: User | null
 	setAuth: (auth: User | null) => void
+	logout: () => void
 }
 
 interface User {
@@ -16,6 +18,7 @@ interface User {
 export const AuthContext = createContext<AuthContextType>({
 	auth: null,
 	setAuth: () => {},
+	logout: () => {},
 })
 
 const AuthProvider: any = ({ children }: any): any => {
@@ -52,8 +55,16 @@ const AuthProvider: any = ({ children }: any): any => {
 		authenticateUser()
 	}, [auth])
 
+	const navigate = useNavigate()
+
+	const logout = () => {
+		setAuth(null)
+		localStorage.removeItem('token')
+		navigate('/')
+	}
+
 	return (
-		<AuthContext.Provider value={{ auth, setAuth }}>
+		<AuthContext.Provider value={{ auth, setAuth, logout }}>
 			{children}
 		</AuthContext.Provider>
 	)

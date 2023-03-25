@@ -19,16 +19,17 @@ import useAuth from '../../hooks/useAuth'
 
 const Navigation = () => {
 	const navigate = useNavigate()
+	const { auth, logout } = useAuth()
 
 	const handleClick = () => {
 		navigate('/dashboard/loans')
 	}
 
-	const handleLogout = () => {
-		//
-	}
-
-	const { auth } = useAuth()
+	// const handleLogout = () => {
+	// 	setAuth(null)
+	// 	localStorage.removeItem('token')
+	// 	navigate('/')
+	// }
 
 	return (
 		<div>
@@ -206,7 +207,7 @@ const Navigation = () => {
 						width={{ xs: '100%' }}
 					>
 						<Button
-							onClick={handleLogout}
+							onClick={logout}
 							sx={{
 								bgcolor: '#F9F9F9',
 								paddingTop: '10px',

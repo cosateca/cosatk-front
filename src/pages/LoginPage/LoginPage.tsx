@@ -47,7 +47,7 @@ const LoginPage = () => {
 				if (user) {
 					setAuth(user)
 					setAlert({
-						msg: 'Login correcte! Seràs redirigit en un instant...',
+						msg: 'Login correcte! Redirigint...',
 						isError: false,
 					})
 

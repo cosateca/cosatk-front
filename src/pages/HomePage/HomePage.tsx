@@ -32,21 +32,11 @@ import {
 
 const HomePage = () => {
 	const [articles, setArticle] = useState<Article[]>([])
-	const [image, setImage] = useState<any>(null)
 
 	useEffect(() => {
 		async function loadhome() {
 			const response = await getArticles()
 			setArticle(response)
-		}
-		loadhome()
-	}, [])
-
-	useEffect(() => {
-		async function loadhome() {
-			const response = await getArticleImage('1')
-
-			setImage(response)
 		}
 		loadhome()
 	}, [])
