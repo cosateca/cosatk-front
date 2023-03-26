@@ -38,7 +38,13 @@ export const findUserById = async (id: string) => {
 
 export const createUserFromDashboard = async (userDto: IUser) => {
 	try {
-		const response = await axios.post(API_URL_USER, userDto)
+		//Format to YYYY-MM-DD
+		const birthDate = userDto.birth_date
+			? new Date(userDto.birth_date).toISOString().slice(0, 10)
+			: undefined
+		const userDtoFormatted = { ...userDto, birth_date: birthDate }
+
+		const response = await axios.post(API_URL_USER, userDtoFormatted)
 		return response.data
 	} catch (error) {
 		console.log(error)

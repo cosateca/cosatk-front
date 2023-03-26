@@ -72,7 +72,7 @@ const Navigation = () => {
 											component={Link}
 											to="/dashboard/loans"
 											sx={{
-												padding: { xs: '0', sm: '15px' },
+												padding: { xs: '0', sm: '10px' },
 												margin: '0',
 												display: 'flex',
 												justifyContent: 'center',

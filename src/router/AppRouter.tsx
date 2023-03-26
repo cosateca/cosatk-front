@@ -4,6 +4,7 @@ import { AuthProvider } from '../context/AuthProvider'
 import Articles from '../pages/Dashboard/Articles/Articles'
 import DeleteArticle from '../pages/Dashboard/Articles/DeleteArticle'
 import Categories from '../pages/Dashboard/Categories/Categories'
+import DeleteCategory from '../pages/Dashboard/Categories/DeleteCategory'
 import Detall from '../pages/Dashboard/Detall/Detall'
 import Loans from '../pages/Dashboard/Loans/Loans'
 import NewLoan from '../pages/Dashboard/Loans/NewLoan'
@@ -16,7 +17,6 @@ import LoginPage from '../pages/LoginPage/LoginPage'
 import NotFound from '../pages/NotFoundPage/NotFound'
 import Register from '../pages/Register/Register'
 import { AdminRoute } from './AdminRoute'
-import { UserRoute } from './UserRoute'
 
 const AppRouter = () => {
 	return (
@@ -87,7 +87,14 @@ const AppRouter = () => {
 									</AdminRoute>
 								}
 							/>
-
+							<Route
+								path="/dashboard/deletecategory/:id"
+								element={
+									<AdminRoute>
+										<DeleteCategory />
+									</AdminRoute>
+								}
+							/>
 							<Route
 								path="dashboard/loans"
 								element={

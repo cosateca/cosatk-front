@@ -38,8 +38,6 @@ import {
 } from '../../../services/userService'
 import { useNavigate } from 'react-router-dom'
 
-type Props = {}
-
 //Data Grid
 const columns: GridColDef[] = [
 	{
@@ -140,7 +138,7 @@ const columns: GridColDef[] = [
 	},
 ]
 
-const Users = (props: Props) => {
+const Users = () => {
 	const navigate = useNavigate()
 
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
@@ -157,7 +155,7 @@ const Users = (props: Props) => {
 	const [email, setEmail] = useState('')
 	const [dni, setDni] = useState('')
 	const [phone, setPhone] = useState(0)
-	const [adress, setAdress] = useState('')
+	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [membership, setMembership] = useState('')
 	const [birthDate, setBirthDate] = useState<Date>(new Date('1975-01-01'))
@@ -191,8 +189,8 @@ const Users = (props: Props) => {
 			last_name: lastName,
 			email,
 			dni,
-			phone,
-			adress,
+			telephone: phone,
+			address,
 			city,
 			membership,
 			birth_date: birthDate,
@@ -227,7 +225,7 @@ const Users = (props: Props) => {
 		// Resetear los estados
 		setName('')
 		setLastName('')
-		setAdress('')
+		setAddress('')
 		setBirthDate(new Date('1975-01-01'))
 		setCity('')
 		setDni('')
@@ -263,6 +261,11 @@ const Users = (props: Props) => {
 	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
+	}
+
+	const handleChangeBirthDate = (e: any) => {
+		const date = new Date(e.target.value)
+		setBirthDate(date)
 	}
 
 	return (
@@ -404,7 +407,7 @@ const Users = (props: Props) => {
 												}}
 											/>
 											<TextField
-												onChange={(e) => setAdress(e.target.value)}
+												onChange={(e) => setAddress(e.target.value)}
 												id="input-address"
 												label="Adreça"
 												variant="outlined"
@@ -450,7 +453,7 @@ const Users = (props: Props) => {
 											/>
 
 											<TextField
-												onChange={(e) => setBirthDate(new Date(e.target.value))}
+												onChange={handleChangeBirthDate}
 												id="birthdate"
 												label="Data de naixement"
 												type="date"
@@ -477,12 +480,20 @@ const Users = (props: Props) => {
 													},
 												}}
 											/>
-											<FormLabel id="radio-subscr">Subscriptor</FormLabel>
+											<FormLabel
+												id="radio-subscr"
+												sx={{
+													width: { xs: '95%', sm: '10%' },
+													margin: { xs: '10px', sm: '20px 10px' },
+												}}
+											>
+												Subscriptor
+											</FormLabel>
 											<RadioGroup
 												onChange={(e) =>
 													setSubscriber(e.target.value.toLowerCase() === 'true')
 												}
-												defaultValue="0"
+												defaultValue="false"
 												row
 												aria-labelledby="radio-subscr"
 												name="row-radio-buttons-group"
@@ -492,12 +503,12 @@ const Users = (props: Props) => {
 												}}
 											>
 												<FormControlLabel
-													value="1"
+													value="true"
 													control={<Radio />}
 													label="Si"
 												/>
 												<FormControlLabel
-													value="0"
+													value="false"
 													control={<Radio />}
 													label="No"
 												/>
@@ -515,6 +526,7 @@ const Users = (props: Props) => {
 											onClick={handleSubmit}
 											sx={{
 												marginBottom: '20px',
+												marginTop: '10px',
 												paddingLeft: '40px',
 												paddingRight: '40px',
 												height: '55px',
@@ -551,7 +563,7 @@ const Users = (props: Props) => {
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -560,7 +572,7 @@ const Users = (props: Props) => {
 											/>
 											<Select
 												displayEmpty
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												id="demo-simple-select"
 												value={prestecEnCurs}
 												label="Estat"
@@ -584,6 +596,7 @@ const Users = (props: Props) => {
 											sx={{
 												paddingLeft: '40px',
 												paddingRight: '40px',
+												marginTop: { xs: '20px', sm: '0' },
 												height: '55px',
 											}}
 											variant="contained"

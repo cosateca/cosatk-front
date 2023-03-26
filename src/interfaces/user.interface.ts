@@ -4,8 +4,8 @@ export interface IUser {
     last_name:string;
     email:string;
     dni?:string;
-    phone?:number;
-    adress?:string;
+    telephone?:number;
+    address?:string;
     city?:string;
     membership?:string;
     birth_date?:Date;

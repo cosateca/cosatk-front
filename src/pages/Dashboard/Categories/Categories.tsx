@@ -24,22 +24,7 @@ import iconBack from '../../../assets/images/icono_flecha_atras.svg'
 
 import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
-
-type Props = {}
+import { useNavigate } from 'react-router-dom'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -49,6 +34,7 @@ const columns: GridColDef[] = [
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
+			const navigate = useNavigate()
 			const onClick = (e: any) => {
 				e.stopPropagation() // don't select this row after clicking
 
@@ -62,7 +48,7 @@ const columns: GridColDef[] = [
 						(c) =>
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
-				return alert(JSON.stringify(thisRow, null, 4))
+				return navigate(`/dashboard/deletecategory/${thisRow.idCategory}`)
 			}
 
 			return (
@@ -120,15 +106,11 @@ const columns: GridColDef[] = [
 	{ field: 'category_name', headerName: 'Nom', width: 160 },
 ]
 
-const Categories = (props: Props) => {
+const Categories = () => {
 	//Data
 	const [data, setData] = React.useState<ICategory[]>([])
+	const [inputName, setInputName] = React.useState<string>('')
 	const [trigger, setTrigger] = React.useState(false)
-
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
 
 	//New category
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
@@ -172,6 +154,21 @@ const Categories = (props: Props) => {
 				console.log(error)
 			})
 	}, [trigger])
+
+	const handleSearch = async () => {
+		if (inputName) {
+			categoryService
+				.getDataByName(inputName)
+				.then((data: ICategory[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			console.log('Search empty')
+		}
+	}
 
 	return (
 		<>
@@ -289,6 +286,7 @@ const Categories = (props: Props) => {
 											fullWidth
 										>
 											<TextField
+												onChange={(e) => setInputName(e.target.value)}
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
@@ -300,6 +298,7 @@ const Categories = (props: Props) => {
 												}}
 											/>
 											<Button
+												onClick={handleSearch}
 												sx={{
 													bgcolor: '#D9D9D9',
 													height: '55px',
@@ -338,30 +337,6 @@ const Categories = (props: Props) => {
 								</>
 							)}
 						</Box>
-						<Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirmar eliminar
-								</Typography>
-								<Button
-									onClick={handleClose}
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									OK
-								</Button>
-							</Box>
-						</Modal>
 					</Container>
 				</section>
 			</Box>
