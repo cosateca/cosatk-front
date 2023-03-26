@@ -36,7 +36,7 @@ const LoginPage = () => {
 		}
 
 		const userInfo = {
-			email,
+			email: email.toLocaleLowerCase(),
 			password,
 		}
 

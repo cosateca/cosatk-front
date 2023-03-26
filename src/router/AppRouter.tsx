@@ -9,6 +9,7 @@ import Loans from '../pages/Dashboard/Loans/Loans'
 import NewLoan from '../pages/Dashboard/Loans/NewLoan'
 import MyLoans from '../pages/Dashboard/MyLoans/MyLoans'
 import Profile from '../pages/Dashboard/Profile/Profile'
+import DeleteUser from '../pages/Dashboard/Users/DeleteUser'
 import Users from '../pages/Dashboard/Users/Users'
 import HomePage from '../pages/HomePage/HomePage'
 import LoginPage from '../pages/LoginPage/LoginPage'
@@ -35,6 +36,14 @@ const AppRouter = () => {
 								element={
 									<AdminRoute>
 										<Users />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path="/dashboard/deleteuser/:id"
+								element={
+									<AdminRoute>
+										<DeleteUser />
 									</AdminRoute>
 								}
 							/>

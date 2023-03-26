@@ -39,21 +39,6 @@ import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
 import iconFolder from '../../../assets/images/icon_folder_upload.svg'
 import FormAlert from '../../../components/FormAlert/FormAlert'
-import BasicModal from '../../../components/BasicModal/BasicModal'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -94,66 +79,6 @@ const columns: GridColDef[] = [
 				</Button>
 			)
 		},
-		// renderCell: (params: GridRenderCellParams<any>) => {
-		// 	//Codigo
-		// 	// const [code, setCode] = useState<string | undefined>('')
-
-		// 	// const handleOpen = () => setOpen(true)
-
-		// 	//Modal
-		// 	// const [open, setOpen] = React.useState(false)
-
-		// 	const onClick = (e: any) => {
-		// 		e.stopPropagation() // don't select this row after clicking
-		// 		// setOpen(!open)
-
-		// 		const api: GridApi = params.api
-		// 		const thisRow: Record<string, GridCellValue> = {}
-
-		// 		api
-		// 			.getAllColumns()
-		// 			.filter((c) => c.field !== '__check__' && !!c)
-		// 			.forEach(
-		// 				(c) =>
-		// 					(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-		// 			)
-		// 		// setCode(thisRow.code?.toString())
-		// 		// const handleClose = () => {
-		// 		// 	//buscar un article amb aquest codi i eliminar, api service
-		// 		// 	useEffect(() => {
-		// 		// 		if (code) {
-		// 		// 			articleService
-		// 		// 				.deleteArticle(code)
-		// 		// 				.then((data: any) => {
-		// 		// 					console.log(data)
-		// 		// 				})
-		// 		// 				.catch((error: Error) => {
-		// 		// 					console.log(error)
-		// 		// 				})
-		// 		// 		}
-		// 		// 	}, [])
-
-		// 		// 	setOpen(false)
-		// 		// }
-
-		// 		// return alert(JSON.stringify(thisRow, null, 4))
-		// 	}
-
-		// 	return (
-		// 		<>
-		// 			<Button
-		// 				sx={{
-		// 					display: 'flex',
-		// 					justifyContent: 'flex-start',
-		// 					borderRadius: '0px',
-		// 				}}
-		// 				onClick={onClick}
-		// 			>
-		// 				<img src={iconTrash} alt="eliminar" />
-		// 			</Button>
-		// 		</>
-		// 	)
-		// },
 	},
 	{
 		field: 'edit',
@@ -270,7 +195,6 @@ const Articles = () => {
 	//New Article
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
 
-	const [id, setId] = React.useState('')
 	const [name, setName] = React.useState('')
 	const [shortDesc, setShortDesc] = React.useState('')
 	const [longDesc, setLongDesc] = React.useState('')

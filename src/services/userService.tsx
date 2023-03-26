@@ -44,3 +44,21 @@ export const createUserFromDashboard = async (userDto: IUser) => {
 		console.log(error)
 	}
 }
+
+export const getAllUsers = async () => {
+	try {
+		const response = await axios.get(API_URL_USER)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const deleteUser = async (id: string) => {
+	try {
+		const response = await axios.delete(API_URL_USER + '/' + id)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
