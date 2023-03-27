@@ -36,7 +36,7 @@ const LoginPage = () => {
 		}
 
 		const userInfo = {
-			email,
+			email: email.toLocaleLowerCase(),
 			password,
 		}
 
@@ -47,12 +47,19 @@ const LoginPage = () => {
 				if (user) {
 					setAuth(user)
 					setAlert({
-						msg: 'Login correcte! Seràs redirigit en un instant...',
+						msg: 'Login correcte! Redirigint...',
 						isError: false,
 					})
-					setTimeout(() => {
-						navigate('/')
-					}, 3000)
+
+					if (user.role === 'user') {
+						setTimeout(() => {
+							navigate('/dashboard')
+						}, 3000)
+					} else if (user.role === 'admin') {
+						setTimeout(() => {
+							navigate('/dashboard/loans')
+						}, 3000)
+					}
 				} else {
 					setAlert({ msg: "Error quan s'intentava el login", isError: true })
 				}

@@ -7,7 +7,7 @@ const FormAlert = ({ alert }: any) => {
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				bgcolor: alert.isError ? 'orange' : 'green',
+				bgcolor: alert.isError ? 'orange' : '#50C878',
 				padding: '10px',
 				width: '100%',
 			}}

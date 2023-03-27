@@ -16,7 +16,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
@@ -31,23 +31,12 @@ import {
 	GridCellValue,
 	DataGrid,
 } from '@mui/x-data-grid'
-import { nanoid } from 'nanoid'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
-
-type Props = {}
+import FormAlert from '../../../components/FormAlert/FormAlert'
+import {
+	createUserFromDashboard,
+	getAllUsers,
+} from '../../../services/userService'
+import { useNavigate } from 'react-router-dom'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -57,6 +46,7 @@ const columns: GridColDef[] = [
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
+			const navigate = useNavigate()
 			const onClick = (e: any) => {
 				e.stopPropagation() // don't select this row after clicking
 
@@ -70,7 +60,7 @@ const columns: GridColDef[] = [
 						(c) =>
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
-				return alert(JSON.stringify(thisRow, null, 4))
+				return navigate(`/dashboard/deleteuser/${thisRow.idUsers}`)
 			}
 
 			return (
@@ -124,10 +114,10 @@ const columns: GridColDef[] = [
 			)
 		},
 	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'name', headerName: 'Nom', width: 130 },
+	{ field: 'idUsers', headerName: 'ID', width: 70 },
+	{ field: 'first_name', headerName: 'Nom', width: 130 },
 	{
-		field: 'lastName',
+		field: 'last_name',
 		headerName: 'Cognoms',
 		width: 190,
 	},
@@ -141,57 +131,101 @@ const columns: GridColDef[] = [
 		headerName: 'Email',
 		width: 190,
 	},
+	{
+		field: 'role',
+		headerName: 'Rol',
+		width: 90,
+	},
 ]
 
-const Users = (props: Props) => {
+const Users = () => {
+	const navigate = useNavigate()
+
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
+
+	//Alert
+	const [alert, setAlert] = useState<any>({})
+	const { msg } = alert
 
 	//Form
 	const [data, setData] = useState<any>([])
 
-	const [id, setId] = React.useState('')
 	const [name, setName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
 	const [dni, setDni] = useState('')
 	const [phone, setPhone] = useState(0)
-	const [adress, setAdress] = useState('')
+	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [membership, setMembership] = useState('')
 	const [birthDate, setBirthDate] = useState<Date>(new Date('1975-01-01'))
 	const [howMeet, setHowMeet] = useState('')
-	const [subscriber, setSubscriber] = useState(0)
+	const [subscriber, setSubscriber] = useState(false)
 
-	const handleSubmit = (e: any) => {
+	const handleSubmit = async (e: any) => {
 		e.preventDefault()
+
+		if ([name, lastName, email].includes('')) {
+			setAlert({
+				msg: 'Algun dels camps requerits ha quedat buit.',
+				isError: true,
+			})
+			console.error('Form validation: Error 1')
+			return
+		}
 
 		if (name === '' || lastName === '') {
 			console.log('error, no name or lastname')
 			return
 		}
 
+		if (email === '') {
+			console.log('error, no email introduced')
+			return
+		}
+
 		const newObject: IUser = {
-			id: nanoid(),
-			name,
-			lastName,
+			first_name: name,
+			last_name: lastName,
 			email,
 			dni,
-			phone,
-			adress,
+			telephone: phone,
+			address,
 			city,
 			membership,
-			birthDate,
-			howMeet,
-			subscriber: 0,
-			addedOn: new Date(),
+			birth_date: birthDate,
+			how_meet_us: howMeet,
+			subscriber,
 		}
-		setData([...data, newObject])
+		await createUserFromDashboard(newObject)
+			.then(async (response) => {
+				const { user } = response
+
+				if (user) {
+					setData(user)
+					setAlert({
+						msg: 'Usuari creat correctament Redirigint...',
+						isError: false,
+					})
+					setTimeout(() => {
+						navigate('/dashboard/users')
+					}, 3000)
+				} else {
+					setAlert({ msg: "Error quan s'intentava el login", isError: true })
+				}
+			})
+			.catch((error) => {
+				console.log("Error quan s'intentava crear un usuari: ", error)
+				setAlert({
+					msg: "Error quan s'intentava crear un usuari",
+					isError: true,
+				})
+			})
 
 		// Resetear los estados
-		setId('')
 		setName('')
 		setLastName('')
-		setAdress('')
+		setAddress('')
 		setBirthDate(new Date('1975-01-01'))
 		setCity('')
 		setDni('')
@@ -199,16 +233,24 @@ const Users = (props: Props) => {
 		setHowMeet('')
 		setMembership('')
 		setPhone(0)
-		setSubscriber(0)
+		setSubscriber(false)
 
-		console.log('New user added: ' + newObject.name + ' ' + newObject.lastName)
+		console.log(
+			'New user added: ' + newObject.first_name + ' ' + newObject.last_name
+		)
 		setIsOpenForm(!isOpenForm)
 	}
 
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
+	//Bring users
+	useEffect(() => {
+		getAllUsers()
+			.then((data: IUser[]) => {
+				setData(data)
+			})
+			.catch((error: Error) => {
+				console.log(error)
+			})
+	}, [])
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setPrestecEnCurs(event.target.value as string)
@@ -219,6 +261,11 @@ const Users = (props: Props) => {
 	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
+	}
+
+	const handleChangeBirthDate = (e: any) => {
+		const date = new Date(e.target.value)
+		setBirthDate(date)
 	}
 
 	return (
@@ -317,6 +364,7 @@ const Users = (props: Props) => {
 												onChange={(e) => setEmail(e.target.value)}
 												id="input-mail"
 												label="Email"
+												required
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '40%' },
@@ -359,7 +407,7 @@ const Users = (props: Props) => {
 												}}
 											/>
 											<TextField
-												onChange={(e) => setAdress(e.target.value)}
+												onChange={(e) => setAddress(e.target.value)}
 												id="input-address"
 												label="Adreça"
 												variant="outlined"
@@ -405,7 +453,7 @@ const Users = (props: Props) => {
 											/>
 
 											<TextField
-												onChange={(e) => setBirthDate(new Date(e.target.value))}
+												onChange={handleChangeBirthDate}
 												id="birthdate"
 												label="Data de naixement"
 												type="date"
@@ -432,10 +480,20 @@ const Users = (props: Props) => {
 													},
 												}}
 											/>
-											<FormLabel id="radio-subscr">Subscriptor</FormLabel>
+											<FormLabel
+												id="radio-subscr"
+												sx={{
+													width: { xs: '95%', sm: '10%' },
+													margin: { xs: '10px', sm: '20px 10px' },
+												}}
+											>
+												Subscriptor
+											</FormLabel>
 											<RadioGroup
-												onChange={(e) => setSubscriber(Number(e.target.value))}
-												defaultValue="0"
+												onChange={(e) =>
+													setSubscriber(e.target.value.toLowerCase() === 'true')
+												}
+												defaultValue="false"
 												row
 												aria-labelledby="radio-subscr"
 												name="row-radio-buttons-group"
@@ -445,12 +503,12 @@ const Users = (props: Props) => {
 												}}
 											>
 												<FormControlLabel
-													value="1"
+													value="true"
 													control={<Radio />}
 													label="Si"
 												/>
 												<FormControlLabel
-													value="0"
+													value="false"
 													control={<Radio />}
 													label="No"
 												/>
@@ -468,6 +526,7 @@ const Users = (props: Props) => {
 											onClick={handleSubmit}
 											sx={{
 												marginBottom: '20px',
+												marginTop: '10px',
 												paddingLeft: '40px',
 												paddingRight: '40px',
 												height: '55px',
@@ -478,6 +537,7 @@ const Users = (props: Props) => {
 											<img src={iconNew} alt="nou" />
 										</Button>
 									</Box>
+									{msg && <FormAlert alert={alert} />}
 								</Box>
 							) : (
 								<>
@@ -503,7 +563,7 @@ const Users = (props: Props) => {
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -512,7 +572,7 @@ const Users = (props: Props) => {
 											/>
 											<Select
 												displayEmpty
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												id="demo-simple-select"
 												value={prestecEnCurs}
 												label="Estat"
@@ -536,6 +596,7 @@ const Users = (props: Props) => {
 											sx={{
 												paddingLeft: '40px',
 												paddingRight: '40px',
+												marginTop: { xs: '20px', sm: '0' },
 												height: '55px',
 											}}
 											variant="contained"
@@ -559,6 +620,7 @@ const Users = (props: Props) => {
 										<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 											<DataGrid
 												rows={data}
+												getRowId={(row: any) => row.idUsers}
 												columns={columns}
 												disableSelectionOnClick
 											/>
@@ -567,30 +629,6 @@ const Users = (props: Props) => {
 								</>
 							)}
 						</Box>
-						<Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirmar eliminar
-								</Typography>
-								<Button
-									onClick={handleClose}
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									OK
-								</Button>
-							</Box>
-						</Modal>
 					</Container>
 				</section>
 			</Box>

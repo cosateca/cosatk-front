@@ -163,7 +163,7 @@ const Register = () => {
 							setLast_name(e.target.value)
 						}}
 						id="last_name"
-						label="Cognom"
+						label="Cognoms"
 						variant="outlined"
 						required
 						sx={{

@@ -15,9 +15,11 @@ import iconUsers from '../../assets/images/icono_usuarios.svg'
 import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
+import useAuth from '../../hooks/useAuth'
 
 const Navigation = () => {
 	const navigate = useNavigate()
+	const { auth, logout } = useAuth()
 
 	const handleClick = () => {
 		navigate('/dashboard/loans')
@@ -47,131 +49,226 @@ const Navigation = () => {
 					</Box>
 					<Box
 						display={{ xs: 'flex', sm: 'flex' }}
-						justifyContent={{ xs: 'flex-start' }}
+						flexDirection={{ xs: 'column' }}
+						justifyContent={{ xs: 'space-between' }}
 						height={{ sm: 'calc(100vh - 292px)' }}
 						maxWidth={{ sm: '360' }}
+						width={{ xs: '100%', sm: '250px' }}
 						bgcolor={{ sm: '#F9F9F9' }}
 					>
-						<nav aria-label="main mailbox folders">
-							<List
-								sx={{
-									display: 'flex',
-									flexDirection: { xs: 'row', sm: 'column' },
-									width: { xs: 'auto', sm: '250px' },
-								}}
-							>
-								<ListItem disablePadding>
-									<ListItemButton component={Link} to="/dashboard/loans">
-										<ListItemIcon>
-											<Box
-												display={{ xs: 'flex' }}
-												bgcolor={{ xs: '#67B7E1' }}
-												borderRadius={{ xs: '10px' }}
-												padding={{ xs: '5px' }}
-											>
-												<img src={iconLoan} alt="Icona prèstec" />
-											</Box>
-										</ListItemIcon>
-										<ListItemText
-											sx={{
-												paddingLeft: '10px',
-												display: { xs: 'none', sm: 'flex' },
-											}}
-											primary="Prèstecs"
-										/>
-									</ListItemButton>
-								</ListItem>
-								<ListItem disablePadding>
-									<ListItemButton component={Link} to="/dashboard/users">
-										<ListItemIcon>
-											<Box
-												display={{ xs: 'flex' }}
-												bgcolor={{ xs: '#67B7E1' }}
-												borderRadius={{ xs: '10px' }}
-												padding={{ xs: '5px' }}
-											>
-												<img src={iconUsers} alt="Icona usuaris" />
-											</Box>
-										</ListItemIcon>
-										<ListItemText
-											sx={{
-												paddingLeft: '10px',
-												display: { xs: 'none', sm: 'flex' },
-											}}
-											primary="Usuaris"
-										/>
-									</ListItemButton>
-								</ListItem>
-								<ListItem disablePadding>
-									<ListItemButton component={Link} to="/dashboard/articles">
-										<ListItemIcon>
-											<Box
-												display={{ xs: 'flex' }}
-												bgcolor={{ xs: '#67B7E1' }}
-												borderRadius={{ xs: '10px' }}
-												padding={{ xs: '5px' }}
-											>
-												<img src={iconArticles} alt="Icona articles" />
-											</Box>
-										</ListItemIcon>
-										<ListItemText
-											sx={{
-												paddingLeft: '10px',
-												display: { xs: 'none', sm: 'flex' },
-											}}
-											primary="Articles"
-										/>
-									</ListItemButton>
-								</ListItem>
-								<ListItem disablePadding>
-									<ListItemButton component={Link} to="/dashboard/categories">
-										<ListItemIcon>
-											<Box
-												display={{ xs: 'flex' }}
-												bgcolor={{ xs: '#67B7E1' }}
-												borderRadius={{ xs: '10px' }}
-												padding={{ xs: '5px' }}
-											>
-												<img src={iconCategories} alt="Icona categories" />
-											</Box>
-										</ListItemIcon>
-										<ListItemText
-											sx={{
-												paddingLeft: '10px',
-												display: { xs: 'none', sm: 'flex' },
-											}}
-											primary="Categories"
-										/>
-									</ListItemButton>
-								</ListItem>
-								<ListItem
-									disablePadding
+						{' '}
+						{auth?.role === 'admin' ? (
+							<nav aria-label="main mailbox folders">
+								<List
 									sx={{
-										display: { xs: 'flex', sm: 'none' },
+										display: 'flex',
+										flexDirection: { xs: 'row', sm: 'column' },
+										width: { xs: 'auto', sm: '250px' },
+										// gap: '20px',
 									}}
 								>
-									<ListItemButton component={Link} to="/">
-										<ListItemIcon>
-											<Box
-												display={{ xs: 'flex' }}
-												bgcolor={{ xs: '#67B7E1' }}
-												borderRadius={{ xs: '10px' }}
-												padding={{ xs: '5px' }}
-											>
-												<img src={iconSession} alt="Icona sessio" />
-											</Box>
-										</ListItemIcon>
-										<ListItemText
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/loans"
 											sx={{
-												paddingLeft: '10px',
-												display: { xs: 'none', sm: 'flex' },
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
 											}}
-											primary="Logout"
-										/>
-									</ListItemButton>
-								</ListItem>
-							</List>
-						</nav>
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconLoan} alt="Icona prèstec" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Prèstecs"
+											/>
+										</ListItemButton>
+									</ListItem>
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/users"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconUsers} alt="Icona usuaris" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Usuaris"
+											/>
+										</ListItemButton>
+									</ListItem>
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/articles"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconArticles} alt="Icona articles" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Articles"
+											/>
+										</ListItemButton>
+									</ListItem>
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/categories"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconCategories} alt="Icona categories" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Categories"
+											/>
+										</ListItemButton>
+									</ListItem>
+									<ListItem
+										disablePadding
+										sx={{
+											display: { xs: 'flex', sm: 'none' },
+										}}
+									>
+										<ListItemButton
+											component={Link}
+											to="/"
+											sx={{
+												display: 'flex',
+												justifyContent: 'center',
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconSession} alt="Icona sessio" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Logout"
+											/>
+										</ListItemButton>
+									</ListItem>
+								</List>
+							</nav>
+						) : (
+							<nav>
+								<List>
+									<ListItem disablePadding>
+										<ListItemButton
+											component={Link}
+											to="/dashboard/myloans"
+											sx={{
+												padding: { xs: '0', sm: '10px' },
+												margin: '0',
+												display: 'flex',
+												justifyContent: 'center',
+											}}
+										>
+											<ListItemIcon>
+												<Box
+													display={{ xs: 'flex' }}
+													bgcolor={{ xs: '#67B7E1' }}
+													borderRadius={{ xs: '10px' }}
+													padding={{ xs: '5px' }}
+												>
+													<img src={iconLoan} alt="Icona prèstecs" />
+												</Box>
+											</ListItemIcon>
+											<ListItemText
+												sx={{
+													paddingLeft: '10px',
+													display: { xs: 'none', sm: 'flex' },
+												}}
+												primary="Prèstecs"
+											/>
+										</ListItemButton>
+									</ListItem>
+								</List>
+							</nav>
+						)}
+						<Box
+							display={{ xs: 'none', sm: 'flex' }}
+							justifyContent={{ xs: 'center' }}
+							alignItems={{ xs: 'center' }}
+							height={{ xs: '46px' }}
+							width={{ xs: '100%' }}
+						>
+							{auth?.email && `Usuari: ` + auth?.email}
+						</Box>
 					</Box>
 
 					<Box
@@ -183,6 +280,7 @@ const Navigation = () => {
 						width={{ xs: '100%' }}
 					>
 						<Button
+							onClick={logout}
 							sx={{
 								bgcolor: '#F9F9F9',
 								paddingTop: '10px',
