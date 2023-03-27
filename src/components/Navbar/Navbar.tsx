@@ -35,7 +35,8 @@ const Navigation = () => {
 					width={{ xs: '100%', sm: '250px' }}
 					minHeight={{ xs: '100%', sm: '100vh' }}
 				>
-					<Box
+					
+					<Box 
 						display={{ xs: 'flex' }}
 						justifyContent={{ xs: 'center' }}
 						alignItems={{ xs: 'center' }}
@@ -44,6 +45,7 @@ const Navigation = () => {
 						bgcolor={{ xs: '#D2D2D2' }}
 						width={{ xs: '100%' }}
 						height={{ xs: '146px' }}
+						
 					>
 						<img height="110px" src={logo} alt="Logo" />
 					</Box>

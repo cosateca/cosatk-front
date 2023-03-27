@@ -13,7 +13,7 @@ const Header = () => {
         marginTop:'10px',
         marginBottom: '10px',
     }}>
-        <img src={logo} alt="" /> 
+      <img src={logo} alt="" /> 
 			<div className="App">
 				<Button variant="contained" color='error' >
 					<Link to="/dashboard/loans">Accedeix</Link>

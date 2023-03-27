@@ -23,7 +23,7 @@ export type Article = {
 	components: string
 	careInfo: string
 	ownedBy: string
-	donatedBy: string
+	donated_by: string
 	condition: string
 	brand: string
 	shownOnWeb: string
