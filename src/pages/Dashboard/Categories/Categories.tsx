@@ -1,4 +1,5 @@
 import {
+	Autocomplete,
 	Box,
 	Button,
 	Container,
@@ -14,7 +15,7 @@ import {
 	GridCellValue,
 	GridRenderCellParams,
 } from '@mui/x-data-grid'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
@@ -24,6 +25,8 @@ import iconBack from '../../../assets/images/icono_flecha_atras.svg'
 
 import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
+import { useParams, useSearchParams } from 'react-router-dom'
+import {deleteCatagoryRequest, getCategoryRequest} from '../../../services/category/categoryService'
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -124,6 +127,17 @@ const Categories = (props: Props) => {
 	//Data
 	const [data, setData] = React.useState<ICategory[]>([])
 	const [trigger, setTrigger] = React.useState(false)
+	
+	const handleDelete = async (idCategory:ICategory)=>{
+        try{
+         const response = await  deleteCatagoryRequest(idCategory)
+         setData(data.filter(data =>data.idCategory !== 0))
+         console.log(response)
+        }catch(error){
+            console.error(error)
+        }
+	}
+
 
 	//Modal
 	const [open, setOpen] = React.useState(false)
@@ -173,6 +187,7 @@ const Categories = (props: Props) => {
 			})
 	}, [trigger])
 
+	
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -195,14 +210,14 @@ const Categories = (props: Props) => {
 											display: 'flex',
 											justifyContent: 'space-between',
 											marginBottom: '10px',
-										}}
+										}}	
 									>
 										<Typography
 											id="modal-modal-title2"
 											variant="h1"
 											component="h2"
 										>
-											✏️Categoria
+											Categoria
 										</Typography>
 										<Button
 											onClick={() => setIsOpenForm(false)}
@@ -288,27 +303,36 @@ const Categories = (props: Props) => {
 											}}
 											fullWidth
 										>
-											<TextField
-												id="input-nom"
-												label="Cerca per nom"
-												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
-												InputLabelProps={{
-													style: {
-														color: '#222222',
-													},
-												}}
+											<Autocomplete
+											id="free-solo-demo"
+											freeSolo
+											options={data.map((option) => option.category_name)}
+											renderInput={(params) => (
+											<TextField {...params} 
+											label="Cercar per nom" 
+											margin="normal" 
+											variant="outlined"
+											
+											sx={{ width: { xs: '200px' }, marginBottom:'32px' }}
+											InputLabelProps={{ style: {color: '#222222',},}}
+											/>
+											)}
 											/>
 											<Button
 												sx={{
 													bgcolor: '#D9D9D9',
-													height: '55px',
+													height: '95px',
+													marginBottom:'20px'
 												}}
+												
 												variant="contained"
+												
 											>
 												<img src={iconSearch} alt="cerca" />
 											</Button>
 										</FormControl>
+
+										
 										<Button
 											onClick={handleClick}
 											sx={{
