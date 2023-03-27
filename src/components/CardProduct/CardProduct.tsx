@@ -7,6 +7,7 @@ import product from '../../assets/images/picture.png'
 import * as blobUtil from 'blob-util'
 import { useEffect, useState } from 'react'
 import { getArticleImage } from '../../services/HomePage/homeService'
+import { Link } from 'react-router-dom'
 
 export type Article = {
 	id: string
@@ -41,7 +42,7 @@ const CardProduct = ({ article }: any) => {
 	}, [])
 
 	return (
-		<Card sx={{ maxWidth: 345 }}>
+	<Link  to='/detall'> 	<Card sx={{ maxWidth: 345 }}>
 			<CardActionArea>
 				<CardMedia
 					component="img"
@@ -59,6 +60,7 @@ const CardProduct = ({ article }: any) => {
 				</CardContent>
 			</CardActionArea>
 		</Card>
+		</Link>
 	)
 
 }
