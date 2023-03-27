@@ -68,7 +68,7 @@ const HomePage = () => {
 						marginBottom: '20px',
 					}}
 				>
-					T'expliquem com funciona la Biblioteca de les Coses en 5 passos
+					T&apos;expliquem com funciona la Biblioteca de les Coses en 5 passos
 					senzills
 				</Typography>
 				<CustomizedAccordions />
