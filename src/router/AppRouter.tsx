@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import DashboardLayout from '../components/DashboardLayout/DashboardLayout'
 import { AuthProvider } from '../context/AuthProvider'
+import CataloguePage from '../pages/CataloguePage/CataloguePage'
 import Articles from '../pages/Dashboard/Articles/Articles'
 import DeleteArticle from '../pages/Dashboard/Articles/DeleteArticle'
 import Categories from '../pages/Dashboard/Categories/Categories'
@@ -28,6 +29,7 @@ const AppRouter = () => {
 							<Route path="/" element={<HomePage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/register" element={<Register />} />
+							<Route path="/catalogue" element={<CataloguePage />} />
 							<Route path="*" element={<NotFound />} />
 							<Route path="/dashboard" element={<Profile />} />
 							<Route path="/dashboard/myloans" element={<MyLoans />} />
