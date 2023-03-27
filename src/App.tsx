@@ -14,7 +14,10 @@ import HomePage from './pages/HomePage/HomePage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import NotFound from './pages/NotFoundPage/NotFound'
 import Register from './pages/Register/Register'
+
 import AppRouter from './router/AppRouter'
+import CataloguePage from './pages/CataloguePage/CataloguePage'
+
 import './styles/index.css'
 
 function App() {

@@ -60,6 +60,7 @@ const CardProduct = ({ article }: any) => {
 			</CardActionArea>
 		</Card>
 	)
+
 }
 
 export default CardProduct

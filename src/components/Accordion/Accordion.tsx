@@ -57,40 +57,51 @@ export default function CustomizedAccordions() {
     <div>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Com llogar una cosa?</Typography>
+          <Typography>1. Fes-te usuària</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
+          Amb el carnet d’usuària que us donarem, podreu gestionar els vostres préstecs.
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Com llogar una cosa?</Typography>
+          <Typography>2. Consulta el catàleg d`objectes</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
+          Si alguna cosa t’interessa pots contactar-nos per demanar una reserva a través del nostre correu (cosatk@gmail.com)
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Com llogar una cosa?</Typography>
+          <Typography>3. Vine a la biblioteca i recull l´objecte que necessitis!</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
+          Pagaràs un preu simbòlic pel préstec de l’objecte (d’1 a 5€) i tindràs dret al seu ús durant una setmana.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+          <Typography>4. Dóna-li vida a casa teva!</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          Has viscut alguna anècdota mentre el feies servir? Tens algun comentari a afegir que pot ser útil per la pròxima persona que l’utilitzi? Escriu la teva experiència al Twitter afegint #codi_QR_de_l’objecte i #bibliotecadelescoses
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+          <Typography>5. Retorna’l abans de la data limit</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          Assegura’t de retornar-lo net i en les mateixes condicions que el vas recollir per tal que la pròxima persona que el necessiti el pugui utilitzar!
           </Typography>
         </AccordionDetails>
       </Accordion>

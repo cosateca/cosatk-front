@@ -10,25 +10,16 @@ import {
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
-import imagetools from '../../assets/images/banner/component22.svg'
-import imagebaby from '../../assets/images/banner/component23.svg'
-import imagehandicap from '../../assets/images/banner/component24.svg'
-import imagebike from '../../assets/images/banner/component25.svg'
-import imagepet from '../../assets/images/banner/component26.svg'
-import imagebbq from '../../assets/images/banner/component27.svg'
-import imageartist from '../../assets/images/banner/component28.svg'
-import imageprueba from '../../assets/images/banner/component29.svg'
-import ResponsiveAppBar from '../../components/MenuHamburguesa/MenuHamburguesa'
-import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
-import CustomizedAccordions from '../../components/Faqs/Faqs'
+import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
+
 import {
 	getArticles,
 	getArticleImage,
 } from '../../services/HomePage/homeService'
-// import { Article } from '../../components/CardProduct/CardProduct'
 
-// type Props = {}
+import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
+import MenuHome from '../../components/MenuHome/MenuHome'
 
 const HomePage = () => {
 	const [articles, setArticle] = useState<Article[]>([])
@@ -43,6 +34,7 @@ const HomePage = () => {
 
 	return (
 		<>
+
 			<Header />
 			<ResponsiveAppBar />
 			<Box
@@ -160,8 +152,12 @@ const HomePage = () => {
 					sx={{
 						display: 'flex',
 						flexDirection: { xs: 'column', sm: 'row' },
-						gap: '20px',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'wrap', lg: 'wrap' },
+						gap: '40px',
+						marginTop: '50px',
+						marginBottom: '50px',
 					}}
+
 				>
 					{articles.map((article, index) => (
 						<CardProduct article={article} key={index} />
@@ -175,6 +171,7 @@ const HomePage = () => {
 						gap: '20px',
 					}}
 				></Box>
+
 			</Container>
 			<Box
 				sx={{
@@ -183,15 +180,15 @@ const HomePage = () => {
 					padding: '20px',
 				}}
 			>
-				<Typography
-					sx={{
-						textAlign: 'center',
-						marginBottom: '20px',
-					}}
-				>
-					Preguntes freqüents
-				</Typography>
-				<CustomizedAccordions />
+
+			<Typography
+			sx={{
+				textAlign: 'center',
+				marginBottom: '20px',
+			}}
+			>T'expliquem com funciona la Biblioteca de les Coses en 5 passos senzills</Typography>
+			<CustomizedAccordions/>			
+
 			</Box>
 			<Footer />
 		</>
