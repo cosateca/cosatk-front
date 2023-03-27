@@ -11,10 +11,9 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
-import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import {
@@ -24,23 +23,9 @@ import {
 	GridColDef,
 	GridRenderCellParams,
 } from '@mui/x-data-grid'
-import { nanoid } from 'nanoid'
-
-const style = {
-	position: 'absolute' as 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: { xs: '360', sm: '800' },
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-}
-
-type Props = {}
+import loanService from '../../../services/loanService'
+import { ILoan } from '../../../interfaces/loans.interface'
+import { useNavigate } from 'react-router-dom'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -50,6 +35,7 @@ const columns: GridColDef[] = [
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
+			const navigate = useNavigate()
 			const onClick = (e: any) => {
 				e.stopPropagation() // don't select this row after clicking
 
@@ -63,7 +49,7 @@ const columns: GridColDef[] = [
 						(c) =>
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
-				return alert(JSON.stringify(thisRow, null, 4))
+				return navigate(`/dashboard/returnloan/${thisRow.idLoan}`)
 			}
 
 			return (
@@ -117,53 +103,77 @@ const columns: GridColDef[] = [
 			)
 		},
 	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'articleName', headerName: 'Nom article', width: 190 },
+	{ field: 'idLoan', headerName: 'ID', width: 70 },
+	{
+		field: 'articleName',
+		headerName: 'Nom article',
+		width: 140,
+		valueGetter: (params) => params.row?.article?.name,
+	},
+	{
+		field: 'articleCode',
+		headerName: 'Codi article',
+		width: 140,
+		valueGetter: (params) => params.row?.article?.code,
+	},
 	{
 		field: 'personName',
 		headerName: 'Nom',
 		width: 140,
+		valueGetter: (params) => params.row?.user?.first_name,
 	},
 	{
 		field: 'personLastName',
 		headerName: 'Cognoms',
-		width: 190,
+		width: 160,
+		valueGetter: (params) => params.row?.user?.last_name,
 	},
 	{
-		field: 'checkinDate',
+		field: 'checked_in',
 		headerName: 'Data inici',
 		width: 120,
 	},
 	{
-		field: 'checkoutDate',
+		field: 'checked_out',
 		headerName: 'Data fi',
+		width: 120,
+	},
+	{
+		field: 'status',
+		headerName: 'En prèstec',
+		type: 'boolean',
 		width: 120,
 	},
 ]
 
-const Loans = (props: Props) => {
+const Loans = () => {
 	const [estat, setEstat] = React.useState('')
 
 	//Data
-	const [data, setData] = useState<any>([
-		{
-			id: nanoid(),
-			articleName: 'Crosses',
-			personName: 'Jose',
-			personLastName: 'Mata Mateo',
-			checkinDate: '24/05/2022',
-			checkoutDate: '24/06/2022',
-		},
-	])
+	const [data, setData] = useState<any>([])
 
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
-
-	const handleChange = (event: SelectChangeEvent) => {
+	const handleChangeEstat = (event: SelectChangeEvent) => {
 		setEstat(event.target.value as string)
 	}
+
+	//Bring loans
+	useEffect(() => {
+		loanService
+			.getLoans()
+			.then((data: ILoan[]) => {
+				setData(data)
+			})
+			.catch((error: Error) => {
+				console.log(error)
+			})
+	}, [])
+
+	const [sortModel, setSortModel] = React.useState<any>([
+		{
+			field: 'idLoan',
+			sort: 'desc',
+		},
+	])
 
 	return (
 		<>
@@ -225,7 +235,7 @@ const Loans = (props: Props) => {
 									id="demo-simple-select"
 									value={estat}
 									label="Estat"
-									onChange={handleChange}
+									onChange={handleChangeEstat}
 								>
 									<MenuItem value="">Selecciona Estat</MenuItem>
 									<MenuItem value={10}>En termini</MenuItem>
@@ -257,42 +267,21 @@ const Loans = (props: Props) => {
 							>
 								<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 									<DataGrid
+										{...data}
+										sortModel={sortModel}
+										onSortModelChange={(model) => setSortModel(model)}
 										rows={data}
+										getRowId={(row: any) => row.idLoan}
 										columns={columns}
 										disableSelectionOnClick
 									/>
 								</Box>
 							</Box>
 						</Box>
-						<Modal
-							open={open}
-							onClose={handleClose}
-							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
-							<Box sx={style}>
-								<Typography id="modal-modal-title" variant="h1" component="h2">
-									Confirmar devolució
-								</Typography>
-								<Button
-									onClick={handleClose}
-									sx={{
-										marginBottom: '20px',
-										paddingLeft: '40px',
-										paddingRight: '40px',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									OK
-								</Button>
-							</Box>
-						</Modal>
 					</Container>
 				</section>
 			</Box>
 		</>
 	)
 }
-
 export default Loans

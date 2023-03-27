@@ -8,6 +8,7 @@ export interface IArticle {
   value: string;
   loan_fee: string;
   loan_period: string;
+  deposit: string;
   components: string;
   care_information: string;
   owned_by: string;

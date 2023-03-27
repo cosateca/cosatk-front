@@ -1,8 +1,6 @@
 import { Button, FormControl, TextField, Typography } from '@mui/material'
 import { Box, Container } from '@mui/system'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
-import iconTrash from '../../../assets/images/icono_eliminar.svg'
-import iconEdit from '../../../assets/images/icono_modificar.svg'
 import { useParams } from 'react-router'
 import Navbar from '../../../components/Navbar/Navbar'
 import {
@@ -12,56 +10,23 @@ import {
 	GridColDef,
 	GridRenderCellParams,
 } from '@mui/x-data-grid'
-import { useState } from 'react'
-
-type Props = {}
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getAllUsers } from '../../../services/userService'
+import { IUser } from '../../../interfaces/user.interface'
 
 //Data Grid
 const columns: GridColDef[] = [
 	{
-		field: 'remove',
-		headerName: 'Eliminar',
+		field: 'loan',
+		headerName: 'Prèstec',
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
+			const { id } = useParams()
+			const navigate = useNavigate()
 			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconTrash} alt="eliminar" />
-				</Button>
-			)
-		},
-	},
-	{
-		field: 'edit',
-		headerName: 'Editar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
+				e.stopPropagation()
 
 				const api: GridApi = params.api
 				const thisRow: Record<string, GridCellValue> = {}
@@ -74,7 +39,7 @@ const columns: GridColDef[] = [
 							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
 					)
 
-				return alert(JSON.stringify(thisRow, null, 4))
+				return navigate(`/dashboard/confirmloan/${thisRow.idUsers}/${id}`)
 			}
 
 			return (
@@ -86,15 +51,16 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconEdit} alt="modificar" />
+					💾
 				</Button>
 			)
 		},
 	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'name', headerName: 'Nom', width: 130 },
+
+	{ field: 'idUsers', headerName: 'ID', width: 70 },
+	{ field: 'first_name', headerName: 'Nom', width: 130 },
 	{
-		field: 'lastName',
+		field: 'last_name',
 		headerName: 'Cognoms',
 		width: 190,
 	},
@@ -110,10 +76,22 @@ const columns: GridColDef[] = [
 	},
 ]
 
-const NewLoan = (props: Props) => {
+const NewLoan = () => {
 	const { id } = useParams()
+	const navigate = useNavigate()
 
 	const [data, setData] = useState<any>([])
+
+	//Bring users
+	useEffect(() => {
+		getAllUsers()
+			.then((data: IUser[]) => {
+				setData(data)
+			})
+			.catch((error: Error) => {
+				console.log(error)
+			})
+	}, [])
 
 	return (
 		<>
@@ -127,7 +105,7 @@ const NewLoan = (props: Props) => {
 							height: '100vh',
 						}}
 					>
-						<Typography variant="h1">✏️Prèstec</Typography>
+						<Typography variant="h1">💾 Prèstec</Typography>
 
 						<Box
 							sx={{
@@ -185,13 +163,14 @@ const NewLoan = (props: Props) => {
 						</Box>
 						<Box>
 							<Typography variant="h2" color="initial">
-								Per crear un nou prèstec associat a l'article seleccionat cerca
-								un usuari
+								Per crear un nou prèstec associat a l&apos;article seleccionat
+								cerca un usuari i clica en la icona de desar
 							</Typography>
 
 							<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 								<DataGrid
 									rows={data}
+									getRowId={(row: any) => row.idUsers}
 									columns={columns}
 									disableSelectionOnClick
 								/>
