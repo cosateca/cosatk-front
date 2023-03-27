@@ -11,12 +11,13 @@ import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
 import ResponsiveAppBar from '../../components/MenuHome/MenuHome'
-import FilterHomePage from '../../components/FilterHomePage/FilterHomePage'
+import FilterHomePage from '../../components/FilterCataloguePage/FilterCataloguePage'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
 import { getArticles } from '../../services/HomePage/homeService'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
 import MenuCatalogue from '../../components/MenuCatalogue/MenuCatalogue'
+import FilterCataloguePage from '../../components/FilterCataloguePage/FilterCataloguePage'
 // import { Article } from '../../components/CardProduct/CardProduct'
 
 // type Props = {}
@@ -39,8 +40,7 @@ const CataloguePage = () => {
 			<MenuCatalogue />
 			<Container>
 				<h1>Catàleg</h1>
-				<FilterHomePage />
-				<h2>Bricolatge i jardineria</h2>
+				<FilterCataloguePage />
 				<Box
 					sx={{
 						display: 'flex',
@@ -55,11 +55,6 @@ const CataloguePage = () => {
 						<CardProduct article={article} key={index} />
 					))}
 				</Box>
-				<h2>Criança</h2>
-				<h2>Neteja i llar</h2>
-				<h2>Oci i aventura</h2>
-				<h2>Oficina</h2>
-				<h2>Salut i cures</h2>
 			</Container>
 			<Footer />
 		</>
