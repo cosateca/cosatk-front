@@ -32,6 +32,7 @@ const CardProduct = ({article}:any) => {
   return ( 
         <Card sx={{ maxWidth: 345 }}>
           <CardActionArea>
+          
             <CardMedia
               component="img"
               height="240"
