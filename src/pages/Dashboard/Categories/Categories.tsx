@@ -32,13 +32,13 @@ import { useNavigate } from 'react-router-dom'
 import FormAlert from '../../../components/FormAlert/FormAlert'
 
 const Categories = () => {
+	//Data Grid
 	const handleEdit = (params: any) => {
 		setCategory_name(params.row?.category_name)
 		setEditMode(true)
 		setIsOpenForm(true)
 		setSelectedId(params.id)
 	}
-
 	const HandleEditButton = ({ handleEdit, params }: any) => {
 		const handleClick = () => {
 			handleEdit(params)
@@ -53,7 +53,6 @@ const Categories = () => {
 			</Button>
 		)
 	}
-	//Data Grid
 	const columns: GridColDef[] = [
 		{
 			field: 'remove',
@@ -209,6 +208,7 @@ const Categories = () => {
 			})
 	}
 
+	//Bring categories
 	useEffect(() => {
 		categoryService
 			.getData()

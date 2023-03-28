@@ -4,7 +4,7 @@ import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
 const API_URL_CREATE = `${URLBASE}/article/create`
-const API_URL = `${URLBASE}/article/`
+const API_URL = `${URLBASE}/article`
 const API_URL_DELETEBYCODE = `${URLBASE}/article/deleteByCode`
 
 const createArticle = async (data: IArticle, image: File): Promise<any> => {
@@ -78,8 +78,8 @@ const getArticleById = async (idArticle: any) => {
 
 const articleIdFromCode = async (code: string) => {
 	try {
-		const response = await axios.get(API_URL + '/codetoid/' + code)
-		return response.data[0]
+		const response = await axios.get(API_URL + '/findbycode/' + code)
+		return response.data
 	} catch (error) {
 		console.log(error)
 	}

@@ -41,6 +41,7 @@ import {
 	getAllUsers,
 } from '../../../services/userService'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -154,6 +155,8 @@ const Users = () => {
 	//Form
 	const [data, setData] = useState<any>([])
 
+	const [trigger, setTrigger] = useState(false)
+
 	const [name, setName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
@@ -162,7 +165,9 @@ const Users = () => {
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [membership, setMembership] = useState('')
-	const [birthDate, setBirthDate] = useState<Date>(new Date('1975-01-01'))
+	const [birthDate, setBirthDate] = useState<Date>(
+		moment().startOf('day').toDate()
+	)
 	const [howMeet, setHowMeet] = useState('')
 	const [subscriber, setSubscriber] = useState(false)
 
@@ -197,7 +202,7 @@ const Users = () => {
 			address,
 			city,
 			membership,
-			birth_date: birthDate,
+			birth_date: moment(birthDate).format('YYYY-MM-DD'),
 			how_meet_us: howMeet,
 			subscriber,
 			password: '12345678', //TODO: use .env
@@ -213,10 +218,20 @@ const Users = () => {
 						isError: false,
 					})
 					setTimeout(() => {
-						navigate('/dashboard/users')
+						setAlert({})
+						setTrigger(!trigger)
+						setIsOpenForm(!isOpenForm)
 					}, 3000)
 				} else {
-					setAlert({ msg: "Error quan s'intentava el login", isError: true })
+					setAlert({
+						msg: "Error quan s'intentava crear un usuari",
+						isError: true,
+					})
+					setTimeout(() => {
+						setAlert({})
+						setTrigger(!trigger)
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
 				}
 			})
 			.catch((error) => {
@@ -225,13 +240,18 @@ const Users = () => {
 					msg: "Error quan s'intentava crear un usuari",
 					isError: true,
 				})
+				setTimeout(() => {
+					setAlert({})
+					setTrigger(!trigger)
+					setIsOpenForm(!isOpenForm)
+				}, 3000)
 			})
 
 		// Resetear los estados
 		setName('')
 		setLastName('')
 		setAddress('')
-		setBirthDate(new Date('1975-01-01'))
+		setBirthDate(moment(birthDate).format('YYYY-MM-DD'))
 		setCity('')
 		setDni('')
 		setEmail('')
@@ -239,15 +259,11 @@ const Users = () => {
 		setMembership('')
 		setPhone(0)
 		setSubscriber(false)
-
-		console.log(
-			'New user added: ' + newObject.first_name + ' ' + newObject.last_name
-		)
-		setIsOpenForm(!isOpenForm)
 	}
 
 	//Bring users
 	useEffect(() => {
+		console.log(birthDate)
 		getAllUsers()
 			.then((data: IUser[]) => {
 				setData(data)
@@ -255,7 +271,7 @@ const Users = () => {
 			.catch((error: Error) => {
 				console.log(error)
 			})
-	}, [])
+	}, [trigger])
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setPrestecEnCurs(event.target.value as string)
@@ -269,8 +285,8 @@ const Users = () => {
 	}
 
 	const handleChangeBirthDate = (e: any) => {
-		const date = new Date(e.target.value)
-		setBirthDate(date)
+		const date = moment(e.target.value).format('YYYY-MM-DD')
+		setBirthDate(moment(date, 'YYYY-MM-DD').toDate())
 	}
 
 	//Material Custom Toolbar
