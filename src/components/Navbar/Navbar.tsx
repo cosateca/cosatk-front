@@ -16,6 +16,7 @@ import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
 import useAuth from '../../hooks/useAuth'
+import { NavLink } from 'react-router-dom'
 
 const Navigation = () => {
 	const navigate = useNavigate()
@@ -35,6 +36,8 @@ const Navigation = () => {
 					width={{ xs: '100%', sm: '250px' }}
 					minHeight={{ xs: '100%', sm: '100vh' }}
 				>
+
+				<Link to='/'>
 					<Box
 						display={{ xs: 'flex' }}
 						justifyContent={{ xs: 'center' }}
@@ -45,8 +48,12 @@ const Navigation = () => {
 						width={{ xs: '100%' }}
 						height={{ xs: '146px' }}
 					>
+							
+						<Box>
 						<img height="110px" src={logo} alt="Logo" />
+						</Box>
 					</Box>
+					</Link>
 					<Box
 						display={{ xs: 'flex', sm: 'flex' }}
 						flexDirection={{ xs: 'column' }}
