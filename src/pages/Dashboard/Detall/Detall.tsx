@@ -1,24 +1,68 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Container, Box, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
-import { Article } from '../../../components/CardProduct/CardProduct'
+
 import Footer from '../../../components/Footer/Footer'
 import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
-import { getArticles } from '../../../services/HomePage/homeService'
+import { getArticleImage, getArticles } from '../../../services/HomePage/homeService'
 import imageExample from '../../../assets/images/picture.png'
+import { useNavigate, useParams } from 'react-router-dom'
+import articleService, { getArticleRequest } from '../../../services/articleService'
+import { IArticle } from '../../../interfaces/article.interface'
+
+
 
 const Detall = () => {
-	const [articles, setArticle] = useState<Article[]>([])
+	const [article, setArticle] = useState <IArticle>()
 
-	useEffect(() => {
-		async function loadhome() {
-			const response = await getArticles()
-			console.log(response)
-			setArticle(response)
+	// const [image, setImage] = useState<any>(null)
+
+	// const navigate = useNavigate()
+
+	// useEffect(() => {
+	// 	async function getImg() {
+	// 		const response = await getArticleImage(article.)
+	// 		setImage(response)
+	// 	}
+	// 	getImg()
+	// }, [])
+
+	// const { id } = useParams()
+	const params = useParams ()
+	console.log(params)
+
+	
+
+
+	useEffect(()=>{
+		const loadDetall = async ()=>{
+			
+		
+			if(params.id){
+				const response = await getArticleRequest(params.id)
+				console.log(response)
+				
+
+			}
 		}
-		loadhome()
-	}, [])
+		loadDetall()
+
+	},[])
+
+		// const loanDetall = () => {
+		// 	// if (id) {
+		// 	// 	articleService
+		// 	// 		.getArticle(id)
+		// 	// 		.then((data: any) => {
+		// 	// 			console.log(data)
+		// 	// 			setArticle(data)
+		// 	// 		})
+
+		// 		}
+		// 		loanDetall()
+
+		// 	}
 
 	return (
 		<>
@@ -34,6 +78,8 @@ const Detall = () => {
 						}}
 					>
 						<section>
+
+							
 							<Container
 								sx={{
 									padding: { xs: '25px', sm: '50px' },
@@ -59,17 +105,18 @@ const Detall = () => {
 										<img src={imageExample} alt="image bike" />
 									</Box>
 									<Box>
+									<h1>{article?.name}</h1>
 										<p>
-											<span>Nom: </span>Bicicleta
+											<span>Nom: </span>{article?.name}
 										</p>
 										<p>
-											<span>Categoria: </span>Nens petits
+											<span>Categoria: </span>{article?.short_description}
 										</p>
 										<p>
-											<span>Afegit el: </span>20/10/2023
+											<span>Afegit el: </span>
 										</p>
 										<p>
-											<span>Codi: </span>1234
+											<span>Codi: </span>{article?.components}
 										</p>
 										<p>
 											<span>Número de serie: </span>0001
