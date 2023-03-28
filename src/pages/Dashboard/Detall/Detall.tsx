@@ -82,10 +82,7 @@ const Detall = () => {
 									</Box>
 									<Box>
 										<h1>{article?.name}</h1>
-										<p>
-											<span>Nom: </span>
-											{article?.name && article?.name}
-										</p>
+										
 										<p>
 											<span>Categoria: </span>
 											{article?.short_description && article?.short_description}

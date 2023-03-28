@@ -9,50 +9,41 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from '@mui/material';
 
 
-// const pages = ['Catàleg', 'Com funciona?', 'Fes-te voluntària', 'Contacta'];<
+
 
 const pages = [
   {
     title: 'Catàleg',
-    path: '/',
+    path: '/catalogue',
   },
   {
     title: 'Com funciona?',
-    path: '#',
+    path: 'href: anchortoexplain',
   },
   {
     title: 'Fes-te voluntària',
-    path: '#',
+    path: '/fes-te-voluntaria',
   },
   {
     title: 'Contacta',
-    path: '#',
+    path: 'mailto: cosatk@gmail.com',
   },
 ];
-
-// const page = [
-//   { text: 'Home', href: '/' },
-//   { text: 'About', href: '/about' }
-// ]
-
 
 function MenuHome() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
- const catalog = pages[0];
+  
  
   return (
     <AppBar position="static">
@@ -65,7 +56,6 @@ function MenuHome() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              // color="inherit"
               sx={{ color: 'white' }}
             >
               <MenuIcon />
@@ -90,7 +80,12 @@ function MenuHome() {
             >
               {pages.map((page) => (
                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.title}</Typography>
+                  <Typography textAlign="center">
+                  <a href={page.path} >
+                    {page.title}
+                  </a>
+
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -103,10 +98,10 @@ function MenuHome() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-
-                <Link>
+                <a href={page.path} >
                 {page.title}
-                </Link>
+                </a>
+
               </Button>        
             ))}
           </Box>
@@ -116,3 +111,111 @@ function MenuHome() {
   );
 }
 export default MenuHome;
+
+
+
+
+// const pages = ['Catàleg', 'Com funciona?', 'Fes-te voluntària', 'Contacta'];<
+
+// const pages = [
+//   {
+//     title: 'Catàleg',
+//     path: '/',
+//   },
+//   {
+//     title: 'Com funciona?',
+//     path: '#',
+//   },
+//   {
+//     title: 'Fes-te voluntària',
+//     path: '#',
+//   },
+//   {
+//     title: 'Contacta',
+//     path: '#',
+//   },
+// ];
+
+// // const page = [
+// //   { text: 'Home', href: '/' },
+// //   { text: 'About', href: '/about' }
+// // ]
+
+
+// function MenuHome() {
+//   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  
+
+//   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+//     setAnchorElNav(event.currentTarget);
+//   };
+
+
+//   const handleCloseNavMenu = () => {
+//     setAnchorElNav(null);
+//   };
+
+//  const catalog = pages[0];
+ 
+//   return (
+//     <AppBar position="static">
+//       <Container maxWidth="xl">
+//         <Toolbar disableGutters>
+//           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+//             <IconButton
+//               size="large"
+//               aria-label="account of current user"
+//               aria-controls="menu-appbar"
+//               aria-haspopup="true"
+//               onClick={handleOpenNavMenu}
+//               // color="inherit"
+//               sx={{ color: 'white' }}
+//             >
+//               <MenuIcon />
+//             </IconButton>
+//             <Menu
+//               id="menu-appbar"
+//               anchorEl={anchorElNav}
+//               anchorOrigin={{
+//                 vertical: 'bottom',
+//                 horizontal: 'left',
+//               }}
+//               keepMounted
+//               transformOrigin={{
+//                 vertical: 'top',
+//                 horizontal: 'left',
+//               }}
+//               open={Boolean(anchorElNav)}
+//               onClose={handleCloseNavMenu}
+//               sx={{
+//                 display: { xs: 'block', md: 'none' },
+//               }}
+//             >
+//               {pages.map((page) => (
+//                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+//                   <Typography textAlign="center">{page.title}</Typography>
+//                 </MenuItem>
+//               ))}
+//             </Menu>
+//           </Box>
+          
+//           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+//             {pages.map((page) => (
+//               <Button
+//                 key={page.title}
+//                 onClick={handleCloseNavMenu}
+//                 sx={{ my: 2, color: 'white', display: 'block' }}
+//               >
+
+                
+//                 {page.title}
+                
+//               </Button>        
+//             ))}
+//           </Box>
+//         </Toolbar>
+//       </Container>
+//     </AppBar>
+//   );
+// }
+// export default MenuHome;

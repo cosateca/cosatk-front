@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 
 import {
 	getArticles,
-	getArticleImage,
+	
 } from '../../services/HomePage/homeService'
 
 import MenuHome from '../../components/MenuHome/MenuHome'
@@ -53,16 +53,15 @@ const HomePage = () => {
 						<CardProduct article={article} key={index} />
 					))}
 				</Box>
-				<h2>Afegits recentment</h2>
-			</Container>
-			<Box
+				
+				<Box
 				sx={{
 					backgroundColor: '#F9F9F9',
 					marginTop: '30px',
-					padding: '20px',
+					
 				}}
 			>
-				<Typography
+				<Typography id = 'anchortoexplain'
 					sx={{
 						textAlign: 'center',
 						marginBottom: '20px',
@@ -73,6 +72,8 @@ const HomePage = () => {
 				</Typography>
 				<CustomizedAccordions />
 			</Box>
+			</Container>
+			
 			<Footer />
 		</>
 	)
