@@ -35,6 +35,7 @@ const Navigation = () => {
 					alignItems={{ xs: 'center' }}
 					width={{ xs: '100%', sm: '250px' }}
 					minHeight={{ xs: '100%', sm: '100vh' }}
+					sx={{ backgroundColor: '#D2D2D2' }}
 				>
 
 				<Link to='/'>
@@ -42,7 +43,6 @@ const Navigation = () => {
 						display={{ xs: 'flex' }}
 						justifyContent={{ xs: 'center' }}
 						alignItems={{ xs: 'center' }}
-						sx={{ backgroundColor: '#D2D2D2' }}
 						onClick={handleClick}
 						bgcolor={{ xs: '#D2D2D2' }}
 						width={{ xs: '100%' }}
@@ -50,7 +50,7 @@ const Navigation = () => {
 					>
 							
 						<Box>
-						<img height="110px" src={logo} alt="Logo" />
+						<img height="110px" src={logo} alt="Logo"/>
 						</Box>
 					</Box>
 					</Link>
@@ -92,7 +92,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconLoan} alt="Icona prèstec" title='prèstec'/>
+													<img src={iconLoan} alt="Icona prèstec" title='Prèstec'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -122,7 +122,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconUsers} alt="Icona usuaris" title='usuaris' />
+													<img src={iconUsers} alt="Icona usuaris" title='Usuaris' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -152,7 +152,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconArticles} alt="Icona articles" title='articles' />
+													<img src={iconArticles} alt="Icona articles" title='Articles' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -182,7 +182,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconCategories} alt="Icona categories" title='categories'/>
+													<img src={iconCategories} alt="Icona categories" title='Categories'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -217,7 +217,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconSession} alt="Icona sessio" title='tancar sessió'/>
+													<img src={iconSession} alt="Icona sessio" title='Tancar sessió'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
