@@ -22,10 +22,6 @@ const Navigation = () => {
 	const navigate = useNavigate()
 	const { auth, logout } = useAuth()
 
-	const handleClick = () => {
-		navigate('/dashboard/loans')
-	}
-
 	return (
 		<div>
 			<header>
@@ -36,24 +32,22 @@ const Navigation = () => {
 					width={{ xs: '100%', sm: '250px' }}
 					minHeight={{ xs: '100%', sm: '100vh' }}
 				>
-
-				<Link to='/'>
 					<Box
 						display={{ xs: 'flex' }}
 						justifyContent={{ xs: 'center' }}
 						alignItems={{ xs: 'center' }}
 						sx={{ backgroundColor: '#D2D2D2' }}
-						onClick={handleClick}
 						bgcolor={{ xs: '#D2D2D2' }}
 						width={{ xs: '100%' }}
 						height={{ xs: '146px' }}
 					>
-							
 						<Box>
-						<img height="110px" src={logo} alt="Logo" />
+							<Link to="/">
+								<img height="110px" src={logo} alt="Logo" />
+							</Link>
 						</Box>
 					</Box>
-					</Link>
+
 					<Box
 						display={{ xs: 'flex', sm: 'flex' }}
 						flexDirection={{ xs: 'column' }}
