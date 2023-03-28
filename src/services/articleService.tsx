@@ -59,7 +59,6 @@ const deleteArticle = async (code: string): Promise<any> => {
 	} catch (error) {
 		console.log(error)
 	}
-
 }
 
 const getArticle = async (code: string): Promise<any> => {
@@ -70,14 +69,12 @@ const getArticle = async (code: string): Promise<any> => {
 	} catch (error) {
 		console.log(error)
 	}
-
-	
 }
 
-export const getArticleRequest = async (idArticle:any)=>{
-	return await axios.get(API_URL + `/${idArticle}`)
+const getArticleById = async (idArticle: any) => {
+	const response = await axios.get(API_URL + idArticle)
+	return response.data
 }
-
 
 const articleIdFromCode = async (code: string) => {
 	try {
@@ -88,6 +85,11 @@ const articleIdFromCode = async (code: string) => {
 	}
 }
 
-
-export default { getArticles, createArticle, deleteArticle, getArticle, articleIdFromCode, getArticleRequest }
-
+export default {
+	getArticles,
+	createArticle,
+	deleteArticle,
+	getArticle,
+	articleIdFromCode,
+	getArticleById,
+}

@@ -5,64 +5,49 @@ import { useState, useEffect } from 'react'
 import Footer from '../../../components/Footer/Footer'
 import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
-import { getArticleImage, getArticles } from '../../../services/HomePage/homeService'
+import {
+	getArticleImage,
+	getArticles,
+} from '../../../services/HomePage/homeService'
 import imageExample from '../../../assets/images/picture.png'
 import { useNavigate, useParams } from 'react-router-dom'
-import articleService, { getArticleRequest } from '../../../services/articleService'
+
 import { IArticle } from '../../../interfaces/article.interface'
-
-
+import articleService from '../../../services/articleService'
 
 const Detall = () => {
-	const [article, setArticle] = useState <IArticle>()
+	const [article, setArticle] = useState<IArticle>()
 
-	// const [image, setImage] = useState<any>(null)
+	const [image, setImage] = useState<any>(null)
 
-	// const navigate = useNavigate()
+	const navigate = useNavigate()
 
-	// useEffect(() => {
-	// 	async function getImg() {
-	// 		const response = await getArticleImage(article.)
-	// 		setImage(response)
-	// 	}
-	// 	getImg()
-	// }, [])
-
-	// const { id } = useParams()
-	const params = useParams ()
+	const { id } = useParams()
+	const params = useParams()
 	console.log(params)
 
-	
-
-
-	useEffect(()=>{
-		const loadDetall = async ()=>{
-			
-		
-			if(params.id){
-				const response = await getArticleRequest(params.id)
+	useEffect(() => {
+		async function getImg() {
+			if (params.id) {
+				const response = await getArticleImage(params.id)
 				console.log(response)
-				
+				setImage(response)
+			}
+		}
 
+		getImg()
+	}, [])
+
+	//Bring article
+	useEffect(() => {
+		const loadDetall = async () => {
+			if (params.id) {
+				const response = await articleService.getArticleById(params.id)
+				setArticle(response)
 			}
 		}
 		loadDetall()
-
-	},[])
-
-		// const loanDetall = () => {
-		// 	// if (id) {
-		// 	// 	articleService
-		// 	// 		.getArticle(id)
-		// 	// 		.then((data: any) => {
-		// 	// 			console.log(data)
-		// 	// 			setArticle(data)
-		// 	// 		})
-
-		// 		}
-		// 		loanDetall()
-
-		// 	}
+	}, [])
 
 	return (
 		<>
@@ -78,8 +63,6 @@ const Detall = () => {
 						}}
 					>
 						<section>
-
-							
 							<Container
 								sx={{
 									padding: { xs: '25px', sm: '50px' },
@@ -102,21 +85,24 @@ const Detall = () => {
 									}}
 								>
 									<Box>
-										<img src={imageExample} alt="image bike" />
+										<img src={image && image.src} alt="image bike" />
 									</Box>
 									<Box>
-									<h1>{article?.name}</h1>
+										<h1>{article?.name}</h1>
 										<p>
-											<span>Nom: </span>{article?.name}
+											<span>Nom: </span>
+											{article?.name && article?.name}
 										</p>
 										<p>
-											<span>Categoria: </span>{article?.short_description}
+											<span>Categoria: </span>
+											{article?.short_description && article?.short_description}
 										</p>
 										<p>
 											<span>Afegit el: </span>
 										</p>
 										<p>
-											<span>Codi: </span>{article?.components}
+											<span>Codi: </span>
+											{article?.components}
 										</p>
 										<p>
 											<span>Número de serie: </span>0001
