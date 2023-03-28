@@ -1,10 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import {
 	Container,
-	Button,
 	Box,
 	Typography,
-	AccordionActionsClasses,
 } from '@mui/material'
 
 import Header from '../../components/Header/Header'

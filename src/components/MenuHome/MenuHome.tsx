@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import {HashLink as Link}   from 'react-router-hash-link';
 
 
 
@@ -20,11 +21,11 @@ const pages = [
   },
   {
     title: 'Com funciona?',
-    path: 'href: anchortoexplain',
+    path: '#anchortoexplain',
   },
   {
     title: 'Fes-te voluntària',
-    path: '/fes-te-voluntaria',
+    path: 'mailto: cosatk@gmail.com',
   },
   {
     title: 'Contacta',
@@ -81,9 +82,9 @@ function MenuHome() {
               {pages.map((page) => (
                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <a href={page.path} >
+                  <Link to={page.path}>   
                     {page.title}
-                  </a>
+                    </Link>
 
                   </Typography>
                 </MenuItem>
@@ -98,9 +99,9 @@ function MenuHome() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <a href={page.path} >
-                {page.title}
-                </a>
+                 <Link to={page.path}>   
+                    {page.title}
+                    </Link>
 
               </Button>        
             ))}
