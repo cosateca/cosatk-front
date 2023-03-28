@@ -85,18 +85,18 @@ export default function CustomizedAccordions() {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+        <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
           <Typography>4. Dóna-li vida a casa teva!</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          Has viscut alguna anècdota mentre el feies servir? Tens algun comentari a afegir que pot ser útil per la pròxima persona que l’utilitzi? Escriu la teva experiència al Twitter afegint #codi_QR_de_l’objecte i #bibliotecadelescoses
+          Has viscut alguna anècdota mentre l'utilitzaves? Tens algun comentari per afegir que pot ser útil per a la propera persona que l'utilitzi? Escriu la teva experiència a les xarxes socials afegint el hashtag #bibliotecadelescose
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+      <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+        <AccordionSummary aria-controls="panel5d-content" id="panel5d-header">
           <Typography>5. Retorna’l abans de la data limit</Typography>
         </AccordionSummary>
         <AccordionDetails>

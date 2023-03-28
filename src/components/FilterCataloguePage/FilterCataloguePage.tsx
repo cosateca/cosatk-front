@@ -5,7 +5,7 @@ import iconSearch from '../../assets/images/icono_buscar.svg'
 // eslint-disable-next-line @typescript-eslint/ban-types
 type Props = {}
 
-const FilterHomePage = (props: Props) => {
+const FilterCataloguePage = (props: Props) => {
   return (
     <Box
     sx={{
@@ -62,4 +62,4 @@ const FilterHomePage = (props: Props) => {
   )
 }
 
-export default FilterHomePage
+export default FilterCataloguePage
