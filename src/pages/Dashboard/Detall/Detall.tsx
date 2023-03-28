@@ -5,12 +5,8 @@ import { useState, useEffect } from 'react'
 import Footer from '../../../components/Footer/Footer'
 import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
-import {
-	getArticleImage,
-	getArticles,
-} from '../../../services/HomePage/homeService'
-import imageExample from '../../../assets/images/picture.png'
-import { useNavigate, useParams } from 'react-router-dom'
+import {getArticleImage} from '../../../services/HomePage/homeService'
+import {  useParams } from 'react-router-dom'
 
 import { IArticle } from '../../../interfaces/article.interface'
 import articleService from '../../../services/articleService'
@@ -20,9 +16,6 @@ const Detall = () => {
 
 	const [image, setImage] = useState<any>(null)
 
-	const navigate = useNavigate()
-
-	const { id } = useParams()
 	const params = useParams()
 	console.log(params)
 
@@ -57,17 +50,17 @@ const Detall = () => {
 				<>
 					<Box
 						display={{ xs: 'block', sm: 'flex' }}
-						overflow-y={{ xs: 'hidden' }}
+						
 						sx={{
-							overflow: { xs: 'scroll', sm: 'scroll' },
+							overflow: { xs: 'scroll', sm: 'hidden' },
+							justifyContent:'center'
 						}}
 					>
 						<section>
 							<Container
 								sx={{
 									padding: { xs: '25px', sm: '50px' },
-									width: '100vw',
-									height: '100vh',
+									
 								}}
 							>
 								<Typography variant="h1">Detall Article</Typography>
@@ -85,7 +78,7 @@ const Detall = () => {
 									}}
 								>
 									<Box>
-										<img src={image && image.src} alt="image bike" />
+										<img src={image && image.src} alt="image bike" style={{width: '200px', height:' 200px'}}/>
 									</Box>
 									<Box>
 										<h1>{article?.name}</h1>
@@ -98,55 +91,64 @@ const Detall = () => {
 											{article?.short_description && article?.short_description}
 										</p>
 										<p>
-											<span>Afegit el: </span>
+											<span>Afegit el:  </span>
+											{article?.donated_by && article?.donated_by}
 										</p>
 										<p>
 											<span>Codi: </span>
-											{article?.components}
+											{article?.code && article?.code}
 										</p>
 										<p>
-											<span>Número de serie: </span>0001
+											<span>Número de serie: </span>
+											{article?.serial_number && article?.serial_number}
 										</p>
 										<p>
-											<span>Condicio: </span>Bona
+											<span>Condicio: </span>
+											{article?.condition && article?.condition}
 										</p>
 										<p>
-											<span>Preu pagat: </span>Bianchi
+											<span>Preu pagat: </span>
+											{article?.price_paid && article?.price_paid}
 										</p>
 										<p>
-											<span>Marca: </span>200€
+											<span>Marca: </span> 
+											{article?.brand && article?.brand}
 										</p>
 										<p>
-											<span>Valor: </span>100€
+											<span>Valor: </span>
+											{article?.value && article?.value}
 										</p>
 										<p>
-											<span>Preu de lloguer: </span>5€
+											<span>Preu de lloguer: </span>
+											{article?.loan_fee && article?.loan_fee}
 										</p>
 										<p>
-											<span>Període de lloguer: </span>7 dies
+											<span>Període de lloguer: </span>
+										    {article?.loan_period && article?.loan_period}
 										</p>
 										<p>
-											<span>Components: </span>Comproveu la pressió dels
-											pneumátics
+											<span>Components: </span>
+											{article?.components && article?.components}
 										</p>
 										<p>
-											<span>Informació de cures: </span>Will Smith
+											<span>Informació de cures: </span>
+											{article?.care_information && article?.care_information}
 										</p>
 										<p>
-											<span>Propietar de: </span>Chris Rock
+											<span>Propietar de: </span>
+											{article?.owned_by && article?.owned_by}
 										</p>
 										<p>
-											<span>Donat per: </span>Jada Pinkett Smith
+											<span>Donat per: </span>
+											{article?.donated_by && article?.donated_by}
 										</p>
 										<p>
-											<span>Descripció llarga: </span>mitjá de transport que té
-											dures rodes, amb pedals que permeten transmetre el
-											moviment a la roda del darrere a través d´una cadena, un
-											pinyó i un plat
+											<span>Descripció llarga: </span>
+											{article?.long_description && article?.long_description}
 										</p>
 										<p>
-											<span>Descripció curta: </span>bicicleta infantil fins a 3
-											anys
+											<span>Descripció curta: </span>
+											{article?.short_description && article?.short_description}
 										</p>
 									</Box>
 								</Box>
