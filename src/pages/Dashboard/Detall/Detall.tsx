@@ -8,7 +8,7 @@ import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
 import {
 	getArticleImage,
 	getArticles,
-} from '../../../services/HomePage/homeService'
+} from '../../../services/homeService'
 import imageExample from '../../../assets/images/picture.png'
 import { useNavigate, useParams } from 'react-router-dom'
 

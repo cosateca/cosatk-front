@@ -6,7 +6,7 @@ import { Button, CardActionArea, ListItemButton } from '@mui/material'
 import product from '../../assets/images/picture.png'
 import * as blobUtil from 'blob-util'
 import { useEffect, useState } from 'react'
-import { getArticleImage } from '../../services/HomePage/homeService'
+import { getArticleImage } from '../../services/homeService'
 import { useNavigate } from 'react-router-dom'
 
 

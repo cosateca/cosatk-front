@@ -92,7 +92,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconLoan} alt="Icona prèstec" />
+													<img src={iconLoan} alt="Icona prèstec" title='prèstec'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -122,7 +122,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconUsers} alt="Icona usuaris" />
+													<img src={iconUsers} alt="Icona usuaris" title='usuaris' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -152,7 +152,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconArticles} alt="Icona articles" />
+													<img src={iconArticles} alt="Icona articles" title='articles' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -182,7 +182,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconCategories} alt="Icona categories" />
+													<img src={iconCategories} alt="Icona categories" title='categories'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -217,7 +217,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconSession} alt="Icona sessio" />
+													<img src={iconSession} alt="Icona sessio" title='tancar sessió'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText

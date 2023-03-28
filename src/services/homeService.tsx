@@ -1,5 +1,5 @@
 import axios from 'axios'
-import URLBASE from '../urlConstants'
+import URLBASE from './urlConstants'
 
 const API_URL = `${URLBASE}/article`
 const API_URL_IMG = `${URLBASE}/article/image/`
