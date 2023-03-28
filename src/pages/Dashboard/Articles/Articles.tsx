@@ -22,6 +22,9 @@ import {
 	GridCellValue,
 	GridRenderCellParams,
 	GridValueGetterParams,
+	GridToolbarContainer,
+	GridToolbarExport,
+	esES,
 } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
@@ -354,6 +357,15 @@ const Articles = () => {
 			})
 	}, [trigger])
 
+	//Material Custom Toolbar
+	function CustomToolbar() {
+		return (
+			<GridToolbarContainer>
+				<GridToolbarExport />
+			</GridToolbarContainer>
+		)
+	}
+
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -497,7 +509,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '17%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -520,7 +532,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '17%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -544,7 +556,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '16.5%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -568,7 +580,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '16%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -596,7 +608,7 @@ const Articles = () => {
 												InputProps={{
 													inputProps: { min: 0, max: 1000 },
 												}}
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '18%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -739,6 +751,7 @@ const Articles = () => {
 											justifyContent: 'flex-start',
 											alignItems: 'center',
 											gap: '20px',
+											marginTop: '30px',
 										}}
 									>
 										<FormControl
@@ -755,7 +768,7 @@ const Articles = () => {
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -764,7 +777,7 @@ const Articles = () => {
 											/>
 											<Select
 												displayEmpty
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												id="demo-simple-select"
 												value={prestecEnCurs}
 												label="Estat"
@@ -807,6 +820,12 @@ const Articles = () => {
 											rows={data}
 											getRowId={(row: any) => row.idArticle}
 											columns={columns}
+											localeText={
+												esES.components.MuiDataGrid.defaultProps.localeText
+											}
+											components={{
+												Toolbar: CustomToolbar,
+											}}
 											disableSelectionOnClick
 										/>
 									</Box>

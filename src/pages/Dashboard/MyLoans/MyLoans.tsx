@@ -1,155 +1,78 @@
-import {
-	Box,
-	Button,
-	Container,
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Modal,
-	Select,
-	SelectChangeEvent,
-	TextField,
-	Typography,
-} from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Container, SelectChangeEvent, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
-import iconSearch from '../../../assets/images/icono_buscar.svg'
-import iconNew from '../../../assets/images/icono_add.svg'
-import iconTrash from '../../../assets/images/icono_eliminar.svg'
-import iconEdit from '../../../assets/images/icono_modificar.svg'
-import {
-	DataGrid,
-	GridApi,
-	GridCellValue,
-	GridColDef,
-	GridRenderCellParams,
-} from '@mui/x-data-grid'
-import { nanoid } from 'nanoid'
 
-type Props = {}
+import { DataGrid, esES, GridColDef } from '@mui/x-data-grid'
+import loanService from '../../../services/loanService'
+import useAuth from '../../../hooks/useAuth'
+import { ILoan } from '../../../interfaces/loans.interface'
 
 //Data Grid
 const columns: GridColDef[] = [
+	{ field: 'idLoan', headerName: 'ID', width: 70 },
 	{
-		field: 'remove',
-		headerName: 'Eliminar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconTrash} alt="eliminar" />
-				</Button>
-			)
-		},
+		field: 'articleIdArticle',
+		type: 'number',
+		headerName: 'Id article',
+		width: 70,
 	},
 	{
-		field: 'edit',
-		headerName: 'Editar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconEdit} alt="modificar" />
-				</Button>
-			)
-		},
-	},
-	{ field: 'id', headerName: 'ID', width: 70 },
-	{ field: 'articleName', headerName: 'Nom article', width: 190 },
-	{
-		field: 'personName',
-		headerName: 'Nom',
+		field: 'fee',
+		headerName: 'Cost prèstec',
+		type: 'number',
 		width: 140,
 	},
 	{
-		field: 'personLastName',
-		headerName: 'Cognoms',
-		width: 190,
+		field: 'deposit',
+		headerName: 'Diposit',
+		type: 'number',
+		width: 140,
 	},
 	{
-		field: 'checkinDate',
+		field: 'checked_in',
 		headerName: 'Data inici',
-		width: 120,
+		width: 130,
 	},
 	{
-		field: 'checkoutDate',
+		field: 'checked_out',
 		headerName: 'Data fi',
+		width: 130,
+	},
+	{
+		field: 'status',
+		type: 'boolean',
+		headerName: 'En prèstec',
 		width: 120,
 	},
 ]
 
-const MyLoans = (props: Props) => {
-	const [estat, setEstat] = React.useState('')
-
+const MyLoans = () => {
 	//Data
-	const [data, setData] = useState<any>([
+	const [data, setData] = useState<any>([])
+	const { auth } = useAuth()
+
+	//Bring loans
+	useEffect(() => {
+		if (auth?.idUsers) {
+			loanService
+				.getLoansByUser(auth?.idUsers)
+				.then((data: ILoan[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			console.log('Not authenticated')
+		}
+	}, [])
+
+	const [sortModel, setSortModel] = React.useState<any>([
 		{
-			id: nanoid(),
-			articleName: 'Crosses',
-			personName: 'Jose',
-			personLastName: 'Mata Mateo',
-			checkinDate: '24/05/2022',
-			checkoutDate: '24/06/2022',
+			field: 'idLoan',
+			sort: 'desc',
 		},
 	])
-
-	//Modal
-	const [open, setOpen] = React.useState(false)
-	const handleOpen = () => setOpen(true)
-	const handleClose = () => setOpen(false)
-
-	const handleChange = (event: SelectChangeEvent) => {
-		setEstat(event.target.value as string)
-	}
 
 	return (
 		<>
@@ -165,70 +88,6 @@ const MyLoans = (props: Props) => {
 					>
 						<Typography variant="h1">ELS MEUS PRÈSTECS</Typography>
 
-						<Box
-							sx={{
-								display: 'flex',
-								flexDirection: { xs: 'column', sm: 'row' },
-								justifyContent: 'flex-start',
-								alignItems: 'center',
-							}}
-						>
-							<FormControl
-								sx={{
-									display: 'flex',
-									flexDirection: { xs: 'column', sm: 'row' },
-									justifyContent: 'flex-start',
-									alignItems: 'center',
-									gap: '20px',
-								}}
-								fullWidth
-							>
-								<TextField
-									id="input-article"
-									label="Cerca per article"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/>
-								<TextField
-									id="input-nom"
-									label="Cerca per nom"
-									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
-									InputLabelProps={{
-										style: {
-											color: '#222222',
-										},
-									}}
-								/>
-								<Select
-									displayEmpty
-									sx={{ width: { xs: '200px' } }}
-									id="demo-simple-select"
-									value={estat}
-									label="Estat"
-									onChange={handleChange}
-								>
-									<MenuItem value="">Selecciona Estat</MenuItem>
-									<MenuItem value={10}>En termini</MenuItem>
-									<MenuItem value={20}>Proper data</MenuItem>
-									<MenuItem value={30}>Excedit</MenuItem>
-								</Select>
-								<Button
-									sx={{
-										bgcolor: '#D9D9D9',
-										height: '55px',
-									}}
-									variant="contained"
-								>
-									<img src={iconSearch} alt="cerca" />
-								</Button>
-							</FormControl>
-						</Box>
 						<Box>
 							<Box
 								sx={{
@@ -243,8 +102,15 @@ const MyLoans = (props: Props) => {
 							>
 								<Box sx={{ height: { xs: 460, xl: 600 }, width: '100%' }}>
 									<DataGrid
+										{...data}
+										sortModel={sortModel}
+										onSortModelChange={(model) => setSortModel(model)}
 										rows={data}
+										getRowId={(row: any) => row.idLoan}
 										columns={columns}
+										localeText={
+											esES.components.MuiDataGrid.defaultProps.localeText
+										}
 										disableSelectionOnClick
 									/>
 								</Box>

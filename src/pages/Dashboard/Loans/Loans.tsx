@@ -18,10 +18,13 @@ import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import {
 	DataGrid,
+	esES,
 	GridApi,
 	GridCellValue,
 	GridColDef,
 	GridRenderCellParams,
+	GridToolbarContainer,
+	GridToolbarExport,
 } from '@mui/x-data-grid'
 import loanService from '../../../services/loanService'
 import { ILoan } from '../../../interfaces/loans.interface'
@@ -31,7 +34,7 @@ import { useNavigate } from 'react-router-dom'
 const columns: GridColDef[] = [
 	{
 		field: 'remove',
-		headerName: 'Eliminar',
+		headerName: 'Retornar',
 		sortable: false,
 		width: 50,
 		renderCell: (params: GridRenderCellParams<any>) => {
@@ -61,7 +64,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconTrash} alt="eliminar" />
+					↩️
 				</Button>
 			)
 		},
@@ -119,13 +122,13 @@ const columns: GridColDef[] = [
 	{
 		field: 'personName',
 		headerName: 'Nom',
-		width: 140,
+		width: 130,
 		valueGetter: (params) => params.row?.user?.first_name,
 	},
 	{
 		field: 'personLastName',
 		headerName: 'Cognoms',
-		width: 160,
+		width: 150,
 		valueGetter: (params) => params.row?.user?.last_name,
 	},
 	{
@@ -175,6 +178,15 @@ const Loans = () => {
 		},
 	])
 
+	//Material Custom Toolbar
+	function CustomToolbar() {
+		return (
+			<GridToolbarContainer>
+				<GridToolbarExport />
+			</GridToolbarContainer>
+		)
+	}
+
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -195,6 +207,7 @@ const Loans = () => {
 								flexDirection: { xs: 'column', sm: 'row' },
 								justifyContent: 'flex-start',
 								alignItems: 'center',
+								marginTop: '30px',
 							}}
 						>
 							<FormControl
@@ -211,7 +224,7 @@ const Loans = () => {
 									id="input-article"
 									label="Cerca per article"
 									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
+									sx={{ width: { xs: '90%', sm: '200px' } }}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -222,7 +235,7 @@ const Loans = () => {
 									id="input-nom"
 									label="Cerca per nom"
 									variant="outlined"
-									sx={{ width: { xs: '200px' } }}
+									sx={{ width: { xs: '90%', sm: '200px' } }}
 									InputLabelProps={{
 										style: {
 											color: '#222222',
@@ -231,7 +244,7 @@ const Loans = () => {
 								/>
 								<Select
 									displayEmpty
-									sx={{ width: { xs: '200px' } }}
+									sx={{ width: { xs: '90%', sm: '200px' } }}
 									id="demo-simple-select"
 									value={estat}
 									label="Estat"
@@ -273,6 +286,12 @@ const Loans = () => {
 										rows={data}
 										getRowId={(row: any) => row.idLoan}
 										columns={columns}
+										localeText={
+											esES.components.MuiDataGrid.defaultProps.localeText
+										}
+										components={{
+											Toolbar: CustomToolbar,
+										}}
 										disableSelectionOnClick
 									/>
 								</Box>

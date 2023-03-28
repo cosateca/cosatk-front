@@ -66,7 +66,7 @@ const ReturnLoan = () => {
 							height: '100vh',
 						}}
 					>
-						<Typography variant="h1">🔙Retornar Prèstec</Typography>
+						<Typography variant="h1">↩️ Retornar Prèstec</Typography>
 
 						<Box
 							sx={{

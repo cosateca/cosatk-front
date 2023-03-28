@@ -2,18 +2,19 @@ import { useState, useEffect, createContext } from 'react'
 import { findUserById } from '../services/userService'
 import jwt_decode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import { IUser } from '../interfaces/user.interface'
 
 interface AuthContextType {
-	auth: User | null
-	setAuth: (auth: User | null) => void
+	auth: IUser | null
+	setAuth: (auth: IUser | null) => void
 	logout: () => void
 }
 
-interface User {
-	email: string
-	id: string
-	role: string
-}
+// interface User {
+// 	email: string
+// 	idUsers: string
+// 	role: string
+// }
 
 export const AuthContext = createContext<AuthContextType>({
 	auth: null,
@@ -22,10 +23,9 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 const AuthProvider: any = ({ children }: any): any => {
-	const [auth, setAuth] = useState<User | null>(null)
+	const [auth, setAuth] = useState<IUser | null>(null)
 
 	useEffect(() => {
-		console.log('User auth: ' + auth?.id)
 		const authenticateUser = async () => {
 			const token = localStorage.getItem('token')
 			if (!token) {
@@ -37,8 +37,6 @@ const AuthProvider: any = ({ children }: any): any => {
 			//Decode Token
 			const decodedToken: { email: string; id: string; role: string } =
 				jwt_decode(token)
-
-			console.log('AuthProvider, from auth: ' + decodedToken.email)
 
 			const authData = {
 				email: decodedToken.email,
@@ -57,7 +55,7 @@ const AuthProvider: any = ({ children }: any): any => {
 			}
 		}
 		authenticateUser()
-	}, [auth?.id])
+	}, [auth?.idUsers])
 
 	const navigate = useNavigate()
 

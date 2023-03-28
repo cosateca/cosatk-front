@@ -14,6 +14,15 @@ const getLoans = async (): Promise<any> => {
 	}
 }
 
+const getLoansByUser = async (id: string): Promise<any> => {
+	try {
+		const response = await axios.get(API_URL + '/userIdUsers/' + id)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 const returnLoan = async (id: string): Promise<any> => {
 	try {
 		const response = await axios.patch(API_URL + '/' + id)
@@ -35,4 +44,4 @@ const createLoan = async (data: any): Promise<any> => {
 	}
 }
 
-export default { getLoans, returnLoan, createLoan }
+export default { getLoans, returnLoan, createLoan, getLoansByUser }

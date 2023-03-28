@@ -64,7 +64,7 @@ const deleteArticle = async (code: string): Promise<any> => {
 const articleIdFromCode = async (code: string) => {
 	try {
 		const response = await axios.get(API_URL + '/codetoid/' + code)
-		return response.data
+		return response.data[0]
 	} catch (error) {
 		console.log(error)
 	}

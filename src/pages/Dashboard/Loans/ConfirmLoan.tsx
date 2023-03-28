@@ -17,21 +17,22 @@ const ConfirmLoan = () => {
 	const { msg } = alert
 
 	//Form
-	const [loanFee, setLoanFee] = useState<any>(33)
-	const [deposit, setDeposit] = useState<any>(44)
+	const [loanFee, setLoanFee] = useState<any>(0)
+	const [deposit, setDeposit] = useState<any>(0)
+	const [loan_period, setLoan_Period] = useState<any>(0)
 
 	const handleSkip = () => {
 		navigate('/dashboard/articles')
 	}
-
 	//Bring article data
 	useEffect(() => {
 		if (articleCode) {
 			articleService
 				.articleIdFromCode(articleCode)
-				.then((data: IArticle) => {
+				.then((data: any) => {
 					setLoanFee(data.loan_fee)
 					setDeposit(data.deposit)
+					setLoan_Period(data.loan_period)
 				})
 				.catch((error: Error) => {
 					console.log(error)
@@ -43,16 +44,26 @@ const ConfirmLoan = () => {
 
 	const handleCreate = async () => {
 		if (userId && articleCode) {
-			//get article id from code
-
 			const findArticleIdFromCode = await articleService.articleIdFromCode(
 				articleCode
 			)
+
+			// due date
+			const due_date = new Date(Date.now() + loan_period * 24 * 60 * 60 * 1000)
+			const formatted_due_date = due_date.toISOString().slice(0, 10)
+
+			// checked_in
+			const checked_in_date = new Date()
+			const formatted_checked_in_date = checked_in_date
+				.toISOString()
+				.slice(0, 10)
 
 			const newData = {
 				status: true,
 				fee: loanFee,
 				deposit: deposit,
+				checked_in: formatted_checked_in_date,
+				checked_out: formatted_due_date,
 				articleIdArticle: findArticleIdFromCode.idArticle,
 				userIdUsers: userId,
 			}
@@ -113,76 +124,111 @@ const ConfirmLoan = () => {
 							sx={{
 								display: 'flex',
 								marginBottom: '20px',
-								marginTop: '70px',
+								marginTop: { xs: '20px', sm: '70px' },
 								height: '55px',
 							}}
 						>
-							Crear nou prèstec amb article id: {articleCode} i usuari amb id:
-							{userId} ?
-							<br />
-							Si voleu podeu personalitzar els següents camps:
+							<p>
+								Crear nou prèstec amb article id: <strong>{articleCode}</strong>{' '}
+								i usuari amb id: <strong>{userId}</strong> ? Si voleu podeu
+								personalitzar els següents camps associats a l&rsquo;article:
+							</p>
 						</Box>
-						<TextField
-							onChange={(e: any) => setLoanFee(e.target.value)}
-							onKeyPress={(e: any) => {
-								const charCode = e.which ? e.which : e.keyCode
-								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-									e.preventDefault()
-								}
-							}}
-							id="input-preu"
-							label="Preu prèstec"
-							variant="outlined"
-							type="number"
-							value={loanFee}
-							InputProps={{ inputProps: { min: 0, max: 1000 } }}
-							sx={{ width: { xs: '92%', sm: '50%' } }}
-							InputLabelProps={{
-								style: {
-									color: '#222222',
-								},
-							}}
-						/>
-						<TextField
-							onChange={(e: any) => setDeposit(e.target.value)}
-							onKeyPress={(e: any) => {
-								const charCode = e.which ? e.which : e.keyCode
-								if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-									e.preventDefault()
-								}
-							}}
-							id="input-deposit"
-							label="Preu Diposit"
-							variant="outlined"
-							type="number"
-							InputProps={{ inputProps: { min: 0, max: 1000 } }}
-							sx={{ width: { xs: '92%', sm: '50%' } }}
-							InputLabelProps={{
-								style: {
-									color: '#222222',
-								},
-							}}
-						/>
-						<Button
+						<Box
 							sx={{
-								marginBottom: { xs: '25px', sm: '50px' },
+								display: 'flex',
+								flexDirection: { xs: 'column', sm: 'row' },
+								flexWrap: 'wrap',
+								gap: '10px',
+								marginTop: { xs: '100px', sm: '30px' },
 							}}
-							onClick={handleCreate}
-							variant="contained"
 						>
-							Confirmar
-						</Button>
-						<Button
-							sx={{
-								marginBottom: { xs: '25px', sm: '50px' },
-								marginLeft: { xs: '15px', sm: '20px' },
-							}}
-							onClick={handleSkip}
-							variant="contained"
-						>
-							Descartar
-						</Button>
-						{msg && <FormAlert alert={alert} />}
+							<TextField
+								onChange={(e: any) => setLoanFee(e.target.value)}
+								onKeyPress={(e: any) => {
+									const charCode = e.which ? e.which : e.keyCode
+									if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+										e.preventDefault()
+									}
+								}}
+								id="input-preu"
+								label="Preu prèstec"
+								variant="outlined"
+								type="number"
+								value={loanFee}
+								InputProps={{ inputProps: { min: 0, max: 1000 } }}
+								sx={{ width: { xs: '92%', sm: '30%' } }}
+								InputLabelProps={{
+									style: {
+										color: '#222222',
+									},
+								}}
+							/>
+							<TextField
+								onChange={(e: any) => setDeposit(e.target.value)}
+								onKeyPress={(e: any) => {
+									const charCode = e.which ? e.which : e.keyCode
+									if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+										e.preventDefault()
+									}
+								}}
+								value={deposit}
+								id="input-deposit"
+								label="Preu Diposit"
+								variant="outlined"
+								type="number"
+								InputProps={{ inputProps: { min: 0, max: 1000 } }}
+								sx={{ width: { xs: '92%', sm: '30%' } }}
+								InputLabelProps={{
+									style: {
+										color: '#222222',
+									},
+								}}
+							/>
+							<TextField
+								onChange={(e: any) => setLoan_Period(e.target.value)}
+								onKeyPress={(e: any) => {
+									const charCode = e.which ? e.which : e.keyCode
+									if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+										e.preventDefault()
+									}
+								}}
+								value={loan_period}
+								id="input-loanperiod"
+								label="Periode de prèstec (dies)"
+								variant="outlined"
+								type="number"
+								InputProps={{ inputProps: { min: 0, max: 1000 } }}
+								sx={{ width: { xs: '92%', sm: '30%' } }}
+								InputLabelProps={{
+									style: {
+										color: '#222222',
+									},
+								}}
+							/>
+						</Box>
+						<Box sx={{ marginTop: '30px' }}>
+							<Button
+								sx={{
+									marginBottom: { xs: '25px', sm: '50px' },
+								}}
+								onClick={handleCreate}
+								variant="contained"
+							>
+								Confirmar
+							</Button>
+							<Button
+								sx={{
+									marginBottom: { xs: '25px', sm: '50px' },
+									marginLeft: { xs: '15px', sm: '20px' },
+								}}
+								onClick={handleSkip}
+								variant="contained"
+							>
+								Descartar
+							</Button>
+							{msg && <FormAlert alert={alert} />}
+						</Box>
 					</Container>
 				</section>
 			</Box>

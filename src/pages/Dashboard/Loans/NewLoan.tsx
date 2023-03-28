@@ -12,8 +12,9 @@ import {
 } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAllUsers } from '../../../services/userService'
+import { getAllUsers, getUsersByName } from '../../../services/userService'
 import { IUser } from '../../../interfaces/user.interface'
+import { ILoan } from '../../../interfaces/loans.interface'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -81,6 +82,7 @@ const NewLoan = () => {
 	const navigate = useNavigate()
 
 	const [data, setData] = useState<any>([])
+	const [name, setName] = useState<any>('')
 
 	//Bring users
 	useEffect(() => {
@@ -92,6 +94,20 @@ const NewLoan = () => {
 				console.log(error)
 			})
 	}, [])
+
+	const handleFilter = async () => {
+		if (name) {
+			getUsersByName(name)
+				.then((data: IUser[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			console.log('Search empty')
+		}
+	}
 
 	return (
 		<>
@@ -126,6 +142,9 @@ const NewLoan = () => {
 								fullWidth
 							>
 								<TextField
+									onChange={(e) => {
+										setName(e.target.value)
+									}}
 									id="input-nom"
 									label="Cerca usuari"
 									variant="outlined"
@@ -137,6 +156,7 @@ const NewLoan = () => {
 									}}
 								/>
 								<Button
+									onClick={handleFilter}
 									sx={{
 										bgcolor: '#D9D9D9',
 										height: '55px',
@@ -157,7 +177,9 @@ const NewLoan = () => {
 										width: { xs: '70%', sm: '100%' },
 									}}
 								>
-									<p>Id. article seleccionat: {id}</p>
+									<p>
+										Codi article seleccionat: <strong>{id}</strong>
+									</p>
 								</Box>
 							</FormControl>
 						</Box>
