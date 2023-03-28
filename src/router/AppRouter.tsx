@@ -7,8 +7,10 @@ import DeleteArticle from '../pages/Dashboard/Articles/DeleteArticle'
 import Categories from '../pages/Dashboard/Categories/Categories'
 import DeleteCategory from '../pages/Dashboard/Categories/DeleteCategory'
 import Detall from '../pages/Dashboard/Detall/Detall'
+import ConfirmLoan from '../pages/Dashboard/Loans/ConfirmLoan'
 import Loans from '../pages/Dashboard/Loans/Loans'
 import NewLoan from '../pages/Dashboard/Loans/NewLoan'
+import ReturnLoan from '../pages/Dashboard/Loans/ReturnLoan'
 import MyLoans from '../pages/Dashboard/MyLoans/MyLoans'
 import Profile from '../pages/Dashboard/Profile/Profile'
 import DeleteUser from '../pages/Dashboard/Users/DeleteUser'
@@ -66,14 +68,7 @@ const AppRouter = () => {
 									</AdminRoute>
 								}
 							/>
-							<Route
-								path="/dashboard/newloan/:id"
-								element={
-									<AdminRoute>
-										<NewLoan />
-									</AdminRoute>
-								}
-							/>
+
 							<Route
 								path="/dashboard/categories"
 								element={
@@ -95,6 +90,30 @@ const AppRouter = () => {
 								element={
 									<AdminRoute>
 										<Loans />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path="/dashboard/returnloan/:id"
+								element={
+									<AdminRoute>
+										<ReturnLoan />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path="/dashboard/newloan/:id"
+								element={
+									<AdminRoute>
+										<NewLoan />
+									</AdminRoute>
+								}
+							/>
+							<Route
+								path="/dashboard/confirmloan/:userId/:articleCode"
+								element={
+									<AdminRoute>
+										<ConfirmLoan />
 									</AdminRoute>
 								}
 							/>

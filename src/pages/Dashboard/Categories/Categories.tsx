@@ -13,6 +13,9 @@ import {
 	GridApi,
 	GridCellValue,
 	GridRenderCellParams,
+	esES,
+	GridToolbarContainer,
+	GridToolbarExport,
 } from '@mui/x-data-grid'
 import React, { useEffect } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
@@ -170,6 +173,15 @@ const Categories = () => {
 		}
 	}
 
+	//Material Custom Toolbar
+	function CustomToolbar() {
+		return (
+			<GridToolbarContainer>
+				<GridToolbarExport />
+			</GridToolbarContainer>
+		)
+	}
+
 	return (
 		<>
 			<Box display={{ xs: 'block', sm: 'flex' }} overflow-y={{ xs: 'hidden' }}>
@@ -270,15 +282,16 @@ const Categories = () => {
 									<Box
 										sx={{
 											display: 'flex',
-											flexDirection: { xs: 'row', sm: 'row' },
+											flexDirection: { xs: 'column', sm: 'row' },
 											justifyContent: 'flex-start',
 											alignItems: 'center',
+											marginTop: '30px',
 										}}
 									>
 										<FormControl
 											sx={{
 												display: 'flex',
-												flexDirection: { xs: 'row', sm: 'row' },
+												flexDirection: { xs: 'column', sm: 'row' },
 												justifyContent: 'flex-start',
 												alignItems: 'center',
 												gap: '20px',
@@ -290,7 +303,7 @@ const Categories = () => {
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -331,6 +344,12 @@ const Categories = () => {
 											rows={data}
 											getRowId={(row: any) => row.idCategory}
 											columns={columns}
+											localeText={
+												esES.components.MuiDataGrid.defaultProps.localeText
+											}
+											components={{
+												Toolbar: CustomToolbar,
+											}}
 											disableSelectionOnClick
 										/>
 									</Box>

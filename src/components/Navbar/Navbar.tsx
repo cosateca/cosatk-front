@@ -274,7 +274,7 @@ const Navigation = () => {
 							height={{ xs: '46px' }}
 							width={{ xs: '100%' }}
 						>
-							{auth?.email && `Usuari: ` + auth?.email}
+							{auth?.email && <Link to="/dashboard">{`${auth?.email}`}</Link>}
 						</Box>
 					</Box>
 

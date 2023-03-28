@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Button, Container, Typography } from '@mui/material'
 import Navbar from '../../../components/Navbar/Navbar'
 import useAuth from '../../../hooks/useAuth'
 
@@ -20,7 +20,10 @@ const Profile = () => {
 						<Typography variant="h1">PERFIL</Typography>
 						<Box
 							sx={{
-								marginTop: '20px',
+								display: 'flex',
+								flexWrap: 'wrap',
+								gap: '60px',
+								marginTop: '30px',
 							}}
 						>
 							<Box>
@@ -28,17 +31,22 @@ const Profile = () => {
 
 								{auth?.email && auth?.email}
 							</Box>
-							<Box
-								sx={{
-									marginTop: '20px',
-								}}
-							>
+							<Box sx={{}}>
+								<Typography variant="h2">Nom: </Typography>
+
+								{auth?.first_name + ' '}
+								{auth?.last_name}
+							</Box>
+							<Box sx={{}}>
 								<Typography variant="h2">Rol: </Typography>
 
 								{auth?.role === 'user' && 'Usuari'}
 								{auth?.role === 'admin' && 'Administrador'}
 							</Box>
 						</Box>
+						<Button sx={{ marginTop: '30px' }} variant="contained">
+							Canviar Contrasenya
+						</Button>
 					</Container>
 				</section>
 			</Box>

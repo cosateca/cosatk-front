@@ -1,5 +1,5 @@
 export interface IUser {
-    id?:string;
+    idUsers?:string;
     first_name:string;
     last_name:string;
     email:string;
@@ -13,6 +13,7 @@ export interface IUser {
     subscriber?:boolean;
     added_on?:Date;
     role?:string;
+    password?:string
 
 
 }

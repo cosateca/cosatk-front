@@ -30,6 +30,10 @@ import {
 	GridApi,
 	GridCellValue,
 	DataGrid,
+	esES,
+	GridToolbar,
+	GridToolbarContainer,
+	GridToolbarExport,
 } from '@mui/x-data-grid'
 import FormAlert from '../../../components/FormAlert/FormAlert'
 import {
@@ -196,6 +200,7 @@ const Users = () => {
 			birth_date: birthDate,
 			how_meet_us: howMeet,
 			subscriber,
+			password: '12345678', //TODO: use .env
 		}
 		await createUserFromDashboard(newObject)
 			.then(async (response) => {
@@ -266,6 +271,15 @@ const Users = () => {
 	const handleChangeBirthDate = (e: any) => {
 		const date = new Date(e.target.value)
 		setBirthDate(date)
+	}
+
+	//Material Custom Toolbar
+	function CustomToolbar() {
+		return (
+			<GridToolbarContainer>
+				<GridToolbarExport />
+			</GridToolbarContainer>
+		)
 	}
 
 	return (
@@ -547,6 +561,7 @@ const Users = () => {
 											flexDirection: { xs: 'column', sm: 'row' },
 											justifyContent: 'flex-start',
 											alignItems: 'center',
+											marginTop: '30px',
 										}}
 									>
 										<FormControl
@@ -622,6 +637,12 @@ const Users = () => {
 												rows={data}
 												getRowId={(row: any) => row.idUsers}
 												columns={columns}
+												localeText={
+													esES.components.MuiDataGrid.defaultProps.localeText
+												}
+												components={{
+													Toolbar: CustomToolbar,
+												}}
 												disableSelectionOnClick
 											/>
 										</Box>

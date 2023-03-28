@@ -27,6 +27,7 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 	formData.append('brand', data.brand)
 	formData.append('shown_on_website', data.shown_on_website)
 	formData.append('categoryIdCategory', data.categoryIdCategory)
+	formData.append('deposit', data.deposit)
 
 	try {
 		const response = await axios.post(API_URL_CREATE, formData, {
@@ -52,7 +53,7 @@ const getArticles = async (): Promise<any> => {
 
 const deleteArticle = async (code: string): Promise<any> => {
 	try {
-		const response = await axios.delete(API_URL_DELETEBYCODE + '/' + code)
+		const response = await axios.delete(API_URL + '/deleteByCode/' + code)
 
 		return response.data
 	} catch (error) {
@@ -77,4 +78,16 @@ export const getArticleRequest = async (idArticle:any)=>{
 	return await axios.get(API_URL + `/${idArticle}`)
 }
 
-export default { getArticles, createArticle, deleteArticle, getArticle, getArticleRequest }
+
+const articleIdFromCode = async (code: string) => {
+	try {
+		const response = await axios.get(API_URL + '/codetoid/' + code)
+		return response.data[0]
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+
+export default { getArticles, createArticle, deleteArticle, getArticle, articleIdFromCode, getArticleRequest }
+

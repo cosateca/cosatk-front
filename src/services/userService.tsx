@@ -60,6 +60,15 @@ export const getAllUsers = async () => {
 	}
 }
 
+export const getUsersByName = async (name: string) => {
+	try {
+		const response = await axios.get(API_URL_USER + '/firstname/' + name)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 export const deleteUser = async (id: string) => {
 	try {
 		const response = await axios.delete(API_URL_USER + '/' + id)

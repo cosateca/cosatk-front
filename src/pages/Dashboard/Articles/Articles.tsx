@@ -22,6 +22,9 @@ import {
 	GridCellValue,
 	GridRenderCellParams,
 	GridValueGetterParams,
+	GridToolbarContainer,
+	GridToolbarExport,
+	esES,
 } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
@@ -202,6 +205,7 @@ const Articles = () => {
 	const [pricePaid, setPricePaid] = React.useState('0')
 	const [value, setValue] = React.useState('0')
 	const [loanFee, setLoanFee] = React.useState('0')
+	const [deposit, setDeposit] = React.useState('0')
 	const [loanPeriod, setLoanPeriod] = React.useState('0')
 	const [components, setComponents] = React.useState('')
 	const [careInfo, setCareInfo] = React.useState('')
@@ -264,6 +268,7 @@ const Articles = () => {
 			long_description: longDesc,
 			serial_number: serial,
 			price_paid: pricePaid,
+			deposit,
 			value,
 			loan_fee: loanFee,
 			loan_period: loanPeriod,
@@ -299,6 +304,7 @@ const Articles = () => {
 		setValue('0')
 		setLoanFee('0')
 		setLoanPeriod('0')
+		setDeposit('0')
 		setComponents('')
 		setCareInfo('')
 		setOwnedBy('')
@@ -350,6 +356,15 @@ const Articles = () => {
 				console.log(error)
 			})
 	}, [trigger])
+
+	//Material Custom Toolbar
+	function CustomToolbar() {
+		return (
+			<GridToolbarContainer>
+				<GridToolbarExport />
+			</GridToolbarContainer>
+		)
+	}
 
 	return (
 		<>
@@ -494,7 +509,30 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '17%' } }}
+												InputLabelProps={{
+													style: {
+														color: '#222222',
+													},
+												}}
+											/>
+											<TextField
+												onChange={(e: any) => setDeposit(e.target.value)}
+												onKeyPress={(e: any) => {
+													const charCode = e.which ? e.which : e.keyCode
+													if (
+														charCode > 31 &&
+														(charCode < 48 || charCode > 57)
+													) {
+														e.preventDefault()
+													}
+												}}
+												id="input-deposit"
+												label="Diposit"
+												variant="outlined"
+												type="number"
+												InputProps={{ inputProps: { min: 0, max: 1000 } }}
+												sx={{ width: { xs: '92%', sm: '17%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -518,7 +556,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '16.5%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -542,7 +580,7 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '16%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -570,7 +608,7 @@ const Articles = () => {
 												InputProps={{
 													inputProps: { min: 0, max: 1000 },
 												}}
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '18%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -583,7 +621,7 @@ const Articles = () => {
 												id="input-components"
 												label="Components"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '40%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -595,7 +633,7 @@ const Articles = () => {
 												id="input-infoCures"
 												label="Info de cures"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '50%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -607,7 +645,7 @@ const Articles = () => {
 												id="input-ownedBy"
 												label="Propietari"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '40%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -619,7 +657,7 @@ const Articles = () => {
 												id="input-donatedBy"
 												label="Donador"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{ width: { xs: '92%', sm: '50%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -631,7 +669,7 @@ const Articles = () => {
 												id="input-condition"
 												label="Condició"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{ width: { xs: '92%', sm: '40%' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -713,6 +751,7 @@ const Articles = () => {
 											justifyContent: 'flex-start',
 											alignItems: 'center',
 											gap: '20px',
+											marginTop: '30px',
 										}}
 									>
 										<FormControl
@@ -729,7 +768,7 @@ const Articles = () => {
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -738,7 +777,7 @@ const Articles = () => {
 											/>
 											<Select
 												displayEmpty
-												sx={{ width: { xs: '200px' } }}
+												sx={{ width: { xs: '90%', sm: '200px' } }}
 												id="demo-simple-select"
 												value={prestecEnCurs}
 												label="Estat"
@@ -781,6 +820,12 @@ const Articles = () => {
 											rows={data}
 											getRowId={(row: any) => row.idArticle}
 											columns={columns}
+											localeText={
+												esES.components.MuiDataGrid.defaultProps.localeText
+											}
+											components={{
+												Toolbar: CustomToolbar,
+											}}
 											disableSelectionOnClick
 										/>
 									</Box>
