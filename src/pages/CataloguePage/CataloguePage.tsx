@@ -28,7 +28,6 @@ const CataloguePage = () => {
 	useEffect(() => {
 		async function loadhome() {
 			const response = await getArticles()
-			console.log(response)
 			setArticle(response)
 		}
 		loadhome()
@@ -40,7 +39,7 @@ const CataloguePage = () => {
 			<MenuCatalogue />
 			<Container>
 				<h1>Catàleg</h1>
-				<FilterCataloguePage />
+				{/* <FilterCataloguePage /> */}
 				<Box
 					sx={{
 						display: 'flex',

@@ -9,8 +9,6 @@ import { useEffect, useState } from 'react'
 import { getArticleImage } from '../../services/homeService'
 import { useNavigate } from 'react-router-dom'
 
-
-
 const CardProduct = ({ article }: any) => {
 	const [image, setImage] = useState<any>(null)
 
@@ -26,16 +24,15 @@ const CardProduct = ({ article }: any) => {
 
 	return (
 		<Card sx={{ maxWidth: 345 }}>
-			<CardActionArea>
-				<ListItemButton onClick={()=>navigate(`/detall/${article.idArticle}`)}>
-					
-				<CardMedia
-					component="img"
-					height="240"
-					image={image && image.src}
-					alt="article"
-				/>
-					</ListItemButton> 
+			<CardActionArea onClick={() => navigate(`/detall/${article.idArticle}`)}>
+				<ListItemButton>
+					<CardMedia
+						component="img"
+						height="240"
+						image={image && image.src}
+						alt="article"
+					/>
+				</ListItemButton>
 
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">
@@ -48,7 +45,6 @@ const CardProduct = ({ article }: any) => {
 			</CardActionArea>
 		</Card>
 	)
-
 }
 
 export default CardProduct

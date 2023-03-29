@@ -75,7 +75,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconTrash} alt="Eliminar" title='Eliminar'/>
+					<img src={iconTrash} alt="Eliminar" title="Eliminar" />
 				</Button>
 			)
 		},
@@ -109,7 +109,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconEdit} alt="Editar" title='Editar'/>
+					<img src={iconEdit} alt="Editar" title="Editar" />
 				</Button>
 			)
 		},
@@ -147,7 +147,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconLoan} alt="prestar" title='Prestec'/>
+					<img src={iconLoan} alt="prestar" title="Prestec" />
 				</Button>
 			)
 		},
@@ -279,6 +279,7 @@ const Articles = () => {
 		articleService
 			.createArticle(newObject, image)
 			.then((data) => {
+				console.log(data)
 				data && console.log('Article enviat correctament')
 				setAlert({
 					msg: 'Article introduït correctament, seràs redirigit al llistat...',
@@ -286,7 +287,13 @@ const Articles = () => {
 				})
 			})
 			.catch((error) => {
-				console.log(error)
+				setAlert({
+					msg:
+						error == 'Error: Payload Too Large'
+							? 'Error, arxiu excedeix el limit de 3 MB'
+							: error,
+					isError: true,
+				})
 			})
 
 		// Resetear los estados
@@ -314,7 +321,7 @@ const Articles = () => {
 		setTimeout(() => {
 			setAlert({})
 			setIsOpenForm(!isOpenForm)
-		}, 3000)
+		}, 4000)
 	}
 
 	const handleChangeCategory = (event: SelectChangeEvent) => {
@@ -396,7 +403,7 @@ const Articles = () => {
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											<img src={iconBack} alt="tornar" title='Tornar' />
+											<img src={iconBack} alt="tornar" title="Tornar" />
 										</Button>
 									</Box>
 
@@ -452,7 +459,7 @@ const Articles = () => {
 												aria-label="empty textarea"
 												placeholder="Descripció curta"
 												minRows={2}
-												maxLength={300}
+												maxLength={250}
 												style={{ width: '91%' }}
 											/>
 											<TextareaAutosize
@@ -460,7 +467,7 @@ const Articles = () => {
 												aria-label="empty textarea"
 												placeholder="Descripció larga"
 												minRows={6}
-												maxLength={2000}
+												maxLength={1490}
 												style={{ width: '91%' }}
 											/>
 											<TextField
@@ -700,7 +707,7 @@ const Articles = () => {
 												variant="contained"
 												component="label"
 											>
-												<img src={iconFolder} alt="carpeta" title='Imatge'/>
+												<img src={iconFolder} alt="carpeta" title="Imatge" />
 												&nbsp; Imatge *
 												<input
 													onChange={handleFileSelect}
@@ -731,7 +738,7 @@ const Articles = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou'/>
+											<img src={iconNew} alt="nou" title="Nou" />
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}
@@ -788,7 +795,7 @@ const Articles = () => {
 												}}
 												variant="contained"
 											>
-												<img src={iconSearch} alt="cerca" title='Cerca'/>
+												<img src={iconSearch} alt="cerca" title="Cerca" />
 											</Button>
 										</FormControl>
 										<Button
@@ -800,7 +807,7 @@ const Articles = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou' />
+											<img src={iconNew} alt="nou" title="Nou" />
 										</Button>
 									</Box>
 									<Box

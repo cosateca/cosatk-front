@@ -18,5 +18,6 @@ export interface IArticle {
   brand: string;
   shown_on_website: string;
   categoryIdCategory:string;
+  is_on_loan?: boolean;
 
 }

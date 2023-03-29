@@ -4,25 +4,27 @@ import { useState, useEffect } from 'react'
 import Footer from '../../../components/Footer/Footer'
 import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
-import {getArticleImage,} from '../../../services/homeService'
-import {  useParams } from 'react-router-dom'
+import { getArticleImage } from '../../../services/homeService'
+import { useParams } from 'react-router-dom'
 
 import { IArticle } from '../../../interfaces/article.interface'
 import articleService from '../../../services/articleService'
+import useAuth from '../../../hooks/useAuth'
 
 const Detall = () => {
 	const [article, setArticle] = useState<IArticle>()
 
 	const [image, setImage] = useState<any>(null)
-	
-	const params = useParams()
-	console.log(params)
 
+	const params = useParams()
+
+	const { auth } = useAuth()
+
+	//Bring image
 	useEffect(() => {
 		async function getImg() {
 			if (params.id) {
 				const response = await getArticleImage(params.id)
-				console.log(response)
 				setImage(response)
 			}
 		}
@@ -50,9 +52,6 @@ const Detall = () => {
 					<Box
 						display={{ xs: 'block', sm: 'flex' }}
 						overflow-y={{ xs: 'hidden' }}
-						sx={{
-							overflow: { xs: 'scroll', sm: 'scroll' },
-						}}
 					>
 						<section>
 							<Container
@@ -62,7 +61,7 @@ const Detall = () => {
 									height: '100vh',
 								}}
 							>
-								<Typography variant="h1">Detall Article</Typography>
+								<Typography variant="h1">Detall article</Typography>
 								<Box
 									sx={{
 										marginTop: '20px',
@@ -71,74 +70,60 @@ const Detall = () => {
 										alignItems: 'center',
 										justifyContent: 'space-between',
 										gap: '50px',
-										bgcolor: '#67B7E1',
+										bgcolor: '#f9f9f9',
 										padding: '20px 50px',
 										width: '80%',
 									}}
 								>
 									<Box>
-										<img src={image && image.src} alt="image bike" />
+										<img width={'300px'} src={image && image.src} alt="image" />
 									</Box>
-									<Box>
-										<h1>{article?.name}</h1>
+									<Box sx={{ width: '80%' }}>
+										<Typography variant="h1">{article?.name}</Typography>
+
+										{auth?.email &&
+											(article?.is_on_loan
+												? 'Disponibilitat: 🔴'
+												: 'Disponibilitat: 🟢')}
+
 										<p>
-											<span>Nom: </span>
-											{article?.name && article?.name}
-										</p>
-										<p>
-											<span>Categoria: </span>
-											{article?.short_description && article?.short_description}
-										</p>
-										<p>
-											<span>Afegit el: </span>
+											<em>
+												{article?.short_description ??
+													article?.short_description}
+											</em>
 										</p>
 										<p>
 											<span>Codi: </span>
-											{article?.components}
+											{article?.code}
+										</p>
+
+										<p>
+											<span>Condició: </span>
+											{article?.condition ?? article?.condition}
 										</p>
 										<p>
-											<span>Número de serie: </span>0001
+											<span>Marca: </span>
+											{article?.brand ?? article?.brand}
 										</p>
 										<p>
-											<span>Condicio: </span>Bona
+											<span>Preu de lloguer: </span>
+											{article?.loan_fee ?? article?.loan_fee} €
 										</p>
 										<p>
-											<span>Preu pagat: </span>Bianchi
+											<span>Període de lloguer: </span>
+											{article?.loan_period ?? article?.loan_period} dies
 										</p>
 										<p>
-											<span>Marca: </span>200€
+											<span>Components inclosos: </span>
+											{article?.components ?? article?.components}
 										</p>
 										<p>
-											<span>Valor: </span>100€
+											<span>Informació de cures: </span>
+											{article?.care_information ?? article?.care_information}
 										</p>
 										<p>
-											<span>Preu de lloguer: </span>5€
-										</p>
-										<p>
-											<span>Període de lloguer: </span>7 dies
-										</p>
-										<p>
-											<span>Components: </span>Comproveu la pressió dels
-											pneumátics
-										</p>
-										<p>
-											<span>Informació de cures: </span>Will Smith
-										</p>
-										<p>
-											<span>Propietar de: </span>Chris Rock
-										</p>
-										<p>
-											<span>Donat per: </span>Jada Pinkett Smith
-										</p>
-										<p>
-											<span>Descripció llarga: </span>mitjá de transport que té
-											dures rodes, amb pedals que permeten transmetre el
-											moviment a la roda del darrere a través d´una cadena, un
-											pinyó i un plat
-										</p>
-										<p>
-											<span>Descripció curta: </span>bicicleta infantil fins a 3
-											anys
+											<span>Descripció: </span>
+											{article?.long_description ?? article?.long_description}
 										</p>
 									</Box>
 								</Box>

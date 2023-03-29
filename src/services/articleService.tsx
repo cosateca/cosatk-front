@@ -35,9 +35,11 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
+		console.log(response.data)
 		return response.data
-	} catch (error) {
-		console.log(error)
+	} catch (error: any) {
+		console.log(error.response.statusText)
+		throw new Error(error.response.statusText)
 	}
 }
 
@@ -71,8 +73,8 @@ const getArticle = async (code: string): Promise<any> => {
 	}
 }
 
-const getArticleById = async (idArticle: any) => {
-	const response = await axios.get(API_URL + idArticle)
+const getArticleById = async (idArticle: string) => {
+	const response = await axios.get(API_URL + '/' + idArticle)
 	return response.data
 }
 
