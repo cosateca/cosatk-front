@@ -76,7 +76,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconTrash} alt="eliminar" />
+					<img src={iconTrash} alt="Eliminar" title='Eliminar'/>
 				</Button>
 			)
 		},
@@ -113,7 +113,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconEdit} alt="modificar" />
+					<img src={iconEdit} alt="Editar" title='Editar'/>
 				</Button>
 			)
 		},
@@ -324,7 +324,7 @@ const Users = () => {
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											<img src={iconBack} alt="tornar" />
+											<img src={iconBack} alt="tornar" title='Tornar'/>
 										</Button>
 									</Box>
 									<Box
@@ -548,7 +548,7 @@ const Users = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" />
+											<img src={iconNew} alt="nou" title='Nou'/>
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}
@@ -603,7 +603,7 @@ const Users = () => {
 												}}
 												variant="contained"
 											>
-												<img src={iconSearch} alt="cerca" />
+												<img src={iconSearch} alt="cerca" title='Cerca' />
 											</Button>
 										</FormControl>
 										<Button
@@ -616,7 +616,7 @@ const Users = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" />
+											<img src={iconNew} alt="nou" title='Nou'/>
 										</Button>
 									</Box>
 									<Box

@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import {
 	getArticles,
 	getArticleImage,
-} from '../../services/HomePage/homeService'
+} from '../../services/homeService'
 
 import MenuHome from '../../components/MenuHome/MenuHome'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'

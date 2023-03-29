@@ -78,7 +78,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconTrash} alt="eliminar" />
+					<img src={iconTrash} alt="Eliminar" title='Eliminar'/>
 				</Button>
 			)
 		},
@@ -115,7 +115,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconEdit} alt="modificar" />
+					<img src={iconEdit} alt="Editar" title='Editar'/>
 				</Button>
 			)
 		},
@@ -153,7 +153,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconLoan} alt="prestar" />
+					<img src={iconLoan} alt="prestar" title='Prestec'/>
 				</Button>
 			)
 		},
@@ -402,7 +402,7 @@ const Articles = () => {
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											<img src={iconBack} alt="tornar" />
+											<img src={iconBack} alt="tornar" title='Tornar' />
 										</Button>
 									</Box>
 
@@ -706,7 +706,7 @@ const Articles = () => {
 												variant="contained"
 												component="label"
 											>
-												<img src={iconFolder} alt="carpeta" />
+												<img src={iconFolder} alt="carpeta" title='Imatge'/>
 												&nbsp; Imatge *
 												<input
 													onChange={handleFileSelect}
@@ -737,7 +737,7 @@ const Articles = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" />
+											<img src={iconNew} alt="nou" title='Nou'/>
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}
@@ -794,7 +794,7 @@ const Articles = () => {
 												}}
 												variant="contained"
 											>
-												<img src={iconSearch} alt="cerca" />
+												<img src={iconSearch} alt="cerca" title='Cerca'/>
 											</Button>
 										</FormControl>
 										<Button
@@ -806,7 +806,7 @@ const Articles = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" />
+											<img src={iconNew} alt="nou" title='Nou' />
 										</Button>
 									</Box>
 									<Box
