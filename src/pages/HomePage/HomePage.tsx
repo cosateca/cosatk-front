@@ -7,19 +7,17 @@ import {
 
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
+import CardProduct from '../../components/CardProduct/CardProduct'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
-
-import {
-	getArticles,
-} from '../../services/HomePage/homeService'
-
+import {	getArticles
+} from '../../services/homeService'
 import MenuHome from '../../components/MenuHome/MenuHome'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
+import { IArticle } from '../../interfaces/article.interface'
 
 const HomePage = () => {
-	const [articles, setArticle] = useState<Article[]>([])
+	const [articles, setArticle] = useState<IArticle[]>([])
 
 	useEffect(() => {
 		async function loadhome() {

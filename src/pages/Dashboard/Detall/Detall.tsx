@@ -1,16 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Container, Box, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
-
 import Footer from '../../../components/Footer/Footer'
 import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
-import {
-	getArticleImage,
-	getArticles,
-} from '../../../services/homeService'
-import imageExample from '../../../assets/images/picture.png'
-import { useNavigate, useParams } from 'react-router-dom'
+import {getArticleImage,} from '../../../services/homeService'
+import {  useParams } from 'react-router-dom'
 
 import { IArticle } from '../../../interfaces/article.interface'
 import articleService from '../../../services/articleService'
@@ -19,10 +14,7 @@ const Detall = () => {
 	const [article, setArticle] = useState<IArticle>()
 
 	const [image, setImage] = useState<any>(null)
-
-	const navigate = useNavigate()
-
-	const { id } = useParams()
+	
 	const params = useParams()
 	console.log(params)
 
