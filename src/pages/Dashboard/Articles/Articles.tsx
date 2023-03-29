@@ -6,7 +6,6 @@ import {
 	FormControlLabel,
 	FormLabel,
 	MenuItem,
-	Modal,
 	Radio,
 	RadioGroup,
 	Select,
@@ -21,7 +20,6 @@ import {
 	GridApi,
 	GridCellValue,
 	GridRenderCellParams,
-	GridValueGetterParams,
 	GridToolbarContainer,
 	GridToolbarExport,
 	esES,
@@ -34,7 +32,8 @@ import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import iconBack from '../../../assets/images/icono_flecha_atras.svg'
 import iconLoan from '../../../assets/images/icono_prestamos_mano.svg'
-import { IArticle } from '../../../interfaces/article.interface'
+import iconEditWhite from '../../../assets/images/icono_modificar_white.svg'
+import { IArticle, IArticleDto } from '../../../interfaces/article.interface'
 import { nanoid } from 'nanoid'
 import { useNavigate } from 'react-router'
 import articleService from '../../../services/articleService'
@@ -43,144 +42,164 @@ import categoryService from '../../../services/categoryService'
 import iconFolder from '../../../assets/images/icon_folder_upload.svg'
 import FormAlert from '../../../components/FormAlert/FormAlert'
 
-//Data Grid
-const columns: GridColDef[] = [
-	{
-		field: 'remove',
-		headerName: 'Eliminar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const navigate = useNavigate()
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach((c) => (thisRow[c.field] = params.row || ''))
-
-				return navigate(`/dashboard/deletearticle/${params.row.code}`)
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconTrash} alt="Eliminar" title="Eliminar" />
-				</Button>
-			)
-		},
-	},
-	{
-		field: 'edit',
-		headerName: 'Editar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach((c) => (thisRow[c.field] = params.row || ''))
-
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconEdit} alt="Editar" title="Editar" />
-				</Button>
-			)
-		},
-	},
-	{
-		field: 'loan',
-		headerName: 'Prèstec',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const navigate = useNavigate()
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-
-				return navigate(`/dashboard/newloan/${thisRow.code}`)
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconLoan} alt="prestar" title="Prestec" />
-				</Button>
-			)
-		},
-	},
-	{ field: 'code', headerName: 'Codi', width: 150 },
-	{ field: 'name', headerName: 'Nom', width: 200 },
-	{
-		field: 'loan_fee',
-		headerName: 'Preu',
-		type: 'number',
-		width: 90,
-	},
-	{
-		field: 'loan_period',
-		headerName: 'Periode',
-		type: 'number',
-		width: 90,
-	},
-	{
-		field: 'is_on_loan',
-		headerName: 'En prèstec',
-		type: 'boolean',
-		width: 90,
-	},
-]
-
 const Articles = () => {
+	//Data Grid
+
+	const handleEdit = (params: any) => {
+		setName(params.row?.name)
+		setSerial(params.row?.serial_number)
+		setCondition(params.row?.condition)
+		setBrand(params.row?.brand)
+		setPricePaid(params.row?.price_paid)
+		setValue(params.row?.value)
+		setShownOnWeb(params.row?.shown_on_website)
+		setLoanFee(params.row?.loan_fee)
+		setLoanPeriod(params.row?.loan_period)
+		setShortDesc(params.row?.short_description)
+		setLongDesc(params.row?.long_description)
+		setComponents(params.row?.components)
+		setCareInfo(params.row?.care_information)
+		setOwnedBy(params.row?.owned_by)
+		setDonatedBy(params.row?.donated_by)
+		setDeposit(params.row?.deposit)
+		setCategoryId(params.row?.categoryIdCategory)
+		setCategory(params.row?.categoryIdCategory)
+		setEditMode(true)
+		setIsOpenForm(true)
+		setSelectedId(params.id)
+	}
+	const HandleEditButton = ({ handleEdit, params }: any) => {
+		const handleClick = () => {
+			handleEdit(params)
+		}
+
+		return (
+			<Button
+				onClick={handleClick}
+				sx={{ display: 'flex', justifyContent: 'flex-start' }}
+			>
+				<img src={iconEdit} alt="eliminar" />
+			</Button>
+		)
+	}
+
+	const columns: GridColDef[] = [
+		{
+			field: 'remove',
+			headerName: 'Eliminar',
+			sortable: false,
+			width: 50,
+			renderCell: (params: GridRenderCellParams<any>) => {
+				const navigate = useNavigate()
+				const onClick = (e: any) => {
+					e.stopPropagation() // don't select this row after clicking
+
+					const api: GridApi = params.api
+					const thisRow: Record<string, GridCellValue> = {}
+
+					api
+						.getAllColumns()
+						.filter((c) => c.field !== '__check__' && !!c)
+						.forEach((c) => (thisRow[c.field] = params.row || ''))
+
+					return navigate(`/dashboard/deletearticle/${params.row.code}`)
+				}
+
+				return (
+					<Button
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-start',
+							borderRadius: '0px',
+						}}
+						onClick={onClick}
+					>
+						<img src={iconTrash} alt="Eliminar" title="Eliminar" />
+					</Button>
+				)
+			},
+		},
+		{
+			field: 'edit',
+			headerName: 'Editar',
+			sortable: false,
+			width: 50,
+			renderCell: (params) => (
+				<HandleEditButton handleEdit={handleEdit} params={params} />
+			),
+		},
+		{
+			field: 'loan',
+			headerName: 'Prèstec',
+			sortable: false,
+			width: 50,
+			renderCell: (params: GridRenderCellParams<any>) => {
+				const navigate = useNavigate()
+				const onClick = (e: any) => {
+					e.stopPropagation() // don't select this row after clicking
+
+					const api: GridApi = params.api
+					const thisRow: Record<string, GridCellValue> = {}
+
+					api
+						.getAllColumns()
+						.filter((c) => c.field !== '__check__' && !!c)
+						.forEach(
+							(c) =>
+								(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+						)
+
+					return navigate(`/dashboard/newloan/${thisRow.code}`)
+				}
+
+				return (
+					<Button
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-start',
+							borderRadius: '0px',
+						}}
+						onClick={onClick}
+					>
+						<img src={iconLoan} alt="prestar" title="Prestec" />
+					</Button>
+				)
+			},
+		},
+		{ field: 'code', headerName: 'Codi', width: 150 },
+		{ field: 'name', headerName: 'Nom', width: 200 },
+		{
+			field: 'loan_fee',
+			headerName: 'Preu',
+			type: 'number',
+			width: 90,
+		},
+		{
+			field: 'loan_period',
+			headerName: 'Periode',
+			type: 'number',
+			width: 90,
+		},
+		{
+			field: 'is_on_loan',
+			headerName: 'En prèstec',
+			type: 'boolean',
+			width: 90,
+		},
+	]
+
 	//Data
 	const [data, setData] = React.useState<any>([])
 	const [data_categories, setData_categories] = React.useState<any>([])
 	const [categories, setCategories] = useState<any>([])
 
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
+
+	//Edit mode
+	const [editMode, setEditMode] = useState(false)
+
+	//Id selected to edit mode
+	const [selectedId, setSelectedId] = useState('')
 
 	//File
 	const [image, setImage] = useState<File | null>(null)
@@ -222,7 +241,107 @@ const Articles = () => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
 	}
-	const handleSubmit = (e: any) => {
+
+	const resetStates = () => {
+		setName('')
+		setShortDesc('')
+		setLongDesc('')
+		setSerial('')
+		setPricePaid('0')
+		setValue('0')
+		setLoanFee('0')
+		setLoanPeriod('0')
+		setDeposit('0')
+		setComponents('')
+		setCareInfo('')
+		setOwnedBy('')
+		setDonatedBy('')
+		setCategory('')
+		setCondition('')
+		setBrand('')
+		setShownOnWeb('true')
+		setImage(null)
+		setCategoryId('0')
+		setTrigger(!trigger)
+	}
+
+	const handleSubmitEdit = (e: any) => {
+		e.preventDefault()
+
+		if (name === '') {
+			setAlert({
+				msg: 'El camp del nom és obligatori',
+				isError: true,
+			})
+			console.log('There is no name')
+			return
+		}
+
+		if (category === '') {
+			setAlert({
+				msg: 'El camp de la categoria és obligatori',
+				isError: true,
+			})
+			console.log('There is no category')
+			return
+		}
+
+		const newObject: IArticleDto = {
+			name,
+			short_description: shortDesc,
+			long_description: longDesc,
+			serial_number: serial,
+			price_paid: pricePaid,
+			deposit,
+			value,
+			loan_fee: loanFee,
+			loan_period: loanPeriod,
+			components,
+			care_information: careInfo,
+			owned_by: ownedBy,
+			donated_by: donatedBy,
+			condition,
+			brand,
+			categoryIdCategory: categoryId,
+		}
+		if (selectedId) {
+			articleService
+				.updateArticle(selectedId, newObject)
+				.then(() => {
+					setAlert({
+						msg: 'Article actualitzat correctament, redirigint...',
+						isError: false,
+					})
+
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						resetStates()
+						setTrigger(!trigger)
+						setEditMode(false)
+
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+					setAlert({
+						msg: 'Error inesperat, redirigint...',
+						isError: true,
+					})
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						resetStates()
+						setTrigger(!trigger)
+						setEditMode(false)
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+		}
+	}
+
+	const handleSubmitNew = (e: any) => {
 		e.preventDefault()
 
 		if (name === '') {
@@ -296,27 +415,7 @@ const Articles = () => {
 				})
 			})
 
-		// Resetear los estados
-		setName('')
-		setShortDesc('')
-		setLongDesc('')
-		setSerial('')
-		setPricePaid('0')
-		setValue('0')
-		setLoanFee('0')
-		setLoanPeriod('0')
-		setDeposit('0')
-		setComponents('')
-		setCareInfo('')
-		setOwnedBy('')
-		setDonatedBy('')
-		setCategory('')
-		setCondition('')
-		setBrand('')
-		setShownOnWeb('true')
-		setImage(null)
-		setCategoryId('0')
-		setTrigger(!trigger)
+		resetStates()
 
 		setTimeout(() => {
 			setAlert({})
@@ -396,10 +495,12 @@ const Articles = () => {
 											variant="h1"
 											component="h2"
 										>
-											✏️➕Article
+											{editMode ? '✏️' : '➕'} Article
 										</Typography>
 										<Button
-											onClick={() => setIsOpenForm(false)}
+											onClick={() => {
+												setIsOpenForm(false), setEditMode(false)
+											}}
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
@@ -426,11 +527,18 @@ const Articles = () => {
 										>
 											<TextField
 												onChange={(e) => setName(e.target.value)}
+												defaultValue={editMode && name ? name : undefined}
 												required
 												id="input-nom"
 												label="Nom"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '50%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -440,7 +548,13 @@ const Articles = () => {
 
 											<Select
 												displayEmpty
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '40%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												id="selectcategoria"
 												value={category}
 												label="Categoria"
@@ -456,26 +570,44 @@ const Articles = () => {
 											</Select>
 											<TextareaAutosize
 												onChange={(e) => setShortDesc(e.target.value)}
+												defaultValue={
+													editMode && shortDesc ? shortDesc : undefined
+												}
 												aria-label="empty textarea"
 												placeholder="Descripció curta"
 												minRows={2}
 												maxLength={250}
-												style={{ width: '91%' }}
+												style={{
+													width: '91%',
+													backgroundColor: editMode ? '#ead9c7' : undefined,
+												}}
 											/>
 											<TextareaAutosize
 												onChange={(e) => setLongDesc(e.target.value)}
+												defaultValue={
+													editMode && longDesc ? longDesc : undefined
+												}
 												aria-label="empty textarea"
 												placeholder="Descripció larga"
 												minRows={6}
 												maxLength={1490}
-												style={{ width: '91%' }}
+												style={{
+													width: '91%',
+													backgroundColor: editMode ? '#ead9c7' : undefined,
+												}}
 											/>
 											<TextField
 												onChange={(e) => setSerial(e.target.value)}
+												defaultValue={editMode && serial ? serial : undefined}
 												id="input-serial"
 												label="Núm. Serie"
 												variant="outlined"
-												sx={{ width: { xs: '50%' } }}
+												sx={{
+													width: {
+														xs: '50%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -484,10 +616,16 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e) => setBrand(e.target.value)}
+												defaultValue={editMode && brand ? brand : undefined}
 												id="input-brand"
 												label="Marca"
 												variant="outlined"
-												sx={{ width: { xs: '40%' } }}
+												sx={{
+													width: {
+														xs: '40%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -496,6 +634,9 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e: any) => setPricePaid(e.target.value)}
+												defaultValue={
+													editMode && pricePaid ? pricePaid : undefined
+												}
 												onKeyPress={(e: any) => {
 													const charCode = e.which ? e.which : e.keyCode
 													if (
@@ -510,7 +651,13 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '17%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '17%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -519,6 +666,7 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e: any) => setDeposit(e.target.value)}
+												defaultValue={editMode && deposit ? deposit : undefined}
 												onKeyPress={(e: any) => {
 													const charCode = e.which ? e.which : e.keyCode
 													if (
@@ -533,7 +681,13 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '17%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '17%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -543,6 +697,7 @@ const Articles = () => {
 
 											<TextField
 												onChange={(e: any) => setValue(e.target.value)}
+												defaultValue={editMode && value ? value : undefined}
 												onKeyPress={(e: any) => {
 													const charCode = e.which ? e.which : e.keyCode
 													if (
@@ -557,7 +712,13 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '16.5%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '16.5%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -567,6 +728,7 @@ const Articles = () => {
 
 											<TextField
 												onChange={(e: any) => setLoanFee(e.target.value)}
+												defaultValue={editMode && loanFee ? loanFee : undefined}
 												onKeyPress={(e: any) => {
 													const charCode = e.which ? e.which : e.keyCode
 													if (
@@ -581,7 +743,13 @@ const Articles = () => {
 												variant="outlined"
 												type="number"
 												InputProps={{ inputProps: { min: 0, max: 1000 } }}
-												sx={{ width: { xs: '92%', sm: '16%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '16%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -593,6 +761,9 @@ const Articles = () => {
 												onChange={(e: any) => {
 													setLoanPeriod(e.target.value)
 												}}
+												defaultValue={
+													editMode && loanPeriod ? loanPeriod : undefined
+												}
 												onKeyPress={(e: any) => {
 													const charCode = e.which ? e.which : e.keyCode
 													if (
@@ -609,7 +780,13 @@ const Articles = () => {
 												InputProps={{
 													inputProps: { min: 0, max: 1000 },
 												}}
-												sx={{ width: { xs: '92%', sm: '18%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '18%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -619,10 +796,19 @@ const Articles = () => {
 
 											<TextField
 												onChange={(e) => setComponents(e.target.value)}
+												defaultValue={
+													editMode && components ? components : undefined
+												}
 												id="input-components"
 												label="Components"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '40%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -631,10 +817,19 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e) => setCareInfo(e.target.value)}
+												defaultValue={
+													editMode && careInfo ? careInfo : undefined
+												}
 												id="input-infoCures"
 												label="Info de cures"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '50%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -643,10 +838,17 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e) => setOwnedBy(e.target.value)}
+												defaultValue={editMode && ownedBy ? ownedBy : undefined}
 												id="input-ownedBy"
 												label="Propietari"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '40%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -655,10 +857,19 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e) => setDonatedBy(e.target.value)}
+												defaultValue={
+													editMode && donatedBy ? donatedBy : undefined
+												}
 												id="input-donatedBy"
 												label="Donador"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '50%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -667,56 +878,49 @@ const Articles = () => {
 											/>
 											<TextField
 												onChange={(e) => setCondition(e.target.value)}
+												defaultValue={
+													editMode && condition ? condition : undefined
+												}
 												id="input-condition"
 												label="Condició"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '40%' } }}
+												sx={{
+													width: {
+														xs: '92%',
+														sm: '40%',
+														backgroundColor: editMode ? '#ead9c7' : undefined,
+													},
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
 													},
 												}}
 											/>
-											<FormLabel id="radio-btns-shown">
-												Mostrar al web?
-											</FormLabel>
-											<RadioGroup
-												onChange={(e) => setShownOnWeb(e.target.value)}
-												row
-												aria-labelledby="radio-btns-shown"
-												defaultValue="true"
-												name="radio-buttons-group"
-											>
-												<FormControlLabel
-													value="true"
-													control={<Radio />}
-													label="Públic"
-												/>
-												<FormControlLabel
-													value="false"
-													control={<Radio />}
-													label="Privat"
-												/>
-											</RadioGroup>
-											<Button
-												sx={{
-													width: { xs: '92%', sm: '92%' },
-													paddingTop: '10px',
-													paddingBottom: '10px',
-												}}
-												variant="contained"
-												component="label"
-											>
-												<img src={iconFolder} alt="carpeta" title="Imatge" />
-												&nbsp; Imatge *
-												<input
-													onChange={handleFileSelect}
-													type="file"
-													id="file_input"
-													accept="image/*"
-													hidden
-												/>
-											</Button>
+
+											{editMode ? (
+												''
+											) : (
+												<Button
+													sx={{
+														width: { xs: '92%', sm: '92%' },
+														paddingTop: '10px',
+														paddingBottom: '10px',
+													}}
+													variant="contained"
+													component="label"
+												>
+													<img src={iconFolder} alt="carpeta" title="Imatge" />
+													&nbsp; Imatge *
+													<input
+														onChange={handleFileSelect}
+														type="file"
+														id="file_input"
+														accept="image/*"
+														hidden
+													/>
+												</Button>
+											)}
 										</FormControl>
 									</Box>
 									<Box
@@ -727,7 +931,7 @@ const Articles = () => {
 										}}
 									>
 										<Button
-											onClick={handleSubmit}
+											onClick={editMode ? handleSubmitEdit : handleSubmitNew}
 											sx={{
 												marginBottom: '20px',
 												marginTop: '20px',
@@ -738,7 +942,11 @@ const Articles = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title="Nou" />
+											<img
+												src={editMode ? iconEditWhite : iconNew}
+												alt="nou"
+												title="Nou"
+											/>
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}

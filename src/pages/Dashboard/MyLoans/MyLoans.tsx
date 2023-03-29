@@ -11,10 +11,10 @@ import { ILoan } from '../../../interfaces/loans.interface'
 const columns: GridColDef[] = [
 	{ field: 'idLoan', headerName: 'ID', width: 70 },
 	{
-		field: 'articleIdArticle',
-		type: 'number',
-		headerName: 'Id article',
-		width: 70,
+		field: 'articleName',
+		headerName: 'Nom article',
+		width: 120,
+		valueGetter: (params) => params.row?.article?.name,
 	},
 	{
 		field: 'fee',
@@ -57,6 +57,7 @@ const MyLoans = () => {
 			loanService
 				.getLoansByUser(auth?.idUsers)
 				.then((data: ILoan[]) => {
+					console.log(data)
 					setData(data)
 				})
 				.catch((error: Error) => {

@@ -5,14 +5,11 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	InputLabel,
 	MenuItem,
-	Modal,
 	Radio,
 	RadioGroup,
 	Select,
 	SelectChangeEvent,
-	TextareaAutosize,
 	TextField,
 	Typography,
 } from '@mui/material'
@@ -32,13 +29,11 @@ import {
 	GridCellValue,
 	DataGrid,
 	esES,
-	GridToolbar,
 	GridToolbarContainer,
 	GridToolbarExport,
 } from '@mui/x-data-grid'
 import FormAlert from '../../../components/FormAlert/FormAlert'
 import {
-	createUserFromDashboard,
 	getAllUsers,
 	registerUser,
 	updateUser,
@@ -295,7 +290,7 @@ const Users = () => {
 			birth_date: moment(birthDate).format('YYYY-MM-DD'),
 			how_meet_us: howMeet,
 			subscriber,
-			password: '12345678', //TODO: use .env
+			password: process.env.REACT_APP_USER_DEFAULT_PASSWORD, //TODO: use .env
 		}
 
 		await registerUser(newObject)

@@ -87,6 +87,15 @@ const articleIdFromCode = async (code: string) => {
 	}
 }
 
+const updateArticle = async (id: string, data: any) => {
+	try {
+		const response = await axios.put(API_URL + '/' + id, data)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 export default {
 	getArticles,
 	createArticle,
@@ -94,4 +103,5 @@ export default {
 	getArticle,
 	articleIdFromCode,
 	getArticleById,
+	updateArticle,
 }

@@ -42,9 +42,12 @@ const CataloguePage = () => {
 				{/* <FilterCataloguePage /> */}
 				<Box
 					sx={{
-						display: 'flex',
-						flexDirection: { xs: 'column', sm: 'row' },
-						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'wrap', lg: 'wrap' },
+						display: 'grid',
+						gridTemplateColumns: {
+							xs: 'repeat(1, 1fr)',
+							sm: 'repeat(2, 1fr)',
+							md: 'repeat(3, 1fr)',
+						},
 						gap: '40px',
 						marginTop: '50px',
 						marginBottom: '50px',
