@@ -55,7 +55,7 @@ const FilterCataloguePage = (props: Props) => {
 			}}
 			variant="contained"
 		>
-			<img src={iconSearch} alt="cerca" />
+			<img src={iconSearch} alt="cerca" title='Cerca'/>
 		</Button>
 	</FormControl>
     </Box>

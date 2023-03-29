@@ -10,12 +10,7 @@ import Footer from '../../components/Footer/Footer'
 import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
-
-import {
-	getArticles,
-	
-} from '../../services/HomePage/homeService'
-
+import { getArticles } from '../../services/HomePage/homeService'
 import MenuHome from '../../components/MenuHome/MenuHome'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
 

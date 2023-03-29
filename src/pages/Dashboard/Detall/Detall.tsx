@@ -7,7 +7,6 @@ import Header from '../../../components/Header/Header'
 import MenuCatalogue from '../../../components/MenuCatalogue/MenuCatalogue'
 import {getArticleImage} from '../../../services/HomePage/homeService'
 import {  useParams } from 'react-router-dom'
-
 import { IArticle } from '../../../interfaces/article.interface'
 import articleService from '../../../services/articleService'
 

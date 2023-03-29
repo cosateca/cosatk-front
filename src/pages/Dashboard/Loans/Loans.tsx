@@ -101,7 +101,7 @@ const columns: GridColDef[] = [
 					}}
 					onClick={onClick}
 				>
-					<img src={iconEdit} alt="modificar" />
+					<img src={iconEdit} alt="Editar" title='Editar'/>
 				</Button>
 			)
 		},
@@ -262,7 +262,7 @@ const Loans = () => {
 									}}
 									variant="contained"
 								>
-									<img src={iconSearch} alt="cerca" />
+									<img src={iconSearch} alt="cerca" title='Cerca'/>
 								</Button>
 							</FormControl>
 						</Box>
