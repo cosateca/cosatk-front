@@ -61,12 +61,9 @@ const columns: GridColDef[] = [
 				api
 					.getAllColumns()
 					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
+					.forEach((c) => (thisRow[c.field] = params.row || ''))
 
-				return navigate(`/dashboard/deletearticle/${thisRow.code}`)
+				return navigate(`/dashboard/deletearticle/${params.row.code}`)
 			}
 
 			return (
@@ -98,10 +95,7 @@ const columns: GridColDef[] = [
 				api
 					.getAllColumns()
 					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
+					.forEach((c) => (thisRow[c.field] = params.row || ''))
 
 				return alert(JSON.stringify(thisRow, null, 4))
 			}

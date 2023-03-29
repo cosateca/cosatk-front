@@ -313,7 +313,7 @@ const Categories = () => {
 										>
 											<TextField
 												onChange={(e) => setCategory_name(e.target.value)}
-												value={
+												defaultValue={
 													editMode && category_name ? category_name : undefined
 												}
 												required

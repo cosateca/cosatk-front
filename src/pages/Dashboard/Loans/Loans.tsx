@@ -75,11 +75,8 @@ const Loans = () => {
 					api
 						.getAllColumns()
 						.filter((c) => c.field !== '__check__' && !!c)
-						.forEach(
-							(c) =>
-								(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-						)
-					return navigate(`/dashboard/returnloan/${thisRow.idLoan}`)
+						.forEach((c) => (thisRow[c.field] = params.row || ''))
+					return navigate(`/dashboard/returnloan/${params.row.idLoan}`)
 				}
 
 				return (
@@ -142,7 +139,7 @@ const Loans = () => {
 		},
 		{
 			field: 'status',
-			headerName: 'En prèstec',
+			headerName: 'En curs',
 			type: 'boolean',
 			width: 120,
 		},
@@ -312,7 +309,9 @@ const Loans = () => {
 									>
 										<TextField
 											onChange={handleChangeChecked_out}
-											value={editMode && checked_out ? checked_out : undefined}
+											defaultValue={
+												editMode && checked_out ? checked_out : undefined
+											}
 											required
 											id="input-checkedout"
 											label="Data de retorn"

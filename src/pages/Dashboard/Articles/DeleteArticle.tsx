@@ -23,24 +23,36 @@ const DeleteArticle = () => {
 			articleService
 				.deleteArticle(id)
 				.then((data: any) => {
-					console.log(data)
-					setAlert({
-						msg: 'Article eliminat correctament, redirigint...',
-						isError: false,
-					})
-					setTimeout(() => {
-						navigate('/dashboard/articles')
-					}, 3500)
+					if (data.status) {
+						//error
+						setAlert({
+							msg: data.error,
+							isError: true,
+						})
+						setTimeout(() => {
+							setAlert({})
+							navigate('/dashboard/articles')
+						}, 3500)
+					} else {
+						//ok
+						setAlert({
+							msg: 'Article eliminat correctament, redirigint...',
+							isError: false,
+						})
+						setTimeout(() => {
+							setAlert({})
+							navigate('/dashboard/articles')
+						}, 3500)
+					}
 				})
 				.catch((error: Error) => {
 					setAlert({
-						msg: 'Error inesperat, redirigint...',
+						msg: error.message,
 						isError: true,
 					})
 					setTimeout(() => {
 						navigate('/dashboard/articles')
 					}, 3500)
-					console.log(error)
 				})
 		} else {
 			console.error('Error: there is no id provided')

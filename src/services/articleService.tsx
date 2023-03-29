@@ -54,10 +54,10 @@ const getArticles = async (): Promise<any> => {
 const deleteArticle = async (code: string): Promise<any> => {
 	try {
 		const response = await axios.delete(API_URL + '/deleteByCode/' + code)
-
 		return response.data
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error)
+		return error
 	}
 }
 
@@ -66,8 +66,8 @@ const getArticle = async (code: string): Promise<any> => {
 		const response = await axios.get(API_URL_DELETEBYCODE + '/' + code)
 
 		return response.data
-	} catch (error) {
-		console.log(error)
+	} catch (error: any) {
+		console.log(error.message)
 	}
 }
 

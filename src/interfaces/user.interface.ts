@@ -8,7 +8,7 @@ export interface IUser {
     address?:string;
     city?:string;
     membership?:string;
-    birth_date?:Date;
+    birth_date?:string;
     how_meet_us?:string;
     subscriber?:boolean;
     added_on?:Date;

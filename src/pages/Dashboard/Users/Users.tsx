@@ -39,6 +39,7 @@ import FormAlert from '../../../components/FormAlert/FormAlert'
 import {
 	createUserFromDashboard,
 	getAllUsers,
+	registerUser,
 } from '../../../services/userService'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
@@ -61,11 +62,8 @@ const columns: GridColDef[] = [
 				api
 					.getAllColumns()
 					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-				return navigate(`/dashboard/deleteuser/${thisRow.idUsers}`)
+					.forEach((c) => (thisRow[c.field] = params.row || ''))
+				return navigate(`/dashboard/deleteuser/${params.row.idUsers}`)
 			}
 
 			return (
@@ -97,10 +95,7 @@ const columns: GridColDef[] = [
 				api
 					.getAllColumns()
 					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
+					.forEach((c) => (thisRow[c.field] = params.row || ''))
 
 				return alert(JSON.stringify(thisRow, null, 4))
 			}
@@ -165,7 +160,7 @@ const Users = () => {
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [membership, setMembership] = useState('')
-	const [birthDate, setBirthDate] = useState<Date>(
+	const [birthDate, setBirthDate] = useState<any>(
 		moment().startOf('day').toDate()
 	)
 	const [howMeet, setHowMeet] = useState('')
@@ -207,44 +202,55 @@ const Users = () => {
 			subscriber,
 			password: '12345678', //TODO: use .env
 		}
-		await createUserFromDashboard(newObject)
-			.then(async (response) => {
-				const { user } = response
+		// await createUserFromDashboard(newObject)
+		// 	.then(async (response) => {
+		// 		const { user } = response
 
-				if (user) {
-					setData(user)
-					setAlert({
-						msg: 'Usuari creat correctament Redirigint...',
-						isError: false,
-					})
-					setTimeout(() => {
-						setAlert({})
-						setTrigger(!trigger)
-						setIsOpenForm(!isOpenForm)
-					}, 3000)
-				} else {
-					setAlert({
-						msg: "Error quan s'intentava crear un usuari",
-						isError: true,
-					})
-					setTimeout(() => {
-						setAlert({})
-						setTrigger(!trigger)
-						setIsOpenForm(!isOpenForm)
-					}, 3000)
+		// 		if (user) {
+		// 			setData(user)
+		// 			setAlert({
+		// 				msg: 'Usuari creat correctament Redirigint...',
+		// 				isError: false,
+		// 			})
+		// 			setTimeout(() => {
+		// 				setAlert({})
+		// 				setTrigger(!trigger)
+		// 				setIsOpenForm(!isOpenForm)
+		// 			}, 3000)
+		// 		} else {
+		// 			setAlert({
+		// 				msg: "Error quan s'intentava crear un usuari",
+		// 				isError: true,
+		// 			})
+		// 			setTimeout(() => {
+		// 				setAlert({})
+		// 				setTrigger(!trigger)
+		// 				setIsOpenForm(!isOpenForm)
+		// 			}, 3000)
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("Error quan s'intentava crear un usuari: ", error)
+		// 		setAlert({
+		// 			msg: "Error quan s'intentava crear un usuari",
+		// 			isError: true,
+		// 		})
+		// 		setTimeout(() => {
+		// 			setAlert({})
+		// 			setTrigger(!trigger)
+		// 			setIsOpenForm(!isOpenForm)
+		// 		}, 3000)
+		// 	})
+
+		await registerUser(newObject)
+			.then(async (response) => {
+				if (typeof response !== 'undefined' && response.data.idUsers) {
+					console.log('New user registered succesfully')
 				}
 			})
 			.catch((error) => {
-				console.log("Error quan s'intentava crear un usuari: ", error)
-				setAlert({
-					msg: "Error quan s'intentava crear un usuari",
-					isError: true,
-				})
-				setTimeout(() => {
-					setAlert({})
-					setTrigger(!trigger)
-					setIsOpenForm(!isOpenForm)
-				}, 3000)
+				console.log('Error when trying to create a new user: ', error)
+				return
 			})
 
 		// Resetear los estados
@@ -259,11 +265,20 @@ const Users = () => {
 		setMembership('')
 		setPhone(0)
 		setSubscriber(false)
+
+		setAlert({
+			msg: 'Usuari registrat correctament. Redirigint...',
+			isError: false,
+		})
+		setTimeout(() => {
+			setAlert({})
+			setTrigger(!trigger)
+			setIsOpenForm(!isOpenForm)
+		}, 3500)
 	}
 
 	//Bring users
 	useEffect(() => {
-		console.log(birthDate)
 		getAllUsers()
 			.then((data: IUser[]) => {
 				setData(data)
