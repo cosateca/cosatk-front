@@ -16,6 +16,7 @@ import {
 	esES,
 	GridToolbarContainer,
 	GridToolbarExport,
+	GridActionsCellItem,
 } from '@mui/x-data-grid'
 import React, { useEffect } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
@@ -23,93 +24,90 @@ import iconSearch from '../../../assets/images/icono_buscar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
+import iconEditWhite from '../../../assets/images/icono_modificar_white.svg'
 import iconBack from '../../../assets/images/icono_flecha_atras.svg'
-
 import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
 import { useNavigate } from 'react-router-dom'
+import FormAlert from '../../../components/FormAlert/FormAlert'
 
-//Data Grid
-const columns: GridColDef[] = [
-	{
-		field: 'remove',
-		headerName: 'Eliminar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const navigate = useNavigate()
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-				return navigate(`/dashboard/deletecategory/${thisRow.idCategory}`)
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconTrash} alt="Eliminar" title='Eliminar' />
-				</Button>
-			)
-		},
-	},
-	{
-		field: 'edit',
-		headerName: 'Editar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach(
-						(c) =>
-							(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-					)
-
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconEdit} alt="Editar" title='Editar'/>
-				</Button>
-			)
-		},
-	},
-	{ field: 'idCategory', headerName: 'ID', width: 70 },
-	{ field: 'category_name', headerName: 'Nom', width: 160 },
-]
 
 const Categories = () => {
+	//Data Grid
+	const handleEdit = (params: any) => {
+		setCategory_name(params.row?.category_name)
+		setEditMode(true)
+		setIsOpenForm(true)
+		setSelectedId(params.id)
+	}
+	const HandleEditButton = ({ handleEdit, params }: any) => {
+		const handleClick = () => {
+			handleEdit(params)
+		}
+
+
+		return (
+			<Button
+				onClick={handleClick}
+				sx={{ display: 'flex', justifyContent: 'flex-start' }}
+			>
+				<img src={iconEdit} alt="eliminar" />
+			</Button>
+		)
+	}
+	const columns: GridColDef[] = [
+		{
+			field: 'remove',
+			headerName: 'Eliminar',
+			sortable: false,
+			width: 50,
+			renderCell: (params: GridRenderCellParams<any>) => {
+				const navigate = useNavigate()
+				const onClick = (e: any) => {
+					e.stopPropagation() // don't select this row after clicking
+
+					const api: GridApi = params.api
+					const thisRow: Record<string, GridCellValue> = {}
+
+					api
+						.getAllColumns()
+						.filter((c) => c.field !== '__check__' && !!c)
+						.forEach(
+							(c) =>
+								(thisRow[c.field] = params.getValue(params.id, c.field) || '')
+						)
+					return navigate(`/dashboard/deletecategory/${thisRow.idCategory}`)
+				}
+
+
+				return (
+					<Button
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-start',
+							borderRadius: '0px',
+						}}
+						onClick={onClick}
+					>
+						<img src={iconTrash} alt="eliminar" />
+					</Button>
+				)
+			},
+		},
+		{
+			field: 'edit',
+			headerName: 'Editar',
+			sortable: false,
+			width: 50,
+			renderCell: (params) => (
+				<HandleEditButton handleEdit={handleEdit} params={params} />
+			),
+
+		},
+		{ field: 'idCategory', headerName: 'ID', width: 70 },
+		{ field: 'category_name', headerName: 'Nom', width: 160 },
+	]
+
 	//Data
 	const [data, setData] = React.useState<ICategory[]>([])
 	const [inputName, setInputName] = React.useState<string>('')
@@ -119,11 +117,68 @@ const Categories = () => {
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
 	const [category_name, setCategory_name] = React.useState('')
 
+	//Edit mode
+	const [editMode, setEditMode] = React.useState(false)
+
+	//Id selected to edit mode
+	const [selectedId, setSelectedId] = React.useState('')
+
+	//Alert
+	const [alert, setAlert] = React.useState<any>({})
+	const { msg } = alert
+
 	const handleClick = (e: any) => {
 		e.preventDefault()
 		setIsOpenForm(!isOpenForm)
 	}
-	const handleSubmit = (e: any) => {
+	const handleSubmitEdit = (e: any) => {
+		e.preventDefault()
+
+		if (category_name === '') {
+			return
+		}
+		const newObject: ICategory = {
+			category_name,
+		}
+		if (selectedId) {
+			categoryService
+				.updateCategory(selectedId, newObject)
+				.then(() => {
+					setAlert({
+						msg: 'Categoria actualitzada correctament, redirigint...',
+						isError: false,
+					})
+					// Reset state
+					setCategory_name('')
+
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						setCategory_name('')
+						setTrigger(!trigger)
+						setEditMode(false)
+
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+					setAlert({
+						msg: 'Error inesperat, redirigint...',
+						isError: true,
+					})
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						setCategory_name('')
+						setTrigger(!trigger)
+						setEditMode(false)
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+		}
+	}
+	const handleSubmitNew = (e: any) => {
 		e.preventDefault()
 
 		if (category_name === '') {
@@ -135,18 +190,29 @@ const Categories = () => {
 		categoryService
 			.postData(newObject)
 			.then(() => {
-				console.log('Category created')
+				setAlert({
+					msg: 'Categoria creada correctament, redirigint...',
+					isError: false,
+				})
+				// Reset states
+				setCategory_name('')
+				setTrigger(!trigger)
+
+				setTimeout(() => {
+					setAlert({})
+					setIsOpenForm(!isOpenForm)
+				}, 3000)
 			})
 			.catch((error: Error) => {
+				// Reset states
+				setCategory_name('')
+				setTrigger(!trigger)
+				setIsOpenForm(!isOpenForm)
 				console.log(error)
 			})
-
-		// Reset states
-		setCategory_name('')
-		setTrigger(!trigger)
-		setIsOpenForm(!isOpenForm)
 	}
 
+	//Bring categories
 	useEffect(() => {
 		categoryService
 			.getData()
@@ -169,7 +235,15 @@ const Categories = () => {
 					console.log(error)
 				})
 		} else {
-			console.log('Search empty')
+			//When search if empty lets fetch again all data
+			categoryService
+				.getData()
+				.then((data: ICategory[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
 		}
 	}
 
@@ -211,10 +285,12 @@ const Categories = () => {
 											variant="h1"
 											component="h2"
 										>
-											✏️Categoria
+											{editMode ? '✏️' : '➕'} Categoria
 										</Typography>
 										<Button
-											onClick={() => setIsOpenForm(false)}
+											onClick={() => {
+												setIsOpenForm(false), setEditMode(false)
+											}}
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
@@ -241,11 +317,17 @@ const Categories = () => {
 										>
 											<TextField
 												onChange={(e) => setCategory_name(e.target.value)}
+												defaultValue={
+													editMode && category_name ? category_name : undefined
+												}
 												required
 												id="input-nom"
 												label="Nom"
 												variant="outlined"
-												sx={{ width: { xs: '92%', sm: '50%' } }}
+												sx={{
+													width: { xs: '92%', sm: '50%' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
+												}}
 												InputLabelProps={{
 													style: {
 														color: '#222222',
@@ -262,7 +344,7 @@ const Categories = () => {
 										}}
 									>
 										<Button
-											onClick={handleSubmit}
+											onClick={editMode ? handleSubmitEdit : handleSubmitNew}
 											sx={{
 												marginBottom: '20px',
 												marginTop: '20px',
@@ -273,9 +355,12 @@ const Categories = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou'/>
+
+											<img src={editMode ? iconEditWhite : iconNew} alt="nou" />
+
 										</Button>
 									</Box>
+									{msg && <FormAlert alert={alert} />}
 								</Box>
 							) : (
 								<>

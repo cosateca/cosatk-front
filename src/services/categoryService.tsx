@@ -42,4 +42,19 @@ const deleteCategory = async (id: string) => {
 	}
 }
 
-export default { getData, postData, deleteCategory, getDataByName }
+const updateCategory = async (id: string, data: any) => {
+	try {
+		const response = await axios.put(URL_API + '/' + id, data)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export default {
+	getData,
+	postData,
+	deleteCategory,
+	getDataByName,
+	updateCategory,
+}

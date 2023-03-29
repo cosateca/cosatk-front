@@ -4,7 +4,7 @@ import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
 const API_URL_CREATE = `${URLBASE}/article/create`
-const API_URL = `${URLBASE}/article/`
+const API_URL = `${URLBASE}/article`
 const API_URL_DELETEBYCODE = `${URLBASE}/article/deleteByCode`
 
 const createArticle = async (data: IArticle, image: File): Promise<any> => {
@@ -54,10 +54,10 @@ const getArticles = async (): Promise<any> => {
 const deleteArticle = async (code: string): Promise<any> => {
 	try {
 		const response = await axios.delete(API_URL + '/deleteByCode/' + code)
-
 		return response.data
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error)
+		return error
 	}
 }
 
@@ -66,8 +66,8 @@ const getArticle = async (code: string): Promise<any> => {
 		const response = await axios.get(API_URL_DELETEBYCODE + '/' + code)
 
 		return response.data
-	} catch (error) {
-		console.log(error)
+	} catch (error: any) {
+		console.log(error.message)
 	}
 }
 
@@ -78,8 +78,8 @@ const getArticleById = async (idArticle: any) => {
 
 const articleIdFromCode = async (code: string) => {
 	try {
-		const response = await axios.get(API_URL + '/codetoid/' + code)
-		return response.data[0]
+		const response = await axios.get(API_URL + '/findbycode/' + code)
+		return response.data
 	} catch (error) {
 		console.log(error)
 	}

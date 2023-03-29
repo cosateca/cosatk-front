@@ -88,10 +88,11 @@ const Register = () => {
 			})
 			.catch((error) => {
 				console.log('Error when trying to create a new user: ', error)
+				return
 			})
 
 		setAlert({
-			msg: 'Usuari registrat correctament... serà redirigit a la pantalla de login',
+			msg: 'Usuari registrat correctament. Redirigint...',
 			isError: false,
 		})
 		setTimeout(() => {
@@ -318,7 +319,7 @@ const Register = () => {
 						type="password"
 						name="repet_password"
 						label="Repetir contrasenya"
-						id="password"
+						id="repassword"
 						sx={{
 							width: { xs: '80%', sm: '35%' },
 						}}

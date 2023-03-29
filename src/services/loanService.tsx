@@ -44,4 +44,29 @@ const createLoan = async (data: any): Promise<any> => {
 	}
 }
 
-export default { getLoans, returnLoan, createLoan, getLoansByUser }
+const updateLoan = async (id: string, data: any) => {
+	try {
+		const response = await axios.put(API_URL + '/' + id, data)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+const updateCheckedout = async (id: string, data: any) => {
+	try {
+		const response = await axios.patch(API_URL + '/checked_out/' + id, data)
+		return response.data
+	} catch (error) {
+		throw new Error(`El prèstec no està actiu`)
+	}
+}
+
+export default {
+	getLoans,
+	returnLoan,
+	createLoan,
+	getLoansByUser,
+	updateLoan,
+	updateCheckedout,
+}
