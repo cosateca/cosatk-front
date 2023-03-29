@@ -23,6 +23,7 @@ import iconNew from '../../../assets/images/icono_add.svg'
 import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import iconBack from '../../../assets/images/icono_flecha_atras.svg'
+import iconEditWhite from '../../../assets/images/icono_modificar_white.svg'
 import { IUser } from '../../../interfaces/user.interface'
 import {
 	GridColDef,
@@ -40,112 +41,123 @@ import {
 	createUserFromDashboard,
 	getAllUsers,
 	registerUser,
+	updateUser,
 } from '../../../services/userService'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 
-//Data Grid
-const columns: GridColDef[] = [
-	{
-		field: 'remove',
-		headerName: 'Eliminar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const navigate = useNavigate()
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach((c) => (thisRow[c.field] = params.row || ''))
-				return navigate(`/dashboard/deleteuser/${params.row.idUsers}`)
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconTrash} alt="Eliminar" title='Eliminar'/>
-				</Button>
-			)
-		},
-	},
-	{
-		field: 'edit',
-		headerName: 'Editar',
-		sortable: false,
-		width: 50,
-		renderCell: (params: GridRenderCellParams<any>) => {
-			const onClick = (e: any) => {
-				e.stopPropagation() // don't select this row after clicking
-
-				const api: GridApi = params.api
-				const thisRow: Record<string, GridCellValue> = {}
-
-				api
-					.getAllColumns()
-					.filter((c) => c.field !== '__check__' && !!c)
-					.forEach((c) => (thisRow[c.field] = params.row || ''))
-
-				return alert(JSON.stringify(thisRow, null, 4))
-			}
-
-			return (
-				<Button
-					sx={{
-						display: 'flex',
-						justifyContent: 'flex-start',
-						borderRadius: '0px',
-					}}
-					onClick={onClick}
-				>
-					<img src={iconEdit} alt="Editar" title='Editar'/>
-				</Button>
-			)
-		},
-	},
-	{ field: 'idUsers', headerName: 'ID', width: 70 },
-	{ field: 'first_name', headerName: 'Nom', width: 130 },
-	{
-		field: 'last_name',
-		headerName: 'Cognoms',
-		width: 190,
-	},
-	{
-		field: 'dni',
-		headerName: 'DNI/Passaport',
-		width: 150,
-	},
-	{
-		field: 'email',
-		headerName: 'Email',
-		width: 190,
-	},
-	{
-		field: 'role',
-		headerName: 'Rol',
-		width: 90,
-	},
-]
-
 const Users = () => {
-	const navigate = useNavigate()
+	//Data Grid
+	const handleEdit = (params: any) => {
+		setName(params.row?.first_name)
+		setLastName(params.row?.last_name)
+		setAddress(params.row?.address)
+		setBirthDate(params.row?.birth_date)
+		setCity(params.row?.city)
+		setDni(params.row?.dni)
+		setEmail(params.row?.email)
+		setHowMeet(params.row?.how_meet_us)
+		setMembership(params.row?.membership)
+		setPhone(params.row?.telephone)
+		setSubscriber(params.row?.subscriber)
+		setEditMode(true)
+		setIsOpenForm(true)
+		setSelectedId(params.id)
+	}
+	const HandleEditButton = ({ handleEdit, params }: any) => {
+		const handleClick = () => {
+			handleEdit(params)
+		}
+
+		return (
+			<Button
+				onClick={handleClick}
+				sx={{ display: 'flex', justifyContent: 'flex-start' }}
+			>
+				<img src={iconEdit} alt="eliminar" />
+			</Button>
+		)
+	}
+
+	const columns: GridColDef[] = [
+		{
+			field: 'remove',
+			headerName: 'Eliminar',
+			sortable: false,
+			width: 50,
+			renderCell: (params: GridRenderCellParams<any>) => {
+				const navigate = useNavigate()
+				const onClick = (e: any) => {
+					e.stopPropagation() // don't select this row after clicking
+
+					const api: GridApi = params.api
+					const thisRow: Record<string, GridCellValue> = {}
+
+					api
+						.getAllColumns()
+						.filter((c) => c.field !== '__check__' && !!c)
+						.forEach((c) => (thisRow[c.field] = params.row || ''))
+					return navigate(`/dashboard/deleteuser/${params.row.idUsers}`)
+				}
+
+				return (
+					<Button
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-start',
+							borderRadius: '0px',
+						}}
+						onClick={onClick}
+					>
+						<img src={iconTrash} alt="Eliminar" title="Eliminar" />
+					</Button>
+				)
+			},
+		},
+		{
+			field: 'edit',
+			headerName: 'Editar',
+			sortable: false,
+			width: 50,
+			renderCell: (params) => (
+				<HandleEditButton handleEdit={handleEdit} params={params} />
+			),
+		},
+		{ field: 'idUsers', headerName: 'ID', width: 70 },
+		{ field: 'first_name', headerName: 'Nom', width: 130 },
+		{
+			field: 'last_name',
+			headerName: 'Cognoms',
+			width: 190,
+		},
+		{
+			field: 'dni',
+			headerName: 'DNI/Passaport',
+			width: 150,
+		},
+		{
+			field: 'email',
+			headerName: 'Email',
+			width: 190,
+		},
+		{
+			field: 'role',
+			headerName: 'Rol',
+			width: 90,
+		},
+	]
 
 	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
 
 	//Alert
 	const [alert, setAlert] = useState<any>({})
 	const { msg } = alert
+
+	//Edit mode
+	const [editMode, setEditMode] = useState(false)
+
+	//Id selected to edit mode
+	const [selectedId, setSelectedId] = useState('')
 
 	//Form
 	const [data, setData] = useState<any>([])
@@ -166,7 +178,90 @@ const Users = () => {
 	const [howMeet, setHowMeet] = useState('')
 	const [subscriber, setSubscriber] = useState(false)
 
-	const handleSubmit = async (e: any) => {
+	const resetStates = () => {
+		setName('')
+		setLastName('')
+		setAddress('')
+		setBirthDate(moment(birthDate).format('YYYY-MM-DD'))
+		setCity('')
+		setDni('')
+		setEmail('')
+		setHowMeet('')
+		setMembership('')
+		setPhone(0)
+		setSubscriber(false)
+	}
+
+	const handleSubmitEdit = (e: any) => {
+		e.preventDefault()
+
+		if ([name, lastName, email].includes('')) {
+			setAlert({
+				msg: 'Algun dels camps requerits ha quedat buit.',
+				isError: true,
+			})
+			console.error('Form validation: Error 1')
+			return
+		}
+
+		if (name === '' || lastName === '') {
+			console.log('error, no name or lastname')
+			return
+		}
+
+		if (email === '') {
+			console.log('error, no email introduced')
+			return
+		}
+		const newObject: IUser = {
+			first_name: name,
+			last_name: lastName,
+			email,
+			dni,
+			telephone: phone,
+			address,
+			city,
+			membership,
+			birth_date: moment(birthDate).format('YYYY-MM-DD'),
+			how_meet_us: howMeet,
+			subscriber,
+		}
+		if (selectedId) {
+			updateUser(selectedId, newObject)
+				.then(() => {
+					setAlert({
+						msg: 'Usuari actualitzat correctament, redirigint...',
+						isError: false,
+					})
+
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						resetStates()
+						setTrigger(!trigger)
+						setEditMode(false)
+
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+					setAlert({
+						msg: 'Error inesperat, redirigint...',
+						isError: true,
+					})
+					setTimeout(() => {
+						// Reset states
+						setAlert({})
+						resetStates()
+						setTrigger(!trigger)
+						setEditMode(false)
+						setIsOpenForm(!isOpenForm)
+					}, 3000)
+				})
+		}
+	}
+	const handleSubmitNew = async (e: any) => {
 		e.preventDefault()
 
 		if ([name, lastName, email].includes('')) {
@@ -202,45 +297,6 @@ const Users = () => {
 			subscriber,
 			password: '12345678', //TODO: use .env
 		}
-		// await createUserFromDashboard(newObject)
-		// 	.then(async (response) => {
-		// 		const { user } = response
-
-		// 		if (user) {
-		// 			setData(user)
-		// 			setAlert({
-		// 				msg: 'Usuari creat correctament Redirigint...',
-		// 				isError: false,
-		// 			})
-		// 			setTimeout(() => {
-		// 				setAlert({})
-		// 				setTrigger(!trigger)
-		// 				setIsOpenForm(!isOpenForm)
-		// 			}, 3000)
-		// 		} else {
-		// 			setAlert({
-		// 				msg: "Error quan s'intentava crear un usuari",
-		// 				isError: true,
-		// 			})
-		// 			setTimeout(() => {
-		// 				setAlert({})
-		// 				setTrigger(!trigger)
-		// 				setIsOpenForm(!isOpenForm)
-		// 			}, 3000)
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("Error quan s'intentava crear un usuari: ", error)
-		// 		setAlert({
-		// 			msg: "Error quan s'intentava crear un usuari",
-		// 			isError: true,
-		// 		})
-		// 		setTimeout(() => {
-		// 			setAlert({})
-		// 			setTrigger(!trigger)
-		// 			setIsOpenForm(!isOpenForm)
-		// 		}, 3000)
-		// 	})
 
 		await registerUser(newObject)
 			.then(async (response) => {
@@ -253,18 +309,7 @@ const Users = () => {
 				return
 			})
 
-		// Resetear los estados
-		setName('')
-		setLastName('')
-		setAddress('')
-		setBirthDate(moment(birthDate).format('YYYY-MM-DD'))
-		setCity('')
-		setDni('')
-		setEmail('')
-		setHowMeet('')
-		setMembership('')
-		setPhone(0)
-		setSubscriber(false)
+		resetStates()
 
 		setAlert({
 			msg: 'Usuari registrat correctament. Redirigint...',
@@ -348,14 +393,16 @@ const Users = () => {
 											variant="h1"
 											component="h2"
 										>
-											✏️Usuari
+											{editMode ? '✏️' : '➕'} Usuari
 										</Typography>
 										<Button
-											onClick={() => setIsOpenForm(false)}
+											onClick={() => {
+												setIsOpenForm(false), setEditMode(false)
+											}}
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											<img src={iconBack} alt="tornar" title='Tornar'/>
+											<img src={iconBack} alt="tornar" title="Tornar" />
 										</Button>
 									</Box>
 									<Box
@@ -377,12 +424,14 @@ const Users = () => {
 										>
 											<TextField
 												onChange={(e) => setName(e.target.value)}
+												defaultValue={editMode && name ? name : undefined}
 												id="input-name"
 												label="Nom *"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '40%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -392,12 +441,16 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setLastName(e.target.value)}
+												defaultValue={
+													editMode && lastName ? lastName : undefined
+												}
 												id="input-last-name"
 												label="Cognoms *"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -407,6 +460,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setEmail(e.target.value)}
+												defaultValue={editMode && email ? email : undefined}
 												id="input-mail"
 												label="Email"
 												required
@@ -414,6 +468,7 @@ const Users = () => {
 												sx={{
 													width: { xs: '95%', sm: '40%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -423,12 +478,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setDni(e.target.value)}
+												defaultValue={editMode && dni ? dni : undefined}
 												id="input-identification-number"
 												label="DNI/NIE/Passaport"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -438,12 +495,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setPhone(Number(e.target.value))}
+												defaultValue={editMode && phone ? phone : undefined}
 												id="input-phone"
 												label="Telèfon"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '40%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -453,12 +512,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setAddress(e.target.value)}
+												defaultValue={editMode && address ? address : undefined}
 												id="input-address"
 												label="Adreça"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -468,12 +529,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setCity(e.target.value)}
+												defaultValue={editMode && city ? city : undefined}
 												id="input-location"
 												label="Localitat"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '40%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -483,12 +546,16 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setMembership(e.target.value)}
+												defaultValue={
+													editMode && membership ? membership : undefined
+												}
 												id="input-membership"
 												label="Membresia"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -499,12 +566,16 @@ const Users = () => {
 
 											<TextField
 												onChange={handleChangeBirthDate}
+												defaultValue={
+													editMode && birthDate ? birthDate : undefined
+												}
 												id="birthdate"
 												label="Data de naixement"
 												type="date"
 												sx={{
 													width: { xs: '95%', sm: '40%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													shrink: true,
@@ -512,12 +583,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setHowMeet(e.target.value)}
+												defaultValue={editMode && howMeet ? howMeet : undefined}
 												id="input-how-to-meet"
 												label="Com ens ha conegut?"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 												InputLabelProps={{
 													style: {
@@ -530,6 +603,7 @@ const Users = () => {
 												sx={{
 													width: { xs: '95%', sm: '10%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 											>
 												Subscriptor
@@ -538,13 +612,16 @@ const Users = () => {
 												onChange={(e) =>
 													setSubscriber(e.target.value.toLowerCase() === 'true')
 												}
-												defaultValue="false"
+												defaultValue={
+													editMode && (subscriber ? subscriber : false)
+												}
 												row
 												aria-labelledby="radio-subscr"
 												name="row-radio-buttons-group"
 												sx={{
-													width: { xs: '95%', sm: '42%' },
+													width: { xs: '95%', sm: '28.4%' },
 													margin: { xs: '10px', sm: '20px 10px' },
+													backgroundColor: editMode ? '#ead9c7' : undefined,
 												}}
 											>
 												<FormControlLabel
@@ -568,7 +645,7 @@ const Users = () => {
 										}}
 									>
 										<Button
-											onClick={handleSubmit}
+											onClick={editMode ? handleSubmitEdit : handleSubmitNew}
 											sx={{
 												marginBottom: '20px',
 												marginTop: '10px',
@@ -579,7 +656,11 @@ const Users = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou'/>
+											<img
+												src={editMode ? iconEditWhite : iconNew}
+												alt="nou"
+												title="Nou"
+											/>
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}
@@ -634,7 +715,7 @@ const Users = () => {
 												}}
 												variant="contained"
 											>
-												<img src={iconSearch} alt="cerca" title='Cerca' />
+												<img src={iconSearch} alt="cerca" title="Cerca" />
 											</Button>
 										</FormControl>
 										<Button
@@ -647,7 +728,7 @@ const Users = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou'/>
+											<img src={iconNew} alt="nou" title="Nou" />
 										</Button>
 									</Box>
 									<Box

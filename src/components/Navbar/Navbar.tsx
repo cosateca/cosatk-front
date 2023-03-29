@@ -8,7 +8,7 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import iconLoan from '../../assets/images/icono_prestamos.svg'
 import iconUsers from '../../assets/images/icono_usuarios.svg'
@@ -16,10 +16,8 @@ import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
 import useAuth from '../../hooks/useAuth'
-import { NavLink } from 'react-router-dom'
 
 const Navigation = () => {
-	const navigate = useNavigate()
 	const { auth, logout } = useAuth()
 
 	return (
@@ -87,7 +85,11 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconLoan} alt="Icona prèstec" title='Prèstec'/>
+													<img
+														src={iconLoan}
+														alt="Icona prèstec"
+														title="Prèstec"
+													/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -117,7 +119,11 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconUsers} alt="Icona usuaris" title='Usuaris' />
+													<img
+														src={iconUsers}
+														alt="Icona usuaris"
+														title="Usuaris"
+													/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -147,7 +153,11 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconArticles} alt="Icona articles" title='Articles' />
+													<img
+														src={iconArticles}
+														alt="Icona articles"
+														title="Articles"
+													/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -177,7 +187,11 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconCategories} alt="Icona categories" title='Categories'/>
+													<img
+														src={iconCategories}
+														alt="Icona categories"
+														title="Categories"
+													/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -212,7 +226,11 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconSession} alt="Icona sessio" title='Tancar sessió'/>
+													<img
+														src={iconSession}
+														alt="Icona sessio"
+														title="Tancar sessió"
+													/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText

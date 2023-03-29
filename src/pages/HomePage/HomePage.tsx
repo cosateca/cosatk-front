@@ -1,17 +1,12 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import {
-	Container,
-	Box,
-	Typography,
-} from '@mui/material'
+import { Container, Box, Typography } from '@mui/material'
 
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import CardProduct from '../../components/CardProduct/CardProduct'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
 import { useEffect, useState } from 'react'
-import {	getArticles
-} from '../../services/homeService'
+import { getArticles } from '../../services/homeService'
 import MenuHome from '../../components/MenuHome/MenuHome'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
 import { IArticle } from '../../interfaces/article.interface'
@@ -33,12 +28,11 @@ const HomePage = () => {
 			<MenuHome />
 			<BannerHomePage />
 			<Container>
-				<h2>Articles populars</h2>
+				<Typography variant="h1">Articles populars</Typography>
 				<Box
 					sx={{
-						display: 'flex',
-						flexDirection: { xs: 'column', sm: 'row' },
-						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'wrap', lg: 'wrap' },
+						display: 'grid',
+						gridTemplateColumns: 'repeat(3, 1fr)',
 						gap: '40px',
 						marginTop: '50px',
 						marginBottom: '50px',
@@ -48,27 +42,30 @@ const HomePage = () => {
 						<CardProduct article={article} key={index} />
 					))}
 				</Box>
-				
+
 				<Box
-				sx={{
-					backgroundColor: '#F9F9F9',
-					marginTop: '30px',
-					
-				}}
-			>
-				<Typography id = 'anchortoexplain'
 					sx={{
-						textAlign: 'center',
-						marginBottom: '20px',
+						marginTop: '120px',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
 					}}
 				>
-					T&apos;expliquem com funciona la Biblioteca de les Coses en 5 passos
-					senzills
-				</Typography>
-				<CustomizedAccordions />
-			</Box>
+					<Typography
+						variant="h1"
+						id="anchortoexplain"
+						sx={{
+							marginTop: '20px',
+							marginBottom: '40px',
+						}}
+					>
+						T&apos;expliquem com funciona la Biblioteca de les Coses en 5 passos
+						senzills
+					</Typography>
+					<CustomizedAccordions />
+				</Box>
 			</Container>
-			
+
 			<Footer />
 		</>
 	)
