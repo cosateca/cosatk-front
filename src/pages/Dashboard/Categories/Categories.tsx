@@ -31,7 +31,6 @@ import categoryService from '../../../services/categoryService'
 import { useNavigate } from 'react-router-dom'
 import FormAlert from '../../../components/FormAlert/FormAlert'
 
-
 const Categories = () => {
 	//Data Grid
 	const handleEdit = (params: any) => {
@@ -44,7 +43,6 @@ const Categories = () => {
 		const handleClick = () => {
 			handleEdit(params)
 		}
-
 
 		return (
 			<Button
@@ -79,7 +77,6 @@ const Categories = () => {
 					return navigate(`/dashboard/deletecategory/${thisRow.idCategory}`)
 				}
 
-
 				return (
 					<Button
 						sx={{
@@ -102,7 +99,6 @@ const Categories = () => {
 			renderCell: (params) => (
 				<HandleEditButton handleEdit={handleEdit} params={params} />
 			),
-
 		},
 		{ field: 'idCategory', headerName: 'ID', width: 70 },
 		{ field: 'category_name', headerName: 'Nom', width: 160 },
@@ -294,7 +290,7 @@ const Categories = () => {
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
 										>
-											<img src={iconBack} alt="tornar" title='Tornar'/>
+											<img src={iconBack} alt="tornar" title="Tornar" />
 										</Button>
 									</Box>
 
@@ -355,9 +351,7 @@ const Categories = () => {
 											}}
 											variant="contained"
 										>
-
 											<img src={editMode ? iconEditWhite : iconNew} alt="nou" />
-
 										</Button>
 									</Box>
 									{msg && <FormAlert alert={alert} />}
@@ -403,7 +397,7 @@ const Categories = () => {
 												}}
 												variant="contained"
 											>
-												<img src={iconSearch} alt="cerca" title='Cerca'/>
+												<img src={iconSearch} alt="cerca" title="Cerca" />
 											</Button>
 										</FormControl>
 										<Button
@@ -415,7 +409,7 @@ const Categories = () => {
 											}}
 											variant="contained"
 										>
-											<img src={iconNew} alt="nou" title='Nou'/>
+											<img src={iconNew} alt="nou" title="Nou" />
 										</Button>
 									</Box>
 									<Box

@@ -71,3 +71,12 @@ export const deleteUser = async (id: string) => {
 		console.log(error)
 	}
 }
+
+export const updateUser = async (id: string, data: any) => {
+	try {
+		const response = await axios.put(API_URL_USER + '/' + id, data)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
