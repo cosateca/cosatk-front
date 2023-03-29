@@ -31,6 +31,7 @@ const Navigation = () => {
 					alignItems={{ xs: 'center' }}
 					width={{ xs: '100%', sm: '250px' }}
 					minHeight={{ xs: '100%', sm: '100vh' }}
+					sx={{ backgroundColor: '#D2D2D2' }}
 				>
 					<Box
 						display={{ xs: 'flex' }}
@@ -86,7 +87,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconLoan} alt="Icona prèstec" />
+													<img src={iconLoan} alt="Icona prèstec" title='Prèstec'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -116,7 +117,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconUsers} alt="Icona usuaris" />
+													<img src={iconUsers} alt="Icona usuaris" title='Usuaris' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -146,7 +147,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconArticles} alt="Icona articles" />
+													<img src={iconArticles} alt="Icona articles" title='Articles' />
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -176,7 +177,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconCategories} alt="Icona categories" />
+													<img src={iconCategories} alt="Icona categories" title='Categories'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText
@@ -211,7 +212,7 @@ const Navigation = () => {
 													borderRadius={{ xs: '10px' }}
 													padding={{ xs: '5px' }}
 												>
-													<img src={iconSession} alt="Icona sessio" />
+													<img src={iconSession} alt="Icona sessio" title='Tancar sessió'/>
 												</Box>
 											</ListItemIcon>
 											<ListItemText

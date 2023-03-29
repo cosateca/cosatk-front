@@ -79,6 +79,7 @@ const Loans = () => {
 					return navigate(`/dashboard/returnloan/${params.row.idLoan}`)
 				}
 
+
 				return (
 					<Button
 						sx={{
@@ -142,6 +143,7 @@ const Loans = () => {
 			headerName: 'En curs',
 			type: 'boolean',
 			width: 120,
+
 		},
 	]
 
@@ -336,6 +338,7 @@ const Loans = () => {
 										alignItems: 'center',
 									}}
 								>
+
 									<Button
 										onClick={handleSubmitEdit}
 										sx={{
