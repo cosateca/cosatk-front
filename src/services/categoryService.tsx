@@ -1,4 +1,5 @@
 import axios from 'axios'
+import useAxiosWithToken from '../hooks/useAxioswithToken'
 import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
@@ -6,18 +7,20 @@ const URL_API = `${URLBASE}/category`
 const URL_API_BY_NAME = `${URLBASE}/category/name`
 const URL_API_POST = `${URLBASE}/category/create`
 
-const token = localStorage.getItem('token')
+// const token = localStorage.getItem('token')
 
-const config = {
-	headers: {
-		'Content-Type': 'application/json',
-		Authorization: `Bearer ${token}`,
-	},
-}
+// const config = {
+// 	headers: {
+// 		'Content-Type': 'application/json',
+// 		Authorization: `Bearer ${token}`,
+// 	},
+// }
+
+const axiosWithToken = useAxiosWithToken()
 
 async function getData() {
 	try {
-		const response = await axios.get(URL_API, config)
+		const response = await axiosWithToken.get(URL_API)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -35,7 +38,7 @@ async function getDataByName(name: string) {
 
 async function postData(categoryObject: ICategory) {
 	try {
-		const response = await axios.post(URL_API_POST, categoryObject)
+		const response = await axiosWithToken.post(URL_API_POST, categoryObject)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -44,7 +47,7 @@ async function postData(categoryObject: ICategory) {
 
 const deleteCategory = async (id: string) => {
 	try {
-		const response = await axios.delete(URL_API + '/' + id)
+		const response = await axiosWithToken.delete(URL_API + '/' + id)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -53,7 +56,7 @@ const deleteCategory = async (id: string) => {
 
 const updateCategory = async (id: string, data: any) => {
 	try {
-		const response = await axios.put(URL_API + '/' + id, data)
+		const response = await axiosWithToken.put(URL_API + '/' + id, data)
 		return response.data
 	} catch (error) {
 		console.log(error)

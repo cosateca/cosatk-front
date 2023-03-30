@@ -1,11 +1,14 @@
 import axios from 'axios'
+import useAxiosWithToken from '../hooks/useAxioswithToken'
 import { IArticle } from '../interfaces/article.interface'
-import { ICategory } from '../interfaces/category.interface'
 import URLBASE from './urlConstants'
 
 const API_URL_CREATE = `${URLBASE}/article/create`
 const API_URL = `${URLBASE}/article`
 const API_URL_DELETEBYCODE = `${URLBASE}/article/deleteByCode`
+
+const axiosWithToken = useAxiosWithToken()
+const token = localStorage.getItem('token')
 
 const createArticle = async (data: IArticle, image: File): Promise<any> => {
 	const formData = new FormData()
@@ -33,6 +36,7 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 		const response = await axios.post(API_URL_CREATE, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
+				Authorization: `Bearer ${token}`,
 			},
 		})
 		console.log(response.data)
@@ -45,7 +49,7 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 
 const getArticles = async (): Promise<any> => {
 	try {
-		const response = await axios.get(API_URL)
+		const response = await axiosWithToken.get(API_URL)
 
 		return response.data
 	} catch (error) {

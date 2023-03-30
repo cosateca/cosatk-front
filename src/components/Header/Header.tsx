@@ -22,7 +22,7 @@ const Header = () => {
 			</Link>
 			<div className="App">
 				<Button variant="contained" color="error" title="Accedeix">
-					<Link to="/dashboard/loans">Accedeix</Link>
+					<Link to="/dashboard">Accedeix</Link>
 				</Button>
 				<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 					<Typography variant="body1" sx={{ marginTop: '10px' }}>

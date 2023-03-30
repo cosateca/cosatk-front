@@ -290,7 +290,7 @@ const Users = () => {
 			birth_date: moment(birthDate).format('YYYY-MM-DD'),
 			how_meet_us: howMeet,
 			subscriber,
-			password: process.env.REACT_APP_USER_DEFAULT_PASSWORD, //TODO: use .env
+			password: process.env.VITE_REACT_APP_USER_DEFAULT_PASSWORD, //TODO: use .env
 		}
 
 		await registerUser(newObject)

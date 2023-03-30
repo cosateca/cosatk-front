@@ -1,6 +1,6 @@
 export interface IArticle {
   idArticle?:string;
-  code?: string;
+  code: string;
   name: string;
   short_description: string;
   long_description: string;
