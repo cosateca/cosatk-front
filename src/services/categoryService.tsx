@@ -6,9 +6,18 @@ const URL_API = `${URLBASE}/category`
 const URL_API_BY_NAME = `${URLBASE}/category/name`
 const URL_API_POST = `${URLBASE}/category/create`
 
+const token = localStorage.getItem('token')
+
+const config = {
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: `Bearer ${token}`,
+	},
+}
+
 async function getData() {
 	try {
-		const response = await axios.get(URL_API)
+		const response = await axios.get(URL_API, config)
 		return response.data
 	} catch (error) {
 		console.log(error)
