@@ -406,6 +406,7 @@ const Categories = () => {
 												paddingLeft: '40px',
 												paddingRight: '40px',
 												height: '55px',
+												marginTop: { xs: '20px', sm: '0' },
 											}}
 											variant="contained"
 										>

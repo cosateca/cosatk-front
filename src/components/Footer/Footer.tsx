@@ -1,4 +1,4 @@
-import { Container } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 import React from 'react'
 
 const Footer = () => {
@@ -10,11 +10,18 @@ const Footer = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				textAlign: 'center',
-				marginTop: '30px',
+				height: '120px',
+				marginTop: '80px',
+				gap: '20px',
 			}}
 		>
-			<p>Copyright © 2023</p>
-			<p>08773 - St. Joan De Mediona - cosatk@gmail.com </p>
+			<Typography variant="body1">
+				Biblioteca de les coses - {new Date().getFullYear()}
+			</Typography>
+
+			<Typography variant="body1">
+				08773 - St. Joan De Mediona - cosatk@gmail.com{' '}
+			</Typography>
 		</Container>
 	)
 }

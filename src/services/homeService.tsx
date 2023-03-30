@@ -9,6 +9,12 @@ export const getArticles = async () => {
 	return response.data
 }
 
+export const getArticlesShownOnWeb = async () => {
+	const response = await axios.get(API_URL + '/shown_on_website')
+	console.log(response.data)
+	return response.data
+}
+
 export const getArticleImage = async (id: string) => {
 	const response = await axios.get(API_URL_IMG + id, {
 		responseType: 'arraybuffer',

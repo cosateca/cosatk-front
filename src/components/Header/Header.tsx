@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -24,7 +24,11 @@ const Header = () => {
 				<Button variant="contained" color="error" title="Accedeix">
 					<Link to="/dashboard/loans">Accedeix</Link>
 				</Button>
-				<p>{auth?.email ?? auth?.email}</p>
+				<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+					<Typography variant="body1" sx={{ marginTop: '10px' }}>
+						{auth?.email ?? auth?.email}
+					</Typography>
+				</Box>
 			</div>
 		</Container>
 	)
