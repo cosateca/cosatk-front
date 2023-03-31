@@ -18,7 +18,39 @@ const Header = () => {
 			}}
 		>
 			<Link to="/">
-				<img src={logo} alt="Biblioteca de les cosas" />
+				<img src={logo} alt="Biblioteca de les coses" />
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						marginBottom: '10px',
+					}}
+				>
+					<Typography
+						variant="h4"
+						sx={{
+							fontSize: '1.2rem',
+							fontWeight: 'bold',
+							color: '#67b7e1',
+							lineHeight: '.9rem',
+							letterSpacing: '-1.2px',
+						}}
+					>
+						BIBLIOTECA DE
+					</Typography>
+					<Typography
+						variant="h4"
+						sx={{
+							fontSize: '1.2rem',
+							fontWeight: 'bold',
+							color: '#CF2E2E',
+							letterSpacing: '-1.2px',
+						}}
+					>
+						LES COSES
+					</Typography>
+				</Box>
 			</Link>
 			<Box
 				sx={{
