@@ -81,10 +81,8 @@ const Register = () => {
 			how_meet_us,
 		}
 		await registerUser(newUser)
-			.then(async (response) => {
-				if (typeof response !== 'undefined' && response.data.idUsers) {
-					console.log('New user registered succesfully')
-				}
+			.then((response) => {
+				console.log(response)
 			})
 			.catch((error) => {
 				console.log('Error when trying to create a new user: ', error)

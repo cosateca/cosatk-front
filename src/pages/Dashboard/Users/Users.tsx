@@ -290,14 +290,11 @@ const Users = () => {
 			birth_date: moment(birthDate).format('YYYY-MM-DD'),
 			how_meet_us: howMeet,
 			subscriber,
-			password: import.meta.env.VITE_REACT_APP_USER_DEFAULT_PASSWORD,
+			password: '12345678',
 		}
-
 		await registerUser(newObject)
-			.then(async (response) => {
-				if (typeof response !== 'undefined' && response.data.idUsers) {
-					console.log('New user registered succesfully')
-				}
+			.then((response) => {
+				console.log(response)
 			})
 			.catch((error) => {
 				console.log('Error when trying to create a new user: ', error)
@@ -607,9 +604,7 @@ const Users = () => {
 												onChange={(e) =>
 													setSubscriber(e.target.value.toLowerCase() === 'true')
 												}
-												defaultValue={
-													editMode && (subscriber ? subscriber : false)
-												}
+												value={subscriber ? 'true' : 'false'}
 												row
 												aria-labelledby="radio-subscr"
 												name="row-radio-buttons-group"

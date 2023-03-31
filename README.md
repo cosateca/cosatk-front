@@ -1,21 +1,20 @@
-## 💡Project name: 
+## 💡Project name:
+
 ![image](https://i.postimg.cc/T1qFMT41/Rectangle-143.png)
 
 **Biblioteca de les coses**
 
-Biblioteca de les coses
- 
+Library Of Things
+
 ## 📝Project description:
 
 Encourage the community use of unusual objects and tools by the residents of the municipality. The Cosatheque project tries to move what would be a normal library to a library with articles. The main objective is to focus on the role of administrator (librarian) can do CRUD of Articles, Users, and Loans. In the future the user will also be able to book. The secondary objective is that also a Registered User can see what items are available..
 
 ## 📸Screenshots:
 
-| Figma | Trello | Demor |
-| :---: | :---: | :---: |
-|<img src="https://i.postimg.cc/KcBKyr24/mockup.png" width="50%"> |<img src="https://i.postimg.cc/cJPQFxQz/trello.png" width="50%"> | <img src="https://i.postimg.cc/x1vWwVLp/localhost-5173.png" width="50%"> |
-
-		
+|                              Mockup                              |                              Trello                              |                                   Demo                                   |
+| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :----------------------------------------------------------------------: |
+| <img src="https://i.postimg.cc/KcBKyr24/mockup.png" width="50%"> | <img src="https://i.postimg.cc/cJPQFxQz/trello.png" width="50%"> | <img src="https://i.postimg.cc/x1vWwVLp/localhost-5173.png" width="50%"> |
 
 ## 🔧Stacks:
 
@@ -37,48 +36,53 @@ Encourage the community use of unusual objects and tools by the residents of the
 
 ## 👩‍💻Group members:
 
-+ Joel Herrero https://github.com/letjoel **Product Owner**
-+ Freddy Vegas https://github.com/Reoobot **Scrum Master**
-+ Fabio Migliaccio https://github.com/FabioMigliacc Developer
-+ Daniel Useche https://github.com/usechedaniel88 Developer
+- Joel Herrero https://github.com/letjoel **Product Owner**
+- Freddy Vegas https://github.com/Reoobot **Scrum Master**
+- Fabio Migliaccio https://github.com/FabioMigliacc Developer
+- Daniel Useche https://github.com/usechedaniel88 Developer
 
 ## 💻How to install this project
 
 1. Clone the project
+
 ```bash
  git clone https://github.com/cosateca/cosatk-front.git
 ```
+
 2. Start command
+
 ```
  npm i
 ```
-3. 
+
+3.
+
+```
+Set env variables.
+```
+
+4.
+
 ```
 Run the npm start command to run the React app. It will automatically open the localhost ( http://localhost:5173 )
 ```
 
 ## 📚Methodology:
+
 - Methodology Agile with Scrum.
 - Mob Programming.
 - Pair Programming.
 - TDD.
 
 ## 👀 TEST
-	
+
 ![image](https://i.postimg.cc/YCyX0QJF/testcapturefront.png)
 
-
-
 ## 🧪Next Steps:
-	+ Change password the user himself
-	+ Hardcoded colors
-	+ When an article or user is deleted, the data of the article or user is kept in the rows of loans that at some point they used. This requires adding new fields to the loan table in which the item and user name are saved.
-	+ Instead of deleting the items these could stay in the registry, you can add a field is_active
-    + When modifying an article you can modify the image
-    + When modifying an article you can modify shown_on_web
-    + Loans counter on each article
+
+    + Registered users will be able to book articles directly
+    + Crop and modify images
     + Ability to add multiple images
+    + Loans counter on each article
     + Possibility to add multiple categories
     + Sending emails: registration, courtesy notice, password recovery.
-	
-

@@ -20,8 +20,19 @@ const Header = () => {
 			<Link to="/">
 				<img src={logo} alt="Biblioteca de les cosas" />
 			</Link>
-			<div className="App">
-				<Button variant="contained" color="error" title="Accedeix">
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Button
+					sx={{ marginTop: '5px', paddingLeft: '30px', paddingRight: '30px' }}
+					variant="contained"
+					color="error"
+					title="Accedeix"
+				>
 					{auth?.email ? (
 						<Link to={'/dashboard'}>Accedeix</Link>
 					) : (
@@ -33,7 +44,7 @@ const Header = () => {
 						{auth?.email ?? auth?.email}
 					</Typography>
 				</Box>
-			</div>
+			</Box>
 		</Container>
 	)
 }

@@ -10,9 +10,10 @@ const API_URL_LOGIN = `${URLBASE}/auth/login`
 export const registerUser = async (data: any): Promise<any> => {
 	try {
 		const response = await axios.post(API_URL, data)
-		return response
+		return response.data
 	} catch (error) {
 		console.log(error)
+		throw new Error(`Error sin determinar`)
 	}
 }
 export const loginUser = async (data: { email: string; password: string }) => {
