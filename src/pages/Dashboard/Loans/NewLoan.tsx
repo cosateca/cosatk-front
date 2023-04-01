@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAllUsers, getUsersByName } from '../../../services/userService'
 import { IUser } from '../../../interfaces/user.interface'
-import { ILoan } from '../../../interfaces/loans.interface'
+import loanService from '../../../services/loanService'
 
 //Data Grid
 const columns: GridColDef[] = [
@@ -79,7 +79,6 @@ const columns: GridColDef[] = [
 
 const NewLoan = () => {
 	const { id } = useParams()
-	const navigate = useNavigate()
 
 	const [data, setData] = useState<any>([])
 	const [name, setName] = useState<any>('')
@@ -105,7 +104,13 @@ const NewLoan = () => {
 					console.log(error)
 				})
 		} else {
-			console.log('Search empty')
+			getAllUsers()
+				.then((data: IUser[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
 		}
 	}
 

@@ -1,4 +1,8 @@
 import axios from 'axios'
+import {
+	ErrorDeleteArticle,
+	ErrorGetArticle,
+} from '../constants/errorConstants'
 import useAxiosWithToken from '../hooks/useAxioswithToken'
 import { IArticle } from '../interfaces/article.interface'
 import URLBASE from './urlConstants'
@@ -46,23 +50,26 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 	}
 }
 
-const getArticles = async (): Promise<any> => {
+const getArticles = async (): Promise<any[]> => {
 	try {
 		const response = await axiosWithToken.get(API_URL)
 
 		return response.data
 	} catch (error) {
 		console.log(error)
+		throw new Error(ErrorGetArticle)
 	}
 }
 
 const deleteArticle = async (code: string): Promise<any> => {
 	try {
-		const response = await axios.delete(API_URL + '/deleteByCode/' + code)
+		const response = await axiosWithToken.delete(
+			API_URL + '/deleteByCode/' + code
+		)
 		return response.data
 	} catch (error: any) {
 		console.log(error)
-		return error
+		throw new Error(ErrorDeleteArticle)
 	}
 }
 
@@ -72,12 +79,18 @@ const getArticle = async (code: string): Promise<any> => {
 		return response.data
 	} catch (error: any) {
 		console.log(error.message)
+		throw new Error(ErrorGetArticle)
 	}
 }
 
 const getArticleById = async (idArticle: string) => {
-	const response = await axios.get(API_URL + '/' + idArticle)
-	return response.data
+	try {
+		const response = await axios.get(API_URL + '/' + idArticle)
+		return response.data
+	} catch (error) {
+		console.log(error)
+		throw new Error(ErrorGetArticle)
+	}
 }
 
 const articleIdFromCode = async (code: string) => {
@@ -86,12 +99,22 @@ const articleIdFromCode = async (code: string) => {
 		return response.data
 	} catch (error) {
 		console.log(error)
+		throw new Error(ErrorGetArticle)
 	}
 }
 
 const updateArticle = async (id: string, data: any) => {
 	try {
-		const response = await axios.put(API_URL + '/' + id, data)
+		const response = await axiosWithToken.put(API_URL + '/' + id, data)
+		return response.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+const getArticlesByName = async (name: string) => {
+	try {
+		const response = await axios.get(API_URL + '/name/' + name)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -106,4 +129,5 @@ export default {
 	articleIdFromCode,
 	getArticleById,
 	updateArticle,
+	getArticlesByName,
 }

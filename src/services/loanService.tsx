@@ -1,6 +1,9 @@
 import axios from 'axios'
-import { ILoan } from '../interfaces/loans.interface'
+import { ErrorCreateLoan } from '../constants/errorConstants'
+import useAxiosWithToken from '../hooks/useAxioswithToken'
 import URLBASE from './urlConstants'
+
+const axiosWithToken = useAxiosWithToken()
 
 const API_URL = `${URLBASE}/loans`
 
@@ -35,12 +38,12 @@ const returnLoan = async (id: string): Promise<any> => {
 
 const createLoan = async (data: any): Promise<any> => {
 	try {
-		const response = await axios.post(API_URL + '/create', data)
+		const response = await axiosWithToken.post(API_URL + '/create', data)
 
 		return response.data
 	} catch (error) {
 		console.log(error)
-		throw new Error()
+		throw new Error(ErrorCreateLoan)
 	}
 }
 

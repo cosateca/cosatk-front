@@ -5,11 +5,8 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	MenuItem,
 	Radio,
 	RadioGroup,
-	Select,
-	SelectChangeEvent,
 	TextField,
 	Typography,
 } from '@mui/material'
@@ -35,6 +32,7 @@ import {
 import FormAlert from '../../../components/FormAlert/FormAlert'
 import {
 	getAllUsers,
+	getUsersByName,
 	registerUser,
 	updateUser,
 } from '../../../services/userService'
@@ -142,8 +140,6 @@ const Users = () => {
 		},
 	]
 
-	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
-
 	//Alert
 	const [alert, setAlert] = useState<any>({})
 	const { msg } = alert
@@ -159,31 +155,30 @@ const Users = () => {
 
 	const [trigger, setTrigger] = useState(false)
 
-	const [name, setName] = useState('')
-	const [lastName, setLastName] = useState('')
-	const [email, setEmail] = useState('')
-	const [dni, setDni] = useState('')
-	const [phone, setPhone] = useState(0)
-	const [address, setAddress] = useState('')
-	const [city, setCity] = useState('')
-	const [membership, setMembership] = useState('')
-	const [birthDate, setBirthDate] = useState<any>(
-		moment().startOf('day').toDate()
-	)
-	const [howMeet, setHowMeet] = useState('')
-	const [subscriber, setSubscriber] = useState(false)
+	const [inputName, setInputName] = useState('')
+	const [name, setName] = useState<string | null>(null)
+	const [lastName, setLastName] = useState<string | null>(null)
+	const [email, setEmail] = useState<string | null>(null)
+	const [dni, setDni] = useState<string | null>(null)
+	const [phone, setPhone] = useState<number | null>(null)
+	const [address, setAddress] = useState<string | null>(null)
+	const [city, setCity] = useState<string | null>(null)
+	const [membership, setMembership] = useState<string | null>(null)
+	const [birthDate, setBirthDate] = useState<any>(null)
+	const [howMeet, setHowMeet] = useState<string | null>(null)
+	const [subscriber, setSubscriber] = useState<boolean>(false)
 
 	const resetStates = () => {
-		setName('')
-		setLastName('')
-		setAddress('')
-		setBirthDate(moment(birthDate).format('YYYY-MM-DD'))
-		setCity('')
-		setDni('')
-		setEmail('')
-		setHowMeet('')
-		setMembership('')
-		setPhone(0)
+		setName(null)
+		setLastName(null)
+		setAddress(null)
+		setBirthDate(null)
+		setCity(null)
+		setDni(null)
+		setEmail(null)
+		setHowMeet(null)
+		setMembership(null)
+		setPhone(null)
 		setSubscriber(false)
 	}
 
@@ -217,7 +212,7 @@ const Users = () => {
 			address,
 			city,
 			membership,
-			birth_date: moment(birthDate).format('YYYY-MM-DD'),
+			birth_date: birthDate,
 			how_meet_us: howMeet,
 			subscriber,
 		}
@@ -258,6 +253,7 @@ const Users = () => {
 	}
 	const handleSubmitNew = async (e: any) => {
 		e.preventDefault()
+		resetStates()
 
 		if ([name, lastName, email].includes('')) {
 			setAlert({
@@ -287,7 +283,7 @@ const Users = () => {
 			address,
 			city,
 			membership,
-			birth_date: moment(birthDate).format('YYYY-MM-DD'),
+			birth_date: birthDate,
 			how_meet_us: howMeet,
 			subscriber,
 			password: '12345678',
@@ -325,10 +321,6 @@ const Users = () => {
 			})
 	}, [trigger])
 
-	const handleChange = (event: SelectChangeEvent) => {
-		setPrestecEnCurs(event.target.value as string)
-	}
-
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
 
 	const handleClick = (e: any) => {
@@ -337,8 +329,8 @@ const Users = () => {
 	}
 
 	const handleChangeBirthDate = (e: any) => {
-		const date = moment(e.target.value).format('YYYY-MM-DD')
-		setBirthDate(moment(date, 'YYYY-MM-DD').toDate())
+		const date = new Date(e.target.value)
+		setBirthDate(date.toISOString().slice(0, 10))
 	}
 
 	//Material Custom Toolbar
@@ -348,6 +340,26 @@ const Users = () => {
 				<GridToolbarExport />
 			</GridToolbarContainer>
 		)
+	}
+
+	const handleFilter = async () => {
+		if (inputName) {
+			getUsersByName(inputName)
+				.then((data: IUser[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			getAllUsers()
+				.then((data: IUser[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		}
 	}
 
 	return (
@@ -416,7 +428,7 @@ const Users = () => {
 										>
 											<TextField
 												onChange={(e) => setName(e.target.value)}
-												defaultValue={editMode && name ? name : undefined}
+												defaultValue={editMode && name ? name : null}
 												id="input-name"
 												label="Nom *"
 												variant="outlined"
@@ -433,9 +445,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setLastName(e.target.value)}
-												defaultValue={
-													editMode && lastName ? lastName : undefined
-												}
+												defaultValue={editMode && lastName ? lastName : null}
 												id="input-last-name"
 												label="Cognoms *"
 												variant="outlined"
@@ -452,7 +462,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setEmail(e.target.value)}
-												defaultValue={editMode && email ? email : undefined}
+												defaultValue={editMode && email ? email : null}
 												id="input-mail"
 												label="Email"
 												required
@@ -470,14 +480,14 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setDni(e.target.value)}
-												defaultValue={editMode && dni ? dni : undefined}
+												defaultValue={editMode && dni ? dni : null}
 												id="input-identification-number"
 												label="DNI/NIE/Passaport"
 												variant="outlined"
 												sx={{
 													width: { xs: '95%', sm: '50%' },
 													margin: { xs: '10px', sm: '20px 10px' },
-													backgroundColor: editMode ? '#ead9c7' : undefined,
+													backgroundColor: editMode ? '#ead9c7' : null,
 												}}
 												InputLabelProps={{
 													style: {
@@ -487,7 +497,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setPhone(Number(e.target.value))}
-												defaultValue={editMode && phone ? phone : undefined}
+												defaultValue={editMode && phone ? phone : null}
 												id="input-phone"
 												label="Telèfon"
 												variant="outlined"
@@ -504,7 +514,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setAddress(e.target.value)}
-												defaultValue={editMode && address ? address : undefined}
+												defaultValue={editMode && address ? address : null}
 												id="input-address"
 												label="Adreça"
 												variant="outlined"
@@ -521,7 +531,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setCity(e.target.value)}
-												defaultValue={editMode && city ? city : undefined}
+												defaultValue={editMode && city ? city : null}
 												id="input-location"
 												label="Localitat"
 												variant="outlined"
@@ -539,7 +549,7 @@ const Users = () => {
 											<TextField
 												onChange={(e) => setMembership(e.target.value)}
 												defaultValue={
-													editMode && membership ? membership : undefined
+													editMode && membership ? membership : null
 												}
 												id="input-membership"
 												label="Membresia"
@@ -558,9 +568,7 @@ const Users = () => {
 
 											<TextField
 												onChange={handleChangeBirthDate}
-												defaultValue={
-													editMode && birthDate ? birthDate : undefined
-												}
+												value={editMode && birthDate ? birthDate : undefined}
 												id="birthdate"
 												label="Data de naixement"
 												type="date"
@@ -575,7 +583,7 @@ const Users = () => {
 											/>
 											<TextField
 												onChange={(e) => setHowMeet(e.target.value)}
-												defaultValue={editMode && howMeet ? howMeet : undefined}
+												defaultValue={editMode && howMeet ? howMeet : null}
 												id="input-how-to-meet"
 												label="Com ens ha conegut?"
 												variant="outlined"
@@ -677,6 +685,9 @@ const Users = () => {
 											fullWidth
 										>
 											<TextField
+												onChange={(e) => {
+													setInputName(e.target.value)
+												}}
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
@@ -687,18 +698,8 @@ const Users = () => {
 													},
 												}}
 											/>
-											<Select
-												displayEmpty
-												sx={{ width: { xs: '90%', sm: '200px' } }}
-												id="demo-simple-select"
-												value={prestecEnCurs}
-												label="Estat"
-												onChange={handleChange}
-											>
-												<MenuItem value="">Prèstec en curs</MenuItem>
-												<MenuItem value={10}>Sense préstec</MenuItem>
-											</Select>
 											<Button
+												onClick={handleFilter}
 												sx={{
 													bgcolor: '#D9D9D9',
 													height: '55px',

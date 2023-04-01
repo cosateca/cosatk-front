@@ -3,11 +3,7 @@ import {
 	Button,
 	Container,
 	FormControl,
-	FormControlLabel,
-	FormLabel,
 	MenuItem,
-	Radio,
-	RadioGroup,
 	Select,
 	SelectChangeEvent,
 	TextareaAutosize,
@@ -82,6 +78,26 @@ const Articles = () => {
 			</Button>
 		)
 	}
+	const navigate = useNavigate()
+	const handleLoan2 = (params: any) => {
+		if (params.row.is_on_loan === false) {
+			return navigate(`/dashboard/newloan/${params.row?.code}`)
+		}
+	}
+	const HandleLoanButton = ({ handleLoan, params }: any) => {
+		const handleClickLoan = () => {
+			handleLoan2(params)
+		}
+
+		return (
+			<Button
+				onClick={handleClickLoan}
+				sx={{ display: 'flex', justifyContent: 'flex-start' }}
+			>
+				{params.row.is_on_loan ? '' : <img src={iconLoan} alt="prestar" />}
+			</Button>
+		)
+	}
 
 	const columns: GridColDef[] = [
 		{
@@ -133,38 +149,9 @@ const Articles = () => {
 			headerName: 'Prèstec',
 			sortable: false,
 			width: 50,
-			renderCell: (params: GridRenderCellParams<any>) => {
-				const navigate = useNavigate()
-				const onClick = (e: any) => {
-					e.stopPropagation() // don't select this row after clicking
-
-					const api: GridApi = params.api
-					const thisRow: Record<string, GridCellValue> = {}
-
-					api
-						.getAllColumns()
-						.filter((c) => c.field !== '__check__' && !!c)
-						.forEach(
-							(c) =>
-								(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-						)
-
-					return navigate(`/dashboard/newloan/${thisRow.code}`)
-				}
-
-				return (
-					<Button
-						sx={{
-							display: 'flex',
-							justifyContent: 'flex-start',
-							borderRadius: '0px',
-						}}
-						onClick={onClick}
-					>
-						<img src={iconLoan} alt="prestar" title="Prestec" />
-					</Button>
-				)
-			},
+			renderCell: (params) => (
+				<HandleLoanButton handleEdit={handleLoan2} params={params} />
+			),
 		},
 		{ field: 'code', headerName: 'Codi', width: 150 },
 		{ field: 'name', headerName: 'Nom', width: 200 },
@@ -193,8 +180,6 @@ const Articles = () => {
 	const [data_categories, setData_categories] = React.useState<any>([])
 	const [categories, setCategories] = useState<any>([])
 
-	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
-
 	//Edit mode
 	const [editMode, setEditMode] = useState(false)
 
@@ -204,9 +189,8 @@ const Articles = () => {
 	//File
 	const [image, setImage] = useState<File | null>(null)
 
-	const handleChange = (event: SelectChangeEvent) => {
-		setPrestecEnCurs(event.target.value as string)
-	}
+	//Filter
+	const [inputName, setInputName] = React.useState('')
 
 	//New Article
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
@@ -463,6 +447,28 @@ const Articles = () => {
 				<GridToolbarExport />
 			</GridToolbarContainer>
 		)
+	}
+
+	const handleFilter = async () => {
+		if (inputName) {
+			articleService
+				.getArticlesByName(inputName)
+				.then((data: IArticle[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			articleService
+				.getArticles()
+				.then((data: IArticle[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		}
 	}
 
 	return (
@@ -973,6 +979,9 @@ const Articles = () => {
 											fullWidth
 										>
 											<TextField
+												onChange={(e) => {
+													setInputName(e.target.value)
+												}}
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
@@ -983,19 +992,8 @@ const Articles = () => {
 													},
 												}}
 											/>
-											<Select
-												displayEmpty
-												sx={{ width: { xs: '90%', sm: '200px' } }}
-												id="demo-simple-select"
-												value={prestecEnCurs}
-												label="Estat"
-												onChange={handleChange}
-											>
-												<MenuItem value="">Selecciona estat</MenuItem>
-												<MenuItem value={10}>Disponible</MenuItem>
-												<MenuItem value={20}>En prèstec</MenuItem>
-											</Select>
 											<Button
+												onClick={handleFilter}
 												sx={{
 													bgcolor: '#D9D9D9',
 													height: '55px',

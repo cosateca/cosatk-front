@@ -1,19 +1,19 @@
 export interface IUser {
     idUsers?:string;
-    first_name:string;
-    last_name:string;
-    email:string;
-    dni?:string;
-    telephone?:number;
-    address?:string;
-    city?:string;
-    membership?:string;
-    birth_date?:string;
-    how_meet_us?:string;
-    subscriber?:boolean;
-    added_on?:Date;
-    role?:string;
-    password?:string
+    first_name:string | null;
+    last_name:string | null;
+    email:string | null;
+    dni?:string | null;
+    telephone?:number | null;
+    address?:string | null;
+    city?:string | null;
+    membership?:string | null;
+    birth_date?:Date | null;
+    how_meet_us?:string | null;
+    subscriber?:boolean | null;
+    added_on?:Date | null;
+    role?:string | null;
+    password?:string | null
 
 
 }
