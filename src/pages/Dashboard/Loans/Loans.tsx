@@ -3,9 +3,7 @@ import {
 	Button,
 	Container,
 	FormControl,
-	InputLabel,
 	MenuItem,
-	Modal,
 	Select,
 	SelectChangeEvent,
 	TextField,
@@ -14,7 +12,6 @@ import {
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar/Navbar'
 import iconSearch from '../../../assets/images/icono_buscar.svg'
-import iconTrash from '../../../assets/images/icono_eliminar.svg'
 import iconEdit from '../../../assets/images/icono_modificar.svg'
 import iconNew from '../../../assets/images/icono_add.svg'
 import iconEditWhite from '../../../assets/images/icono_modificar_white.svg'
@@ -33,7 +30,6 @@ import loanService from '../../../services/loanService'
 import { ILoan } from '../../../interfaces/loans.interface'
 import { useNavigate } from 'react-router-dom'
 import FormAlert from '../../../components/FormAlert/FormAlert'
-import moment from 'moment'
 
 const Loans = () => {
 	//Data Grid
@@ -76,9 +72,12 @@ const Loans = () => {
 						.getAllColumns()
 						.filter((c) => c.field !== '__check__' && !!c)
 						.forEach((c) => (thisRow[c.field] = params.row || ''))
-					return navigate(`/dashboard/returnloan/${params.row.idLoan}`)
-				}
 
+					{
+						params.row.status &&
+							navigate(`/dashboard/returnloan/${params.row.idLoan}`)
+					}
+				}
 
 				return (
 					<Button
@@ -89,7 +88,8 @@ const Loans = () => {
 						}}
 						onClick={onClick}
 					>
-						↩️
+						{' '}
+						{params.row.status ? '↩️' : ''}
 					</Button>
 				)
 			},
@@ -143,7 +143,6 @@ const Loans = () => {
 			headerName: 'En curs',
 			type: 'boolean',
 			width: 120,
-
 		},
 	]
 
@@ -338,7 +337,6 @@ const Loans = () => {
 										alignItems: 'center',
 									}}
 								>
-
 									<Button
 										onClick={handleSubmitEdit}
 										sx={{

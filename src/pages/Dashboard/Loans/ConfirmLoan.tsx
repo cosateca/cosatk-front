@@ -71,8 +71,6 @@ const ConfirmLoan = () => {
 			loanService
 				.createLoan(newData)
 				.then((data: any) => {
-					console.log(data)
-
 					if (data) {
 						setAlert({
 							msg: 'Prèstec creat correctament, redirigint...',

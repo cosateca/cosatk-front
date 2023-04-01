@@ -398,7 +398,6 @@ const Articles = () => {
 		articleService
 			.createArticle(newObject, image)
 			.then((data) => {
-				console.log(data)
 				data && console.log('Article enviat correctament')
 				setAlert({
 					msg: 'Article introduït correctament, seràs redirigit al llistat...',

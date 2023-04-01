@@ -39,7 +39,6 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 				Authorization: `Bearer ${token}`,
 			},
 		})
-		console.log(response.data)
 		return response.data
 	} catch (error: any) {
 		console.log(error.response.statusText)
@@ -70,7 +69,6 @@ const deleteArticle = async (code: string): Promise<any> => {
 const getArticle = async (code: string): Promise<any> => {
 	try {
 		const response = await axios.get(API_URL_DELETEBYCODE + '/' + code)
-
 		return response.data
 	} catch (error: any) {
 		console.log(error.message)
