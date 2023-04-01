@@ -7,11 +7,8 @@ import imagepet from '../../assets/images/banner/component26.svg'
 import imagebbq from '../../assets/images/banner/component27.svg'
 import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
-import React from 'react'
 
-type Props = {}
-
-const BannerHomePage = (props: Props) => {
+const BannerHomePage = () => {
 	return (
 		<Box
 			sx={{

@@ -35,7 +35,7 @@ const CardProduct = ({ article }: any) => {
 				</ListItemButton>
 
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="div">
+					<Typography gutterBottom variant="h6" component="div">
 						{article.name}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">

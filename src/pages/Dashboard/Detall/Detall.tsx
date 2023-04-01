@@ -79,12 +79,46 @@ const Detall = () => {
 									<img width={'300px'} src={image && image.src} alt="image" />
 								</Box>
 								<Box sx={{ width: '80%' }}>
-									<Typography variant="h1">{article?.name}</Typography>
+									<Box
+										sx={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+										}}
+									>
+										<Typography variant="h1">{article?.name}</Typography>
 
-									{auth?.email &&
-										(article?.is_on_loan
-											? 'Disponibilitat: 🔴'
-											: 'Disponibilitat: 🟢')}
+										{auth?.email &&
+											(article?.is_on_loan ? (
+												<Box
+													sx={{
+														bgcolor: '#CF2E2E',
+														width: '120px',
+														height: '30px',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														color: '#FFFFFF',
+													}}
+												>
+													No disponible
+												</Box>
+											) : (
+												<Box
+													sx={{
+														bgcolor: '#50C878',
+														width: '120px',
+														height: '30px',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														color: '#FFFFFF',
+													}}
+												>
+													Disponible
+												</Box>
+											))}
+									</Box>
 
 									<p>
 										<em>

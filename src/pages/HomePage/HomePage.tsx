@@ -1,15 +1,13 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
+import { useEffect, useState } from 'react'
 import { Container, Box, Typography } from '@mui/material'
-
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import CardProduct from '../../components/CardProduct/CardProduct'
 import CustomizedAccordions from '../../components/Accordion/Accordion'
-import { useEffect, useState } from 'react'
-import { getArticles } from '../../services/homeService'
 import MenuHome from '../../components/MenuHome/MenuHome'
 import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
 import { IArticle } from '../../interfaces/article.interface'
+import { getArticles } from '../../services/homeService'
 
 const HomePage = () => {
 	const [articles, setArticle] = useState<IArticle[]>([])
