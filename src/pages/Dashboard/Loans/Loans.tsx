@@ -161,9 +161,7 @@ const Loans = () => {
 
 	//Form
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
-	const [checked_out, setChecked_out] = React.useState<Date>(
-		new Date('2023-01-01')
-	)
+	const [checked_out, setChecked_out] = React.useState<any>(null)
 
 	//Alert
 	const [alert, setAlert] = React.useState<any>({})

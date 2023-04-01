@@ -49,7 +49,7 @@ const createLoan = async (data: any): Promise<any> => {
 
 const updateLoan = async (id: string, data: any) => {
 	try {
-		const response = await axios.put(API_URL + '/' + id, data)
+		const response = await axiosWithToken.put(API_URL + '/' + id, data)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -58,7 +58,10 @@ const updateLoan = async (id: string, data: any) => {
 
 const updateCheckedout = async (id: string, data: any) => {
 	try {
-		const response = await axios.patch(API_URL + '/checked_out/' + id, data)
+		const response = await axiosWithToken.patch(
+			API_URL + '/checked_out/' + id,
+			data
+		)
 		return response.data
 	} catch (error) {
 		throw new Error(`El prèstec no està actiu`)
