@@ -18,7 +18,7 @@ const Header = () => {
 			}}
 		>
 			<Link to="/">
-				<img src={logo} alt="Biblioteca de les cosas" />
+				<img src={logo} alt="Biblioteca de les coses" />
 			</Link>
 			<Box
 				sx={{

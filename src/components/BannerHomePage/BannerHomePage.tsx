@@ -7,118 +7,125 @@ import imagepet from '../../assets/images/banner/component26.svg'
 import imagebbq from '../../assets/images/banner/component27.svg'
 import imageartist from '../../assets/images/banner/component28.svg'
 import imageprueba from '../../assets/images/banner/component29.svg'
-import React from 'react'
 
-type Props = {}
-
-const BannerHomePage = (props: Props) => {
+const BannerHomePage = () => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: '#f9f9f9',
-				width: '100%',
-				height: '250px',
 				display: 'flex',
-				flexDirection: 'row',
-				flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-				justifyContent: 'space-evenly',
-				alignItems: 'center',
-				marginBottom: '100px',
+				justifyContent: 'center',
+				backgroundColor: '#f9f9f9',
+				marginBottom: '80px',
 			}}
 		>
 			<Box
 				sx={{
 					width: '100%',
+					maxWidth: '1200px',
+					height: '250px',
 					display: 'flex',
 					flexDirection: 'row',
 					flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-					justifyContent: 'space-around',
+					justifyContent: 'space-evenly',
 					alignItems: 'center',
 				}}
 			>
 				<Box
-					component="img"
 					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						width: '100%',
+						display: 'flex',
+						flexDirection: 'row',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
+						justifyContent: 'space-around',
+						alignItems: 'center',
 					}}
-					alt="The house from the offer."
-					src={imagetools}
-				/>
+				>
+					<Box
+						component="img"
+						sx={{
+							display: { xs: 'block', md: 'none' },
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagetools}
+					/>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagebaby}
+					/>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagehandicap}
+					/>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagebike}
+					/>
+				</Box>
 				<Box
-					component="img"
 					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						width: { xs: '100%' },
+						display: 'flex',
+						flexDirection: 'row',
+						flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
+						justifyContent: 'space-around',
+						alignItems: 'center',
 					}}
-					alt="The house from the offer."
-					src={imagebaby}
-				/>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imagehandicap}
-				/>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imagebike}
-				/>
-			</Box>
-			<Box
-				sx={{
-					width: '100%',
-					display: 'flex',
-					flexDirection: 'row',
-					flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap', lg: 'nowrap' },
-					justifyContent: 'space-around',
-					alignItems: 'center',
-				}}
-			>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imagepet}
-				/>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imagebbq}
-				/>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imageartist}
-				/>
-				<Box
-					component="img"
-					sx={{
-						width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-						height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
-					}}
-					alt="The house from the offer."
-					src={imageprueba}
-				/>
+				>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagepet}
+					/>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imagebbq}
+					/>
+					<Box
+						component="img"
+						sx={{
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imageartist}
+					/>
+					<Box
+						component="img"
+						sx={{
+							display: { xs: 'block', md: 'none' },
+							width: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+							height: { xs: '90px', sm: '100px', md: '100px', lg: '150px' },
+						}}
+						alt="The house from the offer."
+						src={imageprueba}
+					/>
+				</Box>
 			</Box>
 		</Box>
 	)

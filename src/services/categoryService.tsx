@@ -20,7 +20,7 @@ const axiosWithToken = useAxiosWithToken()
 
 async function getData() {
 	try {
-		const response = await axiosWithToken.get(URL_API)
+		const response = await axios.get(URL_API)
 		return response.data
 	} catch (error) {
 		console.log(error)

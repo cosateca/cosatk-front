@@ -1,6 +1,9 @@
 import axios from 'axios'
-import { ILoan } from '../interfaces/loans.interface'
+import { ErrorCreateLoan } from '../constants/errorConstants'
+import useAxiosWithToken from '../hooks/useAxioswithToken'
 import URLBASE from './urlConstants'
+
+const axiosWithToken = useAxiosWithToken()
 
 const API_URL = `${URLBASE}/loans`
 
@@ -35,18 +38,18 @@ const returnLoan = async (id: string): Promise<any> => {
 
 const createLoan = async (data: any): Promise<any> => {
 	try {
-		const response = await axios.post(API_URL + '/create', data)
+		const response = await axiosWithToken.post(API_URL + '/create', data)
 
 		return response.data
 	} catch (error) {
 		console.log(error)
-		throw new Error()
+		throw new Error(ErrorCreateLoan)
 	}
 }
 
 const updateLoan = async (id: string, data: any) => {
 	try {
-		const response = await axios.put(API_URL + '/' + id, data)
+		const response = await axiosWithToken.put(API_URL + '/' + id, data)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -55,7 +58,10 @@ const updateLoan = async (id: string, data: any) => {
 
 const updateCheckedout = async (id: string, data: any) => {
 	try {
-		const response = await axios.patch(API_URL + '/checked_out/' + id, data)
+		const response = await axiosWithToken.patch(
+			API_URL + '/checked_out/' + id,
+			data
+		)
 		return response.data
 	} catch (error) {
 		throw new Error(`El prèstec no està actiu`)

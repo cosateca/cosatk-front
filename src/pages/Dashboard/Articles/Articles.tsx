@@ -3,11 +3,7 @@ import {
 	Button,
 	Container,
 	FormControl,
-	FormControlLabel,
-	FormLabel,
 	MenuItem,
-	Radio,
-	RadioGroup,
 	Select,
 	SelectChangeEvent,
 	TextareaAutosize,
@@ -39,10 +35,20 @@ import { useNavigate } from 'react-router'
 import articleService from '../../../services/articleService'
 import { ICategory } from '../../../interfaces/category.interface'
 import categoryService from '../../../services/categoryService'
-import iconFolder from '../../../assets/images/icon_folder_upload.svg'
 import FormAlert from '../../../components/FormAlert/FormAlert'
+import Upload from '../../../components/Cropper/Upload'
+import Popup from '../../../components/Cropper/Popup'
+import * as blobUtil from 'blob-util'
 
 const Articles = () => {
+	// Crop Modal
+	const [open, setOpen] = React.useState(false)
+	const [image_src, setImage_src] = React.useState<any>(null)
+
+	const handleClose = () => {
+		setOpen(false)
+	}
+
 	//Data Grid
 
 	const handleEdit = (params: any) => {
@@ -67,6 +73,14 @@ const Articles = () => {
 		setEditMode(true)
 		setIsOpenForm(true)
 		setSelectedId(params.id)
+
+		// getArticleImageBlob(params.id).then((response) => {
+		// 	const blob = new Blob([response], { type: 'image/*' })
+		// 	const img = new Image()
+		// 	img.src = URL.createObjectURL(blob)
+
+		// 	setImage_src(img.src)
+		// })
 	}
 	const HandleEditButton = ({ handleEdit, params }: any) => {
 		const handleClick = () => {
@@ -79,6 +93,26 @@ const Articles = () => {
 				sx={{ display: 'flex', justifyContent: 'flex-start' }}
 			>
 				<img src={iconEdit} alt="eliminar" />
+			</Button>
+		)
+	}
+	const navigate = useNavigate()
+	const handleLoan2 = (params: any) => {
+		if (params.row.is_on_loan === false) {
+			return navigate(`/dashboard/newloan/${params.row?.code}`)
+		}
+	}
+	const HandleLoanButton = ({ handleLoan, params }: any) => {
+		const handleClickLoan = () => {
+			handleLoan2(params)
+		}
+
+		return (
+			<Button
+				onClick={handleClickLoan}
+				sx={{ display: 'flex', justifyContent: 'flex-start' }}
+			>
+				{params.row.is_on_loan ? '' : <img src={iconLoan} alt="prestar" />}
 			</Button>
 		)
 	}
@@ -133,38 +167,9 @@ const Articles = () => {
 			headerName: 'Prèstec',
 			sortable: false,
 			width: 50,
-			renderCell: (params: GridRenderCellParams<any>) => {
-				const navigate = useNavigate()
-				const onClick = (e: any) => {
-					e.stopPropagation() // don't select this row after clicking
-
-					const api: GridApi = params.api
-					const thisRow: Record<string, GridCellValue> = {}
-
-					api
-						.getAllColumns()
-						.filter((c) => c.field !== '__check__' && !!c)
-						.forEach(
-							(c) =>
-								(thisRow[c.field] = params.getValue(params.id, c.field) || '')
-						)
-
-					return navigate(`/dashboard/newloan/${thisRow.code}`)
-				}
-
-				return (
-					<Button
-						sx={{
-							display: 'flex',
-							justifyContent: 'flex-start',
-							borderRadius: '0px',
-						}}
-						onClick={onClick}
-					>
-						<img src={iconLoan} alt="prestar" title="Prestec" />
-					</Button>
-				)
-			},
+			renderCell: (params) => (
+				<HandleLoanButton handleEdit={handleLoan2} params={params} />
+			),
 		},
 		{ field: 'code', headerName: 'Codi', width: 150 },
 		{ field: 'name', headerName: 'Nom', width: 200 },
@@ -193,20 +198,17 @@ const Articles = () => {
 	const [data_categories, setData_categories] = React.useState<any>([])
 	const [categories, setCategories] = useState<any>([])
 
-	const [prestecEnCurs, setPrestecEnCurs] = React.useState('')
-
 	//Edit mode
 	const [editMode, setEditMode] = useState(false)
 
 	//Id selected to edit mode
 	const [selectedId, setSelectedId] = useState('')
 
-	//File
-	const [image, setImage] = useState<File | null>(null)
+	// //File
+	// const [image, setImage] = useState<File | null>(null)
 
-	const handleChange = (event: SelectChangeEvent) => {
-		setPrestecEnCurs(event.target.value as string)
-	}
+	//Filter
+	const [inputName, setInputName] = React.useState('')
 
 	//New Article
 	const [isOpenForm, setIsOpenForm] = React.useState(false)
@@ -260,7 +262,7 @@ const Articles = () => {
 		setCondition('')
 		setBrand('')
 		setShownOnWeb('true')
-		setImage(null)
+		setImage_src(null)
 		setCategoryId('0')
 		setTrigger(!trigger)
 	}
@@ -362,7 +364,7 @@ const Articles = () => {
 			return
 		}
 
-		if (!image) {
+		if (!image_src) {
 			setAlert({
 				msg: 'La imatge és necessària',
 				isError: true,
@@ -372,7 +374,10 @@ const Articles = () => {
 		}
 
 		const formData = new FormData()
-		formData.append('image', image)
+
+		const imageFormatted = blobUtil.dataURLToBlob(image_src)
+
+		formData.append('image', imageFormatted)
 
 		const newObject: IArticle = {
 			code: nanoid(10),
@@ -396,9 +401,8 @@ const Articles = () => {
 		}
 
 		articleService
-			.createArticle(newObject, image)
+			.createArticle(newObject, imageFormatted)
 			.then((data) => {
-				console.log(data)
 				data && console.log('Article enviat correctament')
 				setAlert({
 					msg: 'Article introduït correctament, seràs redirigit al llistat...',
@@ -428,10 +432,10 @@ const Articles = () => {
 		setCategory(event.target.value)
 	}
 
-	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedImage = event.target.files ? event.target.files[0] : null
-		setImage(selectedImage)
-	}
+	// const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const selectedImage = event.target.files ? event.target.files[0] : null
+	// 	setImage(selectedImage)
+	// }
 
 	//Bring categories
 	useEffect(() => {
@@ -464,6 +468,28 @@ const Articles = () => {
 				<GridToolbarExport />
 			</GridToolbarContainer>
 		)
+	}
+
+	const handleFilter = async () => {
+		if (inputName) {
+			articleService
+				.getArticlesByName(inputName)
+				.then((data: IArticle[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		} else {
+			articleService
+				.getArticles()
+				.then((data: IArticle[]) => {
+					setData(data)
+				})
+				.catch((error: Error) => {
+					console.log(error)
+				})
+		}
 	}
 
 	return (
@@ -499,7 +525,10 @@ const Articles = () => {
 										</Typography>
 										<Button
 											onClick={() => {
-												setIsOpenForm(false), setEditMode(false)
+												setIsOpenForm(false),
+													setEditMode(false),
+													resetStates(),
+													setAlert({})
 											}}
 											sx={{ margin: '20px', marginRight: '100px' }}
 											variant="contained"
@@ -604,7 +633,8 @@ const Articles = () => {
 												variant="outlined"
 												sx={{
 													width: {
-														xs: '50%',
+														xs: '92%',
+														sm: '50%',
 														backgroundColor: editMode ? '#ead9c7' : undefined,
 													},
 												}}
@@ -622,7 +652,8 @@ const Articles = () => {
 												variant="outlined"
 												sx={{
 													width: {
-														xs: '40%',
+														xs: '92%',
+														sm: '40%',
 														backgroundColor: editMode ? '#ead9c7' : undefined,
 													},
 												}}
@@ -901,25 +932,87 @@ const Articles = () => {
 											{editMode ? (
 												''
 											) : (
-												<Button
-													sx={{
-														width: { xs: '92%', sm: '92%' },
-														paddingTop: '10px',
-														paddingBottom: '10px',
-													}}
-													variant="contained"
-													component="label"
-												>
-													<img src={iconFolder} alt="carpeta" title="Imatge" />
-													&nbsp; Imatge *
-													<input
-														onChange={handleFileSelect}
-														type="file"
-														id="file_input"
-														accept="image/*"
-														hidden
+												<div>
+													<Box
+														sx={{
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															width: '100%',
+														}}
+													>
+														<Box
+															sx={{
+																display: 'flex',
+																flexDirection: 'column',
+																justifyContent: 'center',
+																alignItems: 'center',
+															}}
+														>
+															<Upload
+																getUploadedFile={(image_src: any) => {
+																	setOpen(true)
+																	setImage_src(image_src)
+																}}
+															/>
+														</Box>
+													</Box>
+													<Box
+														sx={{
+															display: 'flex',
+															justifyContent: 'center',
+															bgColor: 'red',
+															width: '100%',
+														}}
+													>
+														<Box
+															sx={{
+																display: 'flex',
+																flexDirection: 'column',
+																alignItems: 'center',
+																justifyContent: 'center',
+																bgColor: 'red',
+																width: '40%',
+															}}
+														>
+															{image_src && (
+																<img
+																	src={image_src}
+																	alt="cropped"
+																	width="100%"
+																/>
+															)}
+														</Box>
+													</Box>
+													<Popup
+														open={open}
+														handleClose={handleClose}
+														image={image_src}
+														getCroppedFile={(image_src: any) => {
+															setImage_src(image_src)
+															handleClose()
+														}}
 													/>
-												</Button>
+												</div>
+												// <Button
+												// 	sx={{
+												// 		width: { xs: '92%', sm: '92%' },
+												// 		paddingTop: '10px',
+												// 		paddingBottom: '10px',
+												// 	}}
+												// 	variant="contained"
+												// 	component="label"
+												// >
+												// 	<img src={iconFolder} alt="carpeta" title="Imatge" />
+												// 	&nbsp; Imatge *
+												// 	<input
+												// 		onChange={handleFileSelect}
+												// 		type="file"
+												// 		id="file_input"
+												// 		accept="image/*"
+												// 		hidden
+												// 	/>
+												// </Button>
 											)}
 										</FormControl>
 									</Box>
@@ -974,6 +1067,9 @@ const Articles = () => {
 											fullWidth
 										>
 											<TextField
+												onChange={(e) => {
+													setInputName(e.target.value)
+												}}
 												id="input-nom"
 												label="Cerca per nom"
 												variant="outlined"
@@ -984,19 +1080,8 @@ const Articles = () => {
 													},
 												}}
 											/>
-											<Select
-												displayEmpty
-												sx={{ width: { xs: '90%', sm: '200px' } }}
-												id="demo-simple-select"
-												value={prestecEnCurs}
-												label="Estat"
-												onChange={handleChange}
-											>
-												<MenuItem value="">Selecciona estat</MenuItem>
-												<MenuItem value={10}>Disponible</MenuItem>
-												<MenuItem value={20}>En prèstec</MenuItem>
-											</Select>
 											<Button
+												onClick={handleFilter}
 												sx={{
 													bgcolor: '#D9D9D9',
 													height: '55px',

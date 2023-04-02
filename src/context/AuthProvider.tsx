@@ -28,11 +28,10 @@ const AuthProvider: any = ({ children }: any): any => {
 	useEffect(() => {
 		const authenticateUser = async () => {
 			const token = localStorage.getItem('token')
+
 			if (!token) {
-				console.log('Token not found')
 				return
 			}
-			console.log('Token found')
 
 			//Decode Token
 			const decodedToken: { email: string; id: string; role: string } =
@@ -47,7 +46,7 @@ const AuthProvider: any = ({ children }: any): any => {
 			//Find user
 			try {
 				const userData = await findUserById(authData.id)
-				// delete userData.password
+				// todo: remove userData.password
 				setAuth(userData)
 			} catch (error) {
 				console.log(error)

@@ -1,11 +1,13 @@
 import axios from 'axios'
-import { ICategory } from '../interfaces/category.interface'
+import useAxiosWithToken from '../hooks/useAxioswithToken'
 import { IUser } from '../interfaces/user.interface'
 import URLBASE from './urlConstants'
 
 const API_URL_USER = `${URLBASE}/user`
 const API_URL = `${URLBASE}/auth/register`
 const API_URL_LOGIN = `${URLBASE}/auth/login`
+
+const axiosWithToken = useAxiosWithToken()
 
 export const registerUser = async (data: any): Promise<any> => {
 	try {
@@ -39,7 +41,7 @@ export const findUserById = async (id: string) => {
 
 export const createUserFromDashboard = async (userDto: IUser) => {
 	try {
-		const response = await axios.post(API_URL_USER, userDto)
+		const response = await axiosWithToken.post(API_URL_USER, userDto)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -48,7 +50,7 @@ export const createUserFromDashboard = async (userDto: IUser) => {
 
 export const getAllUsers = async () => {
 	try {
-		const response = await axios.get(API_URL_USER)
+		const response = await axiosWithToken.get(API_URL_USER)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -57,7 +59,9 @@ export const getAllUsers = async () => {
 
 export const getUsersByName = async (name: string) => {
 	try {
-		const response = await axios.get(API_URL_USER + '/firstname/' + name)
+		const response = await axiosWithToken.get(
+			API_URL_USER + '/firstname/' + name
+		)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -66,7 +70,7 @@ export const getUsersByName = async (name: string) => {
 
 export const deleteUser = async (id: string) => {
 	try {
-		const response = await axios.delete(API_URL_USER + '/' + id)
+		const response = await axiosWithToken.delete(API_URL_USER + '/' + id)
 		return response.data
 	} catch (error) {
 		console.log(error)
@@ -75,7 +79,7 @@ export const deleteUser = async (id: string) => {
 
 export const updateUser = async (id: string, data: any) => {
 	try {
-		const response = await axios.put(API_URL_USER + '/' + id, data)
+		const response = await axiosWithToken.put(API_URL_USER + '/' + id, data)
 		return response.data
 	} catch (error) {
 		console.log(error)

@@ -16,6 +16,7 @@ import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
 import useAuth from '../../hooks/useAuth'
+import { useState } from 'react'
 
 const Navigation = () => {
 	const { auth, logout } = useAuth()
@@ -28,8 +29,12 @@ const Navigation = () => {
 					flexDirection={{ xs: 'column' }}
 					alignItems={{ xs: 'center' }}
 					width={{ xs: '100%', sm: '250px' }}
-					minHeight={{ xs: '100%', sm: '100vh' }}
-					sx={{ backgroundColor: '#D2D2D2' }}
+					height={{ xs: '100%', sm: 'auto' }}
+					sx={{
+						backgroundColor: '#D2D2D2',
+						overflowY: 'auto',
+						minHeight: '100vh',
+					}}
 				>
 					<Box
 						display={{ xs: 'flex' }}
@@ -51,7 +56,7 @@ const Navigation = () => {
 						display={{ xs: 'flex', sm: 'flex' }}
 						flexDirection={{ xs: 'column' }}
 						justifyContent={{ xs: 'space-between' }}
-						height={{ sm: 'calc(100vh - 292px)' }}
+						height={'calc(100vh - 292px)'}
 						maxWidth={{ sm: '360' }}
 						width={{ xs: '100%', sm: '250px' }}
 						bgcolor={{ sm: '#F9F9F9' }}
