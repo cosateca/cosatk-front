@@ -25,3 +25,11 @@ export const getArticleImage = async (id: string) => {
 	img.src = URL.createObjectURL(blob)
 	return img
 }
+
+// export const getArticleImageBlob = async (id: string) => {
+// 	const response = await axios.get(API_URL_IMG + id, {
+// 		responseType: 'arraybuffer',
+// 	})
+// 	const blob = new Blob([response.data], { type: 'image/*' })
+// 	return blob
+// }

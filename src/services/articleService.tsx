@@ -14,7 +14,10 @@ const API_URL_DELETEBYCODE = `${URLBASE}/article/deleteByCode`
 const axiosWithToken = useAxiosWithToken()
 const token = localStorage.getItem('token')
 
-const createArticle = async (data: IArticle, image: File): Promise<any> => {
+const createArticle = async (
+	data: IArticle,
+	image: File | Blob
+): Promise<any> => {
 	const formData = new FormData()
 	formData.append('file', image)
 	formData.append('code', data.code)
@@ -39,7 +42,7 @@ const createArticle = async (data: IArticle, image: File): Promise<any> => {
 	try {
 		const response = await axios.post(API_URL_CREATE, formData, {
 			headers: {
-				'Content-Type': 'multipart/form-data',
+				'Content-Type': 'multipart/form-data', // keep this headers, do not use useAxiosWithToken hook
 				Authorization: `Bearer ${token}`,
 			},
 		})
@@ -111,6 +114,51 @@ const updateArticle = async (id: string, data: any) => {
 		console.log(error)
 	}
 }
+
+// const updateArticleWithImage = async (
+// 	data: IArticleEditDto,
+// 	image: File | Blob
+// ): Promise<any> => {
+// 	const formData = new FormData()
+// 	image ? formData.append('file', image) : null
+// 	data.name ? formData.append('name', data.name) : null
+// 	data.short_description
+// 		? formData.append('short_description', data.short_description)
+// 		: null
+// 	data.long_description
+// 		? formData.append('long_description', data.long_description)
+// 		: null
+// 	data.serial_number
+// 		? formData.append('serial_number', data.serial_number)
+// 		: null
+// 	data.price_paid ? formData.append('price_paid', data.price_paid) : null
+// 	data.value ? formData.append('value', data.value) : null
+// 	data.loan_fee ? formData.append('loan_fee', data.loan_fee) : null
+// 	data.loan_period ? formData.append('loan_period', data.loan_period) : null
+// 	data.components ? formData.append('components', data.components) : null
+// 	data.care_information
+// 		? formData.append('care_information', data.care_information)
+// 		: null
+// 	data.owned_by ? formData.append('owned_by', data.owned_by) : null
+// 	data.donated_by ? formData.append('donated_by', data.donated_by) : null
+// 	data.condition ? formData.append('condition', data.condition) : null
+// 	data.brand ? formData.append('brand', data.brand) : null
+// 	data.shown_on_website
+// 		? formData.append('shown_on_website', data.shown_on_website)
+// 		: null
+// 	data.categoryIdCategory
+// 		? formData.append('categoryIdCategory', data.categoryIdCategory)
+// 		: null
+// 	data.deposit ? formData.append('deposit', data.deposit) : null
+
+// 	try {
+// 		const response = await axiosWithToken.patch(API_URL +'/update/'+, formData)
+// 		return response.data
+// 	} catch (error: any) {
+// 		console.log(error.response.statusText)
+// 		throw new Error(error.response.statusText)
+// 	}
+// }
 
 const getArticlesByName = async (name: string) => {
 	try {
