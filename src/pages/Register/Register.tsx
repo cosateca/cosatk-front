@@ -81,8 +81,8 @@ const Register = () => {
 			how_meet_us,
 		}
 		await registerUser(newUser)
-			.then((response) => {
-				console.log(response)
+			.then(() => {
+				console.log('User correctly registered')
 			})
 			.catch((error) => {
 				console.log('Error when trying to create a new user: ', error)

@@ -16,7 +16,6 @@ import iconArticles from '../../assets/images/icono_articulos.svg'
 import iconCategories from '../../assets/images/icono_categorias.svg'
 import iconSession from '../../assets/images/icono_cerrar_sesion.svg'
 import useAuth from '../../hooks/useAuth'
-import { useState } from 'react'
 
 const Navigation = () => {
 	const { auth, logout } = useAuth()
@@ -30,17 +29,16 @@ const Navigation = () => {
 					alignItems={{ xs: 'center' }}
 					width={{ xs: '100%', sm: '250px' }}
 					height={{ xs: '100%', sm: 'auto' }}
+					minHeight={{ xs: 'auto', sm: '100vh' }}
 					sx={{
 						backgroundColor: '#D2D2D2',
 						overflowY: 'auto',
-						minHeight: '100vh',
 					}}
 				>
 					<Box
 						display={{ xs: 'flex' }}
 						justifyContent={{ xs: 'center' }}
 						alignItems={{ xs: 'center' }}
-						sx={{ backgroundColor: '#D2D2D2' }}
 						bgcolor={{ xs: '#D2D2D2' }}
 						width={{ xs: '100%' }}
 						height={{ xs: '146px' }}
@@ -56,13 +54,13 @@ const Navigation = () => {
 						display={{ xs: 'flex', sm: 'flex' }}
 						flexDirection={{ xs: 'column' }}
 						justifyContent={{ xs: 'space-between' }}
-						height={'calc(100vh - 292px)'}
+						height={{ xs: '70px', sm: 'calc(100vh - 292px)' }}
 						maxWidth={{ sm: '360' }}
 						width={{ xs: '100%', sm: '250px' }}
-						bgcolor={{ sm: '#F9F9F9' }}
+						bgcolor={{ xs: '#F9F9F9' }}
 					>
 						{' '}
-						{auth?.role === 'admin' ? (
+						{auth?.role === 'admin' && (
 							<nav aria-label="main mailbox folders">
 								<List
 									sx={{
@@ -249,7 +247,8 @@ const Navigation = () => {
 									</ListItem>
 								</List>
 							</nav>
-						) : (
+						)}
+						{auth?.role === 'user' && (
 							<nav>
 								<List>
 									<ListItem disablePadding>
