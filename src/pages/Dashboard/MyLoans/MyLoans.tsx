@@ -57,7 +57,6 @@ const MyLoans = () => {
 			loanService
 				.getLoansByUser(auth?.idUsers)
 				.then((data: ILoan[]) => {
-					console.log(data)
 					setData(data)
 				})
 				.catch((error: Error) => {
