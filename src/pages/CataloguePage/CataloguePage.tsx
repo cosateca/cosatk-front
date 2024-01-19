@@ -1,29 +1,16 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
-import {
-	Container,
-	Button,
-	Box,
-	Typography,
-	AccordionActionsClasses,
-} from '@mui/material'
+import { Container, Box } from '@mui/material'
 
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import CardProduct, { Article } from '../../components/CardProduct/CardProduct'
-import ResponsiveAppBar from '../../components/MenuHome/MenuHome'
-import FilterHomePage from '../../components/FilterCataloguePage/FilterCataloguePage'
-import CustomizedAccordions from '../../components/Accordion/Accordion'
+import CardProduct from '../../components/CardProduct/CardProduct'
+
 import { useEffect, useState } from 'react'
 import { getArticles } from '../../services/homeService'
-import BannerHomePage from '../../components/BannerHomePage/BannerHomePage'
-import MenuCatalogue from '../../components/MenuCatalogue/MenuCatalogue'
-import FilterCataloguePage from '../../components/FilterCataloguePage/FilterCataloguePage'
-// import { Article } from '../../components/CardProduct/CardProduct'
 
-// type Props = {}
+import MenuCatalogue from '../../components/MenuCatalogue/MenuCatalogue'
 
 const CataloguePage = () => {
-	const [articles, setArticle] = useState<Article[]>([])
+	const [articles, setArticle] = useState<any>([])
 
 	useEffect(() => {
 		async function loadhome() {
@@ -53,7 +40,7 @@ const CataloguePage = () => {
 						marginBottom: '50px',
 					}}
 				>
-					{articles.map((article, index) => (
+					{articles.map((article: any, index: any) => (
 						<CardProduct article={article} key={index} />
 					))}
 				</Box>
