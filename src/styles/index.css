@@ -1,16 +1,10 @@
-
 :root {
+	font-family: 'Open Sans', sans-serif;
+	line-height: 1.5;
 
-  font-family: 'Open Sans', sans-serif;
-  line-height: 1.5;
-
-  color: #242424;
-  /* overflow-y: hidden; */
-
+	color: #242424;
 }
 
 span {
-  font-weight: bold;
+	font-weight: bold;
 }
-
-
